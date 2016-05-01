@@ -14,8 +14,8 @@ public class PatrolAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
     public int PointsToGivePlayer;      // points awarded to the player upon killing this GameObject
 
     // Character Essentials    
-    public CharacterController2D _controller;  // has an instance of the CharacterController2D
-    public Vector2 _direction;                 // the x-direction of this GameObject
+    private CharacterController2D _controller;  // has an instance of the CharacterController2D
+    private Vector2 _direction;                 // the x-direction of this GameObject
     private Vector2 _startPosition;             // the initial spawn position of this GameObject
 
     // Health

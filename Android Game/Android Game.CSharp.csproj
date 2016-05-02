@@ -98,6 +98,7 @@
     <Compile Include="Assets\Code\Level Managers\IFloatingTextPositioner.cs" />
     <Compile Include="Assets\Code\Level Managers\IPlayerRespawnListener.cs" />
     <Compile Include="Assets\Code\Level Managers\LevelManager.cs" />
+    <Compile Include="Assets\Code\Level Managers\NextLevel.cs" />
     <Compile Include="Assets\Code\Old Scripts\Camera2D.cs" />
     <Compile Include="Assets\Code\Old Scripts\FrogAI.cs" />
     <Compile Include="Assets\Code\Old Scripts\MageElizabethAI.cs" />

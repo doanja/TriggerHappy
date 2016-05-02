@@ -1,28 +1,26 @@
 ﻿using UnityEngine;
 
 /*
-* Resource: https://www.youtube.com/watch?v=lHb213yRP-Y&index=33&list=PLt_Y3Hw1v3QSFdh-evJbfkxCK_bjUD37n
-*
-* Handles level transition upon colliding with this GameObject.
+* Alternative class to transition the player to a different level instead
+* of showing the end level screen.
 */
-public class Portal : MonoBehaviour {
+public class NextLevel : MonoBehaviour {
 
     private Player player;              // reference to the Player
     public bool playerInPortal;         // checks for Player collision with this GameObject    
-    private EndLevelMenu endLevelMenu;  // the end level canvas
+    public string levelToBeLoaded;      // name of the level to be loaded   
 
     // Use this for initialization
-    void Start () {
-        player = FindObjectOfType<Player>();
-        endLevelMenu = FindObjectOfType<EndLevelMenu>();
+    void Start()
+    {
+        player = FindObjectOfType<Player>();       
     }
-	
-	// Update is called once per frame
-	void Update () {        
+
+    // Update is called once per frame
+    void Update()
+    {
         if (playerInPortal)
-        {                      
-            endLevelMenu.ShowEndLevelMenu();
-        }
+            Application.LoadLevel(levelToBeLoaded);        
     }
 
     /*

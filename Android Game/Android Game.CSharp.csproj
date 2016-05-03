@@ -86,6 +86,7 @@
     <Compile Include="Assets\Code\Health &amp; Respawn\ITakeDamage.cs" />
     <Compile Include="Assets\Code\Health &amp; Respawn\InstaKill.cs" />
     <Compile Include="Assets\Code\Health &amp; Respawn\LadderController2D.cs" />
+    <Compile Include="Assets\Code\Health &amp; Respawn\PainterElizabethHealthBar.cs" />
     <Compile Include="Assets\Code\Level Managers\BackgroundParallax.cs" />
     <Compile Include="Assets\Code\Level Managers\CameraController.cs" />
     <Compile Include="Assets\Code\Level Managers\CenteredTextPositioner.cs" />

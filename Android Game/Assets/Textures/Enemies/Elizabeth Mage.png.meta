@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 99f02c54ae97fb54daac48c58edcccd4
-timeCreated: 1461630857
+timeCreated: 1462233934
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -59,27 +59,27 @@ TextureImporter:
         x: 42
         y: 0
         width: 406
-        height: 448
+        height: 518
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Elizabeth Mage_1
       rect:
         serializedVersion: 2
-        x: 476
+        x: 588
         y: 0
         width: 420
-        height: 448
+        height: 504
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Elizabeth Mage_2
       rect:
         serializedVersion: 2
-        x: 938
+        x: 1162
         y: 0
         width: 406
-        height: 448
+        height: 518
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}

@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
-using System.Collections;
 
+/*
+* Class used to display the Player's health.
+*/
 public class HealthBar : MonoBehaviour {
 
     public Player Player;

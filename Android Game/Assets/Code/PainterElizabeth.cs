@@ -14,7 +14,7 @@ public class PainterElizabeth : MonoBehaviour, ITakeDamage, IPlayerRespawnListen
     private Vector2 _startPosition;             // the initial spawn position of this GameObject
 
     // Health
-    public int MaxHealth = 100;             // maximum health of the this GameObject
+    public int MaxHealth = 150;             // maximum health of the this GameObject
     public int Health { get; private set; } // this GameObject's current health    
 
     // Sound

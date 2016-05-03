@@ -19,8 +19,7 @@ public class GhostAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener {
     private CharacterController2D _controller;  // has an instance of the CharacterController2D
 
     public GameObject DestroyedEffect;  // the destroyed effect
-    public int PointsToGivePlayer;      // points awarded to the player upon killing this GameObject
-    public Transform RespawnPosition;   // position where this GameObject is respawned at
+    public int PointsToGivePlayer;      // points awarded to the player upon killing this GameObject    
     private Vector2 _startPosition;     // the initial spawn position of this GameObject
 
     // Health
@@ -32,6 +31,7 @@ public class GhostAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener {
 
     // Use this for initialization
     public void Start () {
+        _controller = GetComponent<CharacterController2D>();    // instance of Charactercontroller2D
         player = FindObjectOfType<Player>();        
         _startPosition = transform.position;
         Health = MaxHealth;
@@ -106,11 +106,9 @@ public class GhostAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener {
     * Method used to respawn this GameObject after the player respawns at the given checkpoint
     */
     public void OnPlayerRespawnInThisCheckpoint(Checkpoint checkpoint, Player player)
-    {       
-        //transform.position = _startPosition;            // initial position of this GameObject
+    {
         gameObject.SetActive(true);                     // shows this GameObject
-        //transform.position = RespawnPosition.position;  // position where this GameObject is respawned at
-
+        
         // Resets health
         Health = MaxHealth;                             // sets current health to the GameObject's max health
     }

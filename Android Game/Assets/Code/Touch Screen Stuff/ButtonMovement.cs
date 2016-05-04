@@ -56,10 +56,10 @@ public class ButtonMovement : TouchManager {
     {
         switch (buttonType)
         {
-            case type.LeftButton:               
+            case type.LeftButton:
                 thePlayer.hInput = -1;
                 break;
-            case type.RightButton:              
+            case type.RightButton:
                 thePlayer.hInput = 1;
                 break;
             case type.DownButton:
@@ -76,10 +76,10 @@ public class ButtonMovement : TouchManager {
     {
         switch (buttonType)
         {
-            case type.LeftButton:            
+            case type.LeftButton:
                 thePlayer.hInput = -1;
                 break;
-            case type.RightButton:              
+            case type.RightButton:
                 thePlayer.hInput = 1;
                 break;
             case type.DownButton:

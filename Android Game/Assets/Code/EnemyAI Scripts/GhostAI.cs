@@ -40,7 +40,7 @@ public class GhostAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener {
 	// Update is called once per frame
 	public void Update () {
 
-        // Variable used to determines if the CollisionMask overlaps with the Circle
+        // Variable used to determine if the CollisionMask overlaps with the Circle
         playerInRange = Physics2D.OverlapCircle(transform.position, PlayerRange, CollisionMask);
 
         // If the Player Object is on the left of this GameObject and is facing away  or vice versa

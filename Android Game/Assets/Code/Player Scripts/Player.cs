@@ -86,7 +86,9 @@ public class Player : MonoBehaviour, ITakeDamage
         // Animation
         Animator.SetBool("IsGrounded", _controller.State.IsGrounded);
         Animator.SetBool("IsDead", IsDead);
-        Animator.SetFloat("Speed", Mathf.Abs(_controller.Velocity.x) / MaxSpeed);
+        //Animator.SetFloat("Speed", Mathf.Abs(_controller.Velocity.x) / MaxSpeed);
+        Animator.SetFloat("Speed", Mathf.Abs(hInput));
+        Animator.SetFloat("Speed", Mathf.Abs(vInput));
 
         // Touch Controls
         MoveHorizontal(hInput);
@@ -320,7 +322,7 @@ public class Player : MonoBehaviour, ITakeDamage
     {
         if (onLadder)
         {
-            _controller.SetVerticalForce(direction * 2.5f);
+            _controller.SetVerticalForce(direction * 5.0f);
             _normalizedHorizontalSpeed = 0;
             _controller.DefaultParameters.Gravity = 0;
         }
@@ -339,5 +341,23 @@ public class Player : MonoBehaviour, ITakeDamage
     public void TouchShoot()
     {
         FireProjectile();
+    }
+
+    public void MoveRight()
+    {
+        //_controller.DefaultParameters.Gravity = GravityStore;   // reset gravity     
+        _normalizedHorizontalSpeed = 1;
+        if (!_isFacingRight)
+            Flip();
+        Update();
+    }
+
+    public void MoveLeft()
+    {
+        //_controller.DefaultParameters.Gravity = GravityStore;   // reset gravity     
+        _normalizedHorizontalSpeed = -1;
+        if (_isFacingRight)
+            Flip();
+        Update();
     }
 }

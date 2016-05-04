@@ -51,17 +51,11 @@
     <Reference Include="UnityEngine">
       <HintPath>Library\UnityAssemblies\UnityEngine.dll</HintPath>
     </Reference>
-    <Reference Include="UnityEngine.Advertisements">
-      <HintPath>Library\UnityAssemblies\UnityEngine.Advertisements.dll</HintPath>
-    </Reference>
     <Reference Include="UnityEngine.UI">
       <HintPath>Library\UnityAssemblies\UnityEngine.UI.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.Networking">
       <HintPath>Library\UnityAssemblies\UnityEngine.Networking.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.Analytics">
-      <HintPath>Library\UnityAssemblies\UnityEngine.Analytics.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor">
       <HintPath>Library\UnityAssemblies\UnityEditor.dll</HintPath>
@@ -83,6 +77,7 @@
     <Compile Include="Assets\Code\EnemyAI Scripts\MonsterSpawner.cs" />
     <Compile Include="Assets\Code\EnemyAI Scripts\MoveTowardsPatrolAI.cs" />
     <Compile Include="Assets\Code\EnemyAI Scripts\PatrolAI.cs" />
+    <Compile Include="Assets\Code\EnemyAI Scripts\PatrolRaycastChargeAI.cs" />
     <Compile Include="Assets\Code\EnemyAI Scripts\PatrolRaycastShootAI.cs" />
     <Compile Include="Assets\Code\EnemyAI Scripts\ReflectProjectiles.cs" />
     <Compile Include="Assets\Code\EnemyAI Scripts\SporeMushroom.cs" />
@@ -134,6 +129,7 @@
     <Compile Include="Assets\Code\Projectiles\PathedProjectileSpawner.cs" />
     <Compile Include="Assets\Code\Projectiles\Projectile.cs" />
     <Compile Include="Assets\Code\Projectiles\SimpleProjectile.cs" />
+    <Compile Include="Assets\Code\Projectiles\SimpleProjectileSpawner.cs" />
     <Compile Include="Assets\Code\Projectiles\SinProjectile.cs" />
     <Compile Include="Assets\Code\Touch Screen Stuff\ButtonMovement.cs" />
     <Compile Include="Assets\Code\Touch Screen Stuff\EndLevelMenu.cs" />

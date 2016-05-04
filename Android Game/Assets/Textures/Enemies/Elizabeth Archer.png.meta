@@ -1,12 +1,13 @@
 fileFormatVersion: 2
 guid: 37da1c662048e29439be6448ef205d5b
-timeCreated: 1462326133
+timeCreated: 1462380319
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
     21300000: Elizabeth Archer_0
     21300002: Elizabeth Archer_1
     21300004: Elizabeth Archer_2
+    21300006: Elizabeth Archer_3
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -56,30 +57,40 @@ TextureImporter:
     - name: Elizabeth Archer_0
       rect:
         serializedVersion: 2
-        x: 112
+        x: 55
         y: 0
-        width: 434
-        height: 546
+        width: 492
+        height: 547
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Elizabeth Archer_1
       rect:
         serializedVersion: 2
-        x: 672
+        x: 615
         y: 0
-        width: 434
-        height: 546
+        width: 492
+        height: 533
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Elizabeth Archer_2
       rect:
         serializedVersion: 2
-        x: 1232
+        x: 1203
         y: 0
-        width: 434
-        height: 532
+        width: 464
+        height: 547
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Elizabeth Archer_3
+      rect:
+        serializedVersion: 2
+        x: 1735
+        y: 0
+        width: 492
+        height: 533
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}

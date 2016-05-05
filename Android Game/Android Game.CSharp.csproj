@@ -70,12 +70,14 @@
   <ItemGroup>
     <Compile Include="Assets\Code\EnemyAI Scripts\BirdAI.cs" />
     <Compile Include="Assets\Code\EnemyAI Scripts\ElizabethBossAI.cs" />
+    <Compile Include="Assets\Code\EnemyAI Scripts\EnemyManager.cs" />
     <Compile Include="Assets\Code\EnemyAI Scripts\ExecutionerElizabethAI.cs" />
     <Compile Include="Assets\Code\EnemyAI Scripts\GhostAI.cs" />
     <Compile Include="Assets\Code\EnemyAI Scripts\GuardAI.cs" />
     <Compile Include="Assets\Code\EnemyAI Scripts\JumpAI.cs" />
     <Compile Include="Assets\Code\EnemyAI Scripts\MonsterSpawner.cs" />
     <Compile Include="Assets\Code\EnemyAI Scripts\MoveTowardsPatrolAI.cs" />
+    <Compile Include="Assets\Code\EnemyAI Scripts\PainterElizabeth.cs" />
     <Compile Include="Assets\Code\EnemyAI Scripts\PatrolAI.cs" />
     <Compile Include="Assets\Code\EnemyAI Scripts\PatrolRaycastChargeAI.cs" />
     <Compile Include="Assets\Code\EnemyAI Scripts\PatrolRaycastShootAI.cs" />
@@ -83,7 +85,6 @@
     <Compile Include="Assets\Code\EnemyAI Scripts\RaycastShootUp.cs" />
     <Compile Include="Assets\Code\EnemyAI Scripts\ReflectProjectiles.cs" />
     <Compile Include="Assets\Code\EnemyAI Scripts\SporeMushroom.cs" />
-    <Compile Include="Assets\Code\EnemyManager.cs" />
     <Compile Include="Assets\Code\Health &amp; Respawn\GiveHealth.cs" />
     <Compile Include="Assets\Code\Health &amp; Respawn\HealthBar.cs" />
     <Compile Include="Assets\Code\Health &amp; Respawn\ITakeDamage.cs" />
@@ -114,7 +115,6 @@
     <Compile Include="Assets\Code\Old Scripts\SimpleEnemyScript.cs" />
     <Compile Include="Assets\Code\Old Scripts\StartScreen.cs" />
     <Compile Include="Assets\Code\Old Scripts\SwimmingController2D.cs" />
-    <Compile Include="Assets\Code\PainterElizabeth.cs" />
     <Compile Include="Assets\Code\Platforms, Pickups\ControllerPhysicsVolume2D.cs" />
     <Compile Include="Assets\Code\Platforms, Pickups\CrumblingPlatform.cs" />
     <Compile Include="Assets\Code\Platforms, Pickups\FollowPath.cs" />

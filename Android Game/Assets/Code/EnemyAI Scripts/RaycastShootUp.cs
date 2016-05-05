@@ -30,6 +30,12 @@ public class RaycastShootUp : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
     public int x;
     public int y;
 
+    // Player Checks
+    private Player player;          // instance of the player class
+    public LayerMask CollisionMask; // determines what this GameObject is colliding with
+    public float PlayerRange;       // the distance between the Player Object and this GameObject
+    public bool playerInRange;      // used to determine if the Player Object is in range of this GameObject
+
     // Health
     public int MaxHealth = 100;                 // maximum health of the this GameObject
     public int Health { get; private set; }     // this GameObject's current health    
@@ -37,6 +43,7 @@ public class RaycastShootUp : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
     // Use this for initialization
     void Start()
     {
+        player = FindObjectOfType<Player>();
         _controller = GetComponent<CharacterController2D>();
         _direction = new Vector2(-1, 0);    // this GameObject will move the left upon initialization
         _fireVector = new Vector2(x, y);
@@ -46,35 +53,46 @@ public class RaycastShootUp : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
 
     // Update is called once per frame
     public void Update()
-    {     
+    {
         // Sets the x-velocity of this GameObject
         _controller.SetHorizontalForce(_direction.x * MovementSpeed);
+
+        // Variable used to determines if the CollisionMask overlaps with the Circle
+        playerInRange = Physics2D.OverlapCircle(transform.position, PlayerRange, CollisionMask);
+
+        // Spawner code
+        if ((Cooldown -= Time.deltaTime) > 0)
+            return;
+
+        Cooldown = FireRate;
+
+        // If the Player Object is in range of this GameObject, and they are facing away, move this GameObject towards the PlayerObject
+        if (playerInRange)
+        {
+            // Instantiates the projectile, and initilializes the speed, and direction of the projectile
+            var projectile = (Projectile)Instantiate(Projectile, ProjectileFireLocation.position, ProjectileFireLocation.rotation);
+            projectile.Initialize(gameObject, _fireVector, _controller.Velocity);
+            Cooldown = FireRate; // time frame, when projectiles can be shot from this GameObject
+
+            // Handles Sound
+            if (ShootSound != null)
+                AudioSource.PlayClipAtPoint(ShootSound, transform.position);
+        }
 
         // Checks to see if this GameObject is colliding with something in the same direction
         if ((_direction.x < 0 && _controller.State.IsCollidingLeft) || (_direction.x > 0 && _controller.State.IsCollidingRight))
         {
-           
+
             _direction = -_direction; // switches direction
             transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
-        }
+        }        
+    }
 
-        // Handles when this GameObject cannot shoot
-        if ((Cooldown -= Time.deltaTime) > 0)
-            return;
-
-        // Casts rays to detect player
-        var raycast = Physics2D.Raycast(transform.position, _direction, 10, 1 << LayerMask.NameToLayer("Player"));
-        if (!raycast)
-            return;
-
-        // Instantiates the projectile, and initilializes the speed, and direction of the projectile
-        var projectile = (Projectile)Instantiate(Projectile, ProjectileFireLocation.position, ProjectileFireLocation.rotation);
-        projectile.Initialize(gameObject, _fireVector, _controller.Velocity);
-        Cooldown = FireRate; // time frame, when projectiles can be shot from this GameObject
-
-        // Handles Sound
-        if (ShootSound != null)
-            AudioSource.PlayClipAtPoint(ShootSound, transform.position);
+    // Visual indicator for line of travel for the projectile & PlayerRange
+    public void OnDrawGizmos()
+    {
+        Gizmos.color = Color.cyan;
+        Gizmos.DrawSphere(transform.position, PlayerRange);
     }
 
     /*
@@ -111,15 +129,15 @@ public class RaycastShootUp : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
     }
 
     /*
-    * @param checkpoint, the last checkpoint the Player Object has acquired
-    * @param player, the Player Object
-    * Method used to respawn this GameObject after the player respawns at the given checkpoint
-    */
+   * @param checkpoint, the last checkpoint the Player Object has acquired
+   * @param player, the Player Object
+   * Method used to respawn this GameObject after the player respawns at the given checkpoint
+   */
     public void OnPlayerRespawnInThisCheckpoint(Checkpoint checkpoint, Player player)
     {
         // Re-initializes this GameObject's direction, and start position
         _direction = new Vector2(-1, 0);
-        transform.localScale = new Vector3(1, 1, 1);
+        transform.localScale = new Vector3(1, 1, 1);        
         gameObject.SetActive(true);                     // shows this GameObject       
 
         // Resets health

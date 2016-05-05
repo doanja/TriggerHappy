@@ -89,7 +89,7 @@ public class PatrolSelfDestruct : MonoBehaviour, ITakeDamage, IPlayerRespawnList
 
         AudioSource.PlayClipAtPoint(BlowupSound, transform.position);
         Instantiate(BlowupEffect, transform.position, transform.rotation);
-        Destroy(this.gameObject);
+        gameObject.SetActive(false);                // hides this GameObject
     }
 
     /*

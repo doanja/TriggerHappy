@@ -79,6 +79,8 @@
     <Compile Include="Assets\Code\EnemyAI Scripts\PatrolAI.cs" />
     <Compile Include="Assets\Code\EnemyAI Scripts\PatrolRaycastChargeAI.cs" />
     <Compile Include="Assets\Code\EnemyAI Scripts\PatrolRaycastShootAI.cs" />
+    <Compile Include="Assets\Code\EnemyAI Scripts\PatrolSelfDestruct.cs" />
+    <Compile Include="Assets\Code\EnemyAI Scripts\RaycastShootUp.cs" />
     <Compile Include="Assets\Code\EnemyAI Scripts\ReflectProjectiles.cs" />
     <Compile Include="Assets\Code\EnemyAI Scripts\SporeMushroom.cs" />
     <Compile Include="Assets\Code\EnemyManager.cs" />
@@ -129,7 +131,6 @@
     <Compile Include="Assets\Code\Projectiles\PathedProjectileSpawner.cs" />
     <Compile Include="Assets\Code\Projectiles\Projectile.cs" />
     <Compile Include="Assets\Code\Projectiles\SimpleProjectile.cs" />
-    <Compile Include="Assets\Code\Projectiles\SimpleProjectileSpawner.cs" />
     <Compile Include="Assets\Code\Projectiles\SinProjectile.cs" />
     <Compile Include="Assets\Code\Touch Screen Stuff\ButtonMovement.cs" />
     <Compile Include="Assets\Code\Touch Screen Stuff\EndLevelMenu.cs" />

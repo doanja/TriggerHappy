@@ -13,7 +13,8 @@ public class PatrolRaycastChargeAI : MonoBehaviour, ITakeDamage, IPlayerRespawnL
     // Parameters   
     public float MovementSpeed;         // travel speed of this GameObject   
     public GameObject DestroyedEffect;  // the destroyed effect of this GameObject   
-    public int PointsToGivePlayer;      // points awarded to the player upon killing this GameObject
+    public int PointsToGivePlayer;      // points awarded to the player upon killing this GameObject 
+    private float OriginalMovementSpeed;// variable used to store the initial Movementspeed   
 
     // Sound   
     public AudioClip EnemyDestroySound;     // sound played when this GameObject is destroyed    
@@ -34,6 +35,7 @@ public class PatrolRaycastChargeAI : MonoBehaviour, ITakeDamage, IPlayerRespawnL
         _direction = new Vector2(-1, 0);    // this GameObject will move the left upon initialization
         _startPosition = transform.position;
         Health = MaxHealth;
+        OriginalMovementSpeed = MovementSpeed;
     }
 
     // Update is called once per frame
@@ -52,11 +54,12 @@ public class PatrolRaycastChargeAI : MonoBehaviour, ITakeDamage, IPlayerRespawnL
         // Casts rays to detect player
         var raycast = Physics2D.Raycast(transform.position, _direction, 10, 1 << LayerMask.NameToLayer("Player"));
         if (!raycast)
-            return;
-        else 
         {
-            MovementSpeed = MovementSpeed * 2; // raycast returned true, double this GameObject's MovementSpeed
-        }              
+            MovementSpeed = OriginalMovementSpeed;
+        }
+       else               
+            MovementSpeed = OriginalMovementSpeed * 2; // raycast returned true, double this GameObject's MovementSpeed
+                     
     }
 
     /*

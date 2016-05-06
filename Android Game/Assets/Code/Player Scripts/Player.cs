@@ -87,8 +87,7 @@ public class Player : MonoBehaviour, ITakeDamage
         Animator.SetBool("IsGrounded", _controller.State.IsGrounded);
         Animator.SetBool("IsDead", IsDead);
         //Animator.SetFloat("Speed", Mathf.Abs(_controller.Velocity.x) / MaxSpeed);
-        Animator.SetFloat("Speed", Mathf.Abs(hInput));
-        Animator.SetFloat("Speed", Mathf.Abs(vInput));
+        Animator.SetFloat("Speed", Mathf.Abs(hInput));        
 
         // Touch Controls
         MoveHorizontal(hInput);

@@ -17,7 +17,7 @@ public class EnemyManager : MonoBehaviour
     void Spawn()
     {
         // If the player has no health left...
-        if ( thePlayer.Health<= 0f)
+        if (thePlayer.Health <= 0)
         {
             // ... exit the function.
             return;

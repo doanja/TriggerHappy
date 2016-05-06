@@ -11,12 +11,12 @@
 public class PatrolRaycastShootAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener {
 
     // Parameters   
-    public float Speed;                 // travel speed of this GameObject
+    public float MovementSpeed;         // travel speed of this GameObject
     public float FireRate = 1;          // cooldown time after firing a projectile
     private float Cooldown;             // the amount of time this GameObject can shoot projectiles
     public Projectile Projectile;       // this GameObject's projectile
     public GameObject DestroyedEffect;  // the destroyed effect of this GameObject   
-    public Transform ProjectileFireLocation;    // the location of which the projectile is fired at
+    public Transform ProjectileFireLocation;// the location of which the projectile is fired at
     public int PointsToGivePlayer;      // points awarded to the player upon killing this GameObject
 
     // Sound
@@ -44,7 +44,7 @@ public class PatrolRaycastShootAI : MonoBehaviour, ITakeDamage, IPlayerRespawnLi
 	public void Update () {
 
         // Sets the x-velocity of this GameObject
-        _controller.SetHorizontalForce(_direction.x * Speed);
+        _controller.SetHorizontalForce(_direction.x * MovementSpeed);
 
         // Checks to see if this GameObject is colliding with something in the same direction
         if ((_direction.x < 0 && _controller.State.IsCollidingLeft) || (_direction.x > 0 && _controller.State.IsCollidingRight))

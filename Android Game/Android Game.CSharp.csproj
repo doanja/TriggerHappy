@@ -85,6 +85,7 @@
     <Compile Include="Assets\Code\EnemyAI Scripts\RaycastShootUp.cs" />
     <Compile Include="Assets\Code\EnemyAI Scripts\ReflectProjectiles.cs" />
     <Compile Include="Assets\Code\EnemyAI Scripts\SporeMushroom.cs" />
+    <Compile Include="Assets\Code\EnemyAI Scripts\TimeToLive.cs" />
     <Compile Include="Assets\Code\Health &amp; Respawn\GiveHealth.cs" />
     <Compile Include="Assets\Code\Health &amp; Respawn\HealthBar.cs" />
     <Compile Include="Assets\Code\Health &amp; Respawn\ITakeDamage.cs" />
@@ -132,6 +133,7 @@
     <Compile Include="Assets\Code\Projectiles\Projectile.cs" />
     <Compile Include="Assets\Code\Projectiles\SimpleProjectile.cs" />
     <Compile Include="Assets\Code\Projectiles\SinProjectile.cs" />
+    <Compile Include="Assets\Code\SlimeAI.cs" />
     <Compile Include="Assets\Code\Touch Screen Stuff\ButtonMovement.cs" />
     <Compile Include="Assets\Code\Touch Screen Stuff\EndLevelMenu.cs" />
     <Compile Include="Assets\Code\Touch Screen Stuff\LevelSelect.cs" />

@@ -20,7 +20,8 @@ public class NinjaElizabethAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListen
     // Character Essentials
     private CharacterController2D _controller;  // has an instance of the CharacterController2D
     private Vector2 _direction;                 // the x-direction of this GameObject
-    private Vector2 _startPosition;             // the initial spawn position of this GameObject    
+    private Vector2 _startPosition;             // the initial spawn position of this GameObject        
+    private Vector3 _currentPosition;
 
     // Health
     public int MaxHealth = 100;                 // maximum health of the this GameObject
@@ -49,13 +50,14 @@ public class NinjaElizabethAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListen
         _direction = new Vector2(-1, 0);    // this GameObject will move the left upon initialization
         _startPosition = transform.position;
         Health = MaxHealth;
-
+        
         gate.SetActive(false);                                  // makes the end level portal invisible
     }
 
     // Update is called once per frame
     public void Update()
     {
+        _currentPosition = transform.position;
         // Calculates the jumpRNG
         int teleportRNG = Random.Range(0, maxTeleportRNG);
 
@@ -159,8 +161,8 @@ public class NinjaElizabethAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListen
 
     private void clone()
     {
-        GameObject clone1 = Instantiate(clonePrefab, new Vector3(transform.position.y + .5f, transform.position.y, transform.position.z), transform.rotation) as GameObject;
-        clone1.transform.localScale = new Vector3(transform.localScale.y * cloneSizeMultiplier, transform.localScale.y * cloneSizeMultiplier, transform.localScale.z);
+        GameObject clone = Instantiate(clonePrefab, _currentPosition, transform.rotation) as GameObject;
+        clone.transform.localScale = new Vector3(transform.localScale.y * cloneSizeMultiplier, transform.localScale.y * cloneSizeMultiplier, transform.localScale.z);
         Instantiate(CloneEffect, transform.position, transform.rotation);
 
         //GameObject clone2 = Instantiate(clonePrefab, new Vector3(transform.position.y - .5f, transform.position.y, transform.position.z), transform.rotation) as GameObject;

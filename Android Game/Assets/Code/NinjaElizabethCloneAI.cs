@@ -5,20 +5,26 @@ public class NinjaElizabethCloneAI : MonoBehaviour, ITakeDamage
     // Parameters   
     public float MovementSpeed;         // travel speed of this GameObject       
     public GameObject DestroyedEffect;  // the destroyed effect of this GameObject       
+    public GameObject BlowupEffect;     // the blowup effect of this GameObject
     public int PointsToGivePlayer;      // points awarded to the player upon killing this GameObject
 
     // Sound    
     public AudioClip EnemyDestroySound;     // sound played when this GameObject is destroyed    
+    public AudioClip BlowupSound;           // sound played on collision with this object
 
     // Character Essentials
     private CharacterController2D _controller;  // has an instance of the CharacterController2D
-    public Vector2 _direction;                 // the x-direction of this GameObject
+    public Vector2 _direction;                  // the x-direction of this GameObject
     private Vector2 _startPosition;             // the initial spawn position of this GameObject    
 
     // Health
     public int MaxHealth = 100;                 // maximum health of the this GameObject
     public int Health { get; private set; }     // this GameObject's current health    
-  
+
+    // Jump
+    private int jumpRNG;
+    public int maxRNG;
+
     // Use this for initialization
     void Start()
     {
@@ -30,7 +36,16 @@ public class NinjaElizabethCloneAI : MonoBehaviour, ITakeDamage
 
     // Update is called once per frame
     public void Update()
-    {       
+    {
+        // Calculates the jumpRNG
+        int jumpRNG = Random.Range(0, maxRNG);
+
+        // Handles Jumping
+        if (jumpRNG == 2 && _controller.CanJump == true)
+        {
+            _controller.Jump();
+        }
+
         // Sets the x-velocity of this GameObject
         _controller.SetHorizontalForce(_direction.x * MovementSpeed);
 
@@ -73,5 +88,19 @@ public class NinjaElizabethCloneAI : MonoBehaviour, ITakeDamage
             Health = 0;                                 // sets this GameObject's health to 0 
             gameObject.SetActive(false);                // hides this GameObject
         }
-    }   
+    }
+
+    /*
+    * @param other, the other GameObject colliding with this GameObject
+    * Function that handles what happens on collision.
+    */
+    public void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.GetComponent<Player>() == null)
+            return;
+
+        AudioSource.PlayClipAtPoint(BlowupSound, transform.position);
+        Instantiate(BlowupEffect, transform.position, transform.rotation);
+        gameObject.SetActive(false);                // hides this GameObject
+    }
 }

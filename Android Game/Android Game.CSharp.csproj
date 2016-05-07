@@ -68,6 +68,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Code\ElizabethNinjaHealthBar.cs" />
     <Compile Include="Assets\Code\EnemyAI Scripts\BirdAI.cs" />
     <Compile Include="Assets\Code\EnemyAI Scripts\ElizabethBossAI.cs" />
     <Compile Include="Assets\Code\EnemyAI Scripts\EnemyManager.cs" />

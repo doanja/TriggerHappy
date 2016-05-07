@@ -26,14 +26,21 @@ public class NinjaElizabethAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListen
     public int MaxHealth = 100;                 // maximum health of the this GameObject
     public int Health { get; private set; }     // this GameObject's current health    
 
-    // Jump
+    // Teleport
     private int teleportRNG;
     public int maxTeleportRNG;
     public Transform[] teleportPoint;
+    public GameObject TeleportEffect;
+
+    // Cloning
     private int cloneRNG;
     public int maxCloneRNG;
     public GameObject clonePrefab;
     public float cloneSizeMultiplier;
+    public GameObject CloneEffect;
+
+    // End Level Portal
+    public GameObject gate;
 
     // Use this for initialization
     void Start()
@@ -42,6 +49,8 @@ public class NinjaElizabethAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListen
         _direction = new Vector2(-1, 0);    // this GameObject will move the left upon initialization
         _startPosition = transform.position;
         Health = MaxHealth;
+
+        gate.SetActive(false);                                  // makes the end level portal invisible
     }
 
     // Update is called once per frame
@@ -117,6 +126,8 @@ public class NinjaElizabethAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListen
         // If this GameObject's health reaches zero
         if (Health <= 0)
         {
+            gate.SetActive(true);                       // makes end level portal visible
+
             AudioSource.PlayClipAtPoint(EnemyDestroySound, transform.position);
             Health = 0;                                 // sets this GameObject's health to 0 
             gameObject.SetActive(false);                // hides this GameObject
@@ -142,15 +153,17 @@ public class NinjaElizabethAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListen
     public void teleport()
     {
         int teleportPointIndex = Random.Range(0, teleportPoint.Length);        
-        transform.position = teleportPoint[teleportPointIndex].position;       
+        transform.position = teleportPoint[teleportPointIndex].position;
+        Instantiate(TeleportEffect, teleportPoint[teleportPointIndex].position, teleportPoint[teleportPointIndex].rotation);
     }
 
     private void clone()
     {
         GameObject clone1 = Instantiate(clonePrefab, new Vector3(transform.position.y + .5f, transform.position.y, transform.position.z), transform.rotation) as GameObject;
         clone1.transform.localScale = new Vector3(transform.localScale.y * cloneSizeMultiplier, transform.localScale.y * cloneSizeMultiplier, transform.localScale.z);
+        Instantiate(CloneEffect, transform.position, transform.rotation);
 
-        GameObject clone2 = Instantiate(clonePrefab, new Vector3(transform.position.y - .5f, transform.position.y, transform.position.z), transform.rotation) as GameObject;
-        clone2.transform.localScale = new Vector3(transform.localScale.y * cloneSizeMultiplier, transform.localScale.y * cloneSizeMultiplier, transform.localScale.z);
+        //GameObject clone2 = Instantiate(clonePrefab, new Vector3(transform.position.y - .5f, transform.position.y, transform.position.z), transform.rotation) as GameObject;
+        //clone2.transform.localScale = new Vector3(transform.localScale.y * cloneSizeMultiplier, transform.localScale.y * cloneSizeMultiplier, transform.localScale.z);
     }
 }

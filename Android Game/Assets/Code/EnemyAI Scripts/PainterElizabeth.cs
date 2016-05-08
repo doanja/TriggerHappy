@@ -7,6 +7,7 @@ public class PainterElizabeth : MonoBehaviour, ITakeDamage, IPlayerRespawnListen
     public float MovementSpeed;         // travel speed of this GameObject
     public GameObject DestroyedEffect;  // the destroyed effect
     public int PointsToGivePlayer;      // points awarded to the player upon killing this GameObject
+    public GameObject[] Portals;        // portals Elizabeth uses to summon her minions
 
     // Character Essentials    
     private CharacterController2D _controller;  // has an instance of the CharacterController2D
@@ -16,6 +17,7 @@ public class PainterElizabeth : MonoBehaviour, ITakeDamage, IPlayerRespawnListen
     // Health
     public int MaxHealth = 150;             // maximum health of the this GameObject
     public int Health { get; private set; } // this GameObject's current health    
+    public GameObject HealthBar;            // health bar to display this GameObject's Health
 
     // Sound
     public AudioClip EnemyDestroySound;     // sound played when this GameObject is destroyed
@@ -27,6 +29,11 @@ public class PainterElizabeth : MonoBehaviour, ITakeDamage, IPlayerRespawnListen
     // End Level Portal
     public GameObject gate;
 
+    // Spawner   
+    public GameObject enemy;                // The enemy prefab to be spawned.
+    public int maxSpawnRNG;            // How long between each spawn.
+    public Transform[] spawnPoints;         // An array of the spawn points this enemy can spawn from.
+
     // Use this for initialization
     void Start()
     {
@@ -35,12 +42,21 @@ public class PainterElizabeth : MonoBehaviour, ITakeDamage, IPlayerRespawnListen
         _startPosition = transform.position;                    // starting position of this GameObject
         Health = MaxHealth;
 
-        gate.SetActive(false);                                  // makes the end level portal invisible
+        gate.SetActive(false);                                  // makes the end level portal invisible       
     }
 
     // Update is called once per frame
     public void Update()
-    {                   
+    {
+        // Calculates the jumpRNG
+        int spawnRNG = Random.Range(0, maxSpawnRNG);
+
+        // Handles Jumping
+        if (spawnRNG == 1)
+        {
+            Spawn();
+        }
+
 
         // Calculates the jumpRNG
         int jumpRNG = Random.Range(0, maxRNG);
@@ -90,7 +106,11 @@ public class PainterElizabeth : MonoBehaviour, ITakeDamage, IPlayerRespawnListen
         if (Health <= 0)
         {            
             gate.SetActive(true);                       // makes end level portal visible
-            
+            HealthBar.SetActive(false);                 // hides the health bar
+            Portals[0].SetActive(false);
+            Portals[1].SetActive(false);
+            Portals[2].SetActive(false);
+
             AudioSource.PlayClipAtPoint(EnemyDestroySound, transform.position);
             Health = 0;                                 // sets this GameObject's health to 0 
             gameObject.SetActive(false);                // hides this GameObject
@@ -111,5 +131,14 @@ public class PainterElizabeth : MonoBehaviour, ITakeDamage, IPlayerRespawnListen
 
         // Resets health
         Health = MaxHealth;                             // sets current health to the GameObject's max health
+    }
+
+    public void Spawn()
+    {        
+        // Find a random index between zero and one less than the number of spawn points.
+        int spawnPointIndex = Random.Range(0, spawnPoints.Length);
+
+        // Create an instance of the enemy prefab at the randomly selected spawn point's position and rotation.
+        Instantiate(enemy, spawnPoints[spawnPointIndex].position, spawnPoints[spawnPointIndex].rotation);
     }
 }

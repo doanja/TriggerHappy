@@ -6,15 +6,19 @@ public class NinjaElizabethCloneAI : MonoBehaviour, ITakeDamage
     public float MovementSpeed;         // travel speed of this GameObject       
     public GameObject DestroyedEffect;  // the destroyed effect of this GameObject       
     public GameObject BlowupEffect;     // the blowup effect of this GameObject
+    public float FireRate = 1;          // cooldown time after firing a projectile
+    private float Cooldown;             // the amount of time this GameObject can shoot projectiles
+    public Projectile Projectile;       // this GameObject's projectile 
+    public Transform ProjectileFireLocation;// the location of which the projectile is fired at
     public int PointsToGivePlayer;      // points awarded to the player upon killing this GameObject
 
     // Sound    
     public AudioClip EnemyDestroySound;     // sound played when this GameObject is destroyed    
-    public AudioClip BlowupSound;           // sound played on collision with this object
+    public AudioClip BlowupSound;           // sound played on collision with this object    
 
     // Character Essentials
     private CharacterController2D _controller;  // has an instance of the CharacterController2D
-    public Vector2 _direction;                  // the x-direction of this GameObject
+    private Vector2 _direction;                  // the x-direction of this GameObject
     private Vector2 _startPosition;             // the initial spawn position of this GameObject    
 
     // Health
@@ -54,7 +58,21 @@ public class NinjaElizabethCloneAI : MonoBehaviour, ITakeDamage
         {
             _direction = -_direction; // switches direction
             transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
-        }       
+        }
+
+        // Handles when this GameObject cannot shoot
+        if ((Cooldown -= Time.deltaTime) > 0)
+            return;
+
+        // Casts rays to detect player
+        var raycast = Physics2D.Raycast(transform.position, _direction, 10, 1 << LayerMask.NameToLayer("Player"));
+        if (!raycast)
+            return;
+
+        // Instantiates the projectile, and initilializes the speed, and direction of the projectile
+        var projectile = (Projectile)Instantiate(Projectile, ProjectileFireLocation.position, ProjectileFireLocation.rotation);
+        projectile.Initialize(gameObject, _direction, _controller.Velocity);
+        Cooldown = FireRate; // time frame, when projectiles can be shot from this GameObject
     }
 
     /*

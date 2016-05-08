@@ -90,8 +90,8 @@ public class Player : MonoBehaviour, ITakeDamage
         Animator.SetFloat("Speed", Mathf.Abs(hInput));        
 
         // Touch Controls
-        MoveHorizontal(hInput);
-        MoveVertical(vInput);
+        //MoveHorizontal(hInput);
+        //MoveVertical(vInput);
     }
 
     /*
@@ -254,11 +254,11 @@ public class Player : MonoBehaviour, ITakeDamage
         {
             _controller.Jump();
         }
-        /*
+        
         // Handles shooting
         if (Input.GetMouseButton(0))
             FireProjectile();     
-        */
+        
     }
 
     /*

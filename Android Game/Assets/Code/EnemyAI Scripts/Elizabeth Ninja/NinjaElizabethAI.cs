@@ -5,13 +5,13 @@ public class NinjaElizabethAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListen
 {
 
     // Parameters   
-    public float MovementSpeed;         // travel speed of this GameObject
-    public float FireRate = 1;          // cooldown time after firing a projectile
-    private float Cooldown;             // the amount of time this GameObject can shoot projectiles
-    public Projectile Projectile;       // this GameObject's projectile
-    public GameObject DestroyedEffect;  // the destroyed effect of this GameObject   
+    public float MovementSpeed;             // travel speed of this GameObject
+    public float FireRate = 1;              // cooldown time after firing a projectile
+    private float Cooldown;                 // the amount of time this GameObject can shoot projectiles
+    public Projectile Projectile;           // this GameObject's projectile
+    public GameObject DestroyedEffect;      // the destroyed effect of this GameObject   
     public Transform ProjectileFireLocation;// the location of which the projectile is fired at
-    public int PointsToGivePlayer;      // points awarded to the player upon killing this GameObject
+    public int PointsToGivePlayer;          // points awarded to the player upon killing this GameObject
 
     // Sound
     public AudioClip ShootSound;            // the sound when this GameObject shoots a projectile
@@ -26,6 +26,7 @@ public class NinjaElizabethAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListen
     // Health
     public int MaxHealth = 100;                 // maximum health of the this GameObject
     public int Health { get; private set; }     // this GameObject's current health    
+    public GameObject HealthBar;                // the health bar belonging to this GameObject
 
     // Teleport
     private int teleportRNG;
@@ -81,6 +82,14 @@ public class NinjaElizabethAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListen
             _direction = -_direction; // switches direction
             transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
         }
+
+        if (Health < 25)
+        {
+            maxCloneRNG = 75;
+            maxTeleportRNG = 75;
+            MovementSpeed = 4;
+        }
+
         /*
         // Handles when this GameObject cannot shoot
         if ((Cooldown -= Time.deltaTime) > 0)
@@ -90,15 +99,8 @@ public class NinjaElizabethAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListen
         var raycast = Physics2D.Raycast(transform.position, _direction, 10, 1 << LayerMask.NameToLayer("Player"));
         if (!raycast)
             return;
-
-        // Instantiates the projectile, and initilializes the speed, and direction of the projectile
-        var projectile = (Projectile)Instantiate(Projectile, ProjectileFireLocation.position, ProjectileFireLocation.rotation);
-        projectile.Initialize(gameObject, _direction, _controller.Velocity);
-        Cooldown = FireRate; // time frame, when projectiles can be shot from this GameObject
-
-        // Handles Sound
-        if (ShootSound != null)
-            AudioSource.PlayClipAtPoint(ShootSound, transform.position);*/
+*/
+        
     }
 
     /*
@@ -110,8 +112,8 @@ public class NinjaElizabethAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListen
     {
         if (PointsToGivePlayer != 0)
         {
-            var projectile = instigator.GetComponent<Projectile>();
-            if (projectile != null && projectile.Owner.GetComponent<Player>() != null)
+            var otherProjectile = instigator.GetComponent<Projectile>();
+            if (otherProjectile != null && otherProjectile.Owner.GetComponent<Player>() != null)
             {
                 // Handles points
                 GameManager.Instance.AddPoints(PointsToGivePlayer);
@@ -121,6 +123,15 @@ public class NinjaElizabethAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListen
             }
         }
 
+        // Instantiates the projectile, and initilializes the speed, and direction of the projectile
+        var projectile = (Projectile)Instantiate(Projectile, ProjectileFireLocation.position, ProjectileFireLocation.rotation);
+        projectile.Initialize(gameObject, _direction, _controller.Velocity);
+        Cooldown = FireRate; // time frame, when projectiles can be shot from this GameObject
+
+        // Handles Sound
+        if (ShootSound != null)
+            AudioSource.PlayClipAtPoint(ShootSound, transform.position);
+
         // Effect played upon the death of this GameObject
         Instantiate(DestroyedEffect, transform.position, transform.rotation);
         Health -= damage;                               // decrement this GameObject's health
@@ -129,6 +140,7 @@ public class NinjaElizabethAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListen
         if (Health <= 0)
         {
             gate.SetActive(true);                       // makes end level portal visible
+            HealthBar.SetActive(false);
 
             AudioSource.PlayClipAtPoint(EnemyDestroySound, transform.position);
             Health = 0;                                 // sets this GameObject's health to 0 

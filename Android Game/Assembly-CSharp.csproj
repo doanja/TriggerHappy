@@ -49,8 +49,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Code\ElizabethNinjaHealthBar.cs" />
     <Compile Include="Assets\Code\EnemyAI Scripts\BirdAI.cs" />
+    <Compile Include="Assets\Code\EnemyAI Scripts\Elizabeth Ninja\ElizabethNinjaHealthBar.cs" />
+    <Compile Include="Assets\Code\EnemyAI Scripts\Elizabeth Ninja\NinjaElizabethAI.cs" />
+    <Compile Include="Assets\Code\EnemyAI Scripts\Elizabeth Ninja\NinjaElizabethCloneAI.cs" />
     <Compile Include="Assets\Code\EnemyAI Scripts\ElizabethBossAI.cs" />
     <Compile Include="Assets\Code\EnemyAI Scripts\EnemyManager.cs" />
     <Compile Include="Assets\Code\EnemyAI Scripts\ExecutionerElizabethAI.cs" />
@@ -87,8 +89,6 @@
     <Compile Include="Assets\Code\Level Managers\IPlayerRespawnListener.cs" />
     <Compile Include="Assets\Code\Level Managers\LevelManager.cs" />
     <Compile Include="Assets\Code\Level Managers\NextLevel.cs" />
-    <Compile Include="Assets\Code\NinjaElizabethAI.cs" />
-    <Compile Include="Assets\Code\NinjaElizabethCloneAI.cs" />
     <Compile Include="Assets\Code\Old Scripts\Camera2D.cs" />
     <Compile Include="Assets\Code\Old Scripts\FrogAI.cs" />
     <Compile Include="Assets\Code\Old Scripts\MageElizabethAI.cs" />
@@ -127,11 +127,17 @@
     <Compile Include="Assets\Code\Touch Screen Stuff\Portal.cs" />
     <Compile Include="Assets\Code\Touch Screen Stuff\TouchControls.cs" />
     <Compile Include="Assets\Code\Touch Screen Stuff\TouchManager.cs" />
+    <Reference Include="UnityEngine.Advertisements">
+      <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/Advertisements/UnityEngine.Advertisements.dll</HintPath>
+    </Reference>
     <Reference Include="UnityEngine.UI">
       <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.Networking">
       <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.Analytics">
+      <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/UnityAnalytics/UnityEngine.Analytics.dll</HintPath>
     </Reference>
     <Reference Include="Mono.Cecil">
       <HintPath>C:/Program Files/Unity/Editor/Data/Managed/Mono.Cecil.dll</HintPath>

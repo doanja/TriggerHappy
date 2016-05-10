@@ -88,19 +88,7 @@ public class NinjaElizabethAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListen
             maxCloneRNG = 75;
             maxTeleportRNG = 75;
             MovementSpeed = 4;
-        }
-
-        /*
-        // Handles when this GameObject cannot shoot
-        if ((Cooldown -= Time.deltaTime) > 0)
-            return;
-
-        // Casts rays to detect player
-        var raycast = Physics2D.Raycast(transform.position, _direction, 10, 1 << LayerMask.NameToLayer("Player"));
-        if (!raycast)
-            return;
-*/
-        
+        }              
     }
 
     /*
@@ -176,8 +164,5 @@ public class NinjaElizabethAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListen
         GameObject clone = Instantiate(clonePrefab, _currentPosition, transform.rotation) as GameObject;
         clone.transform.localScale = new Vector3(transform.localScale.y * cloneSizeMultiplier, transform.localScale.y * cloneSizeMultiplier, transform.localScale.z);
         Instantiate(CloneEffect, transform.position, transform.rotation);
-
-        //GameObject clone2 = Instantiate(clonePrefab, new Vector3(transform.position.y - .5f, transform.position.y, transform.position.z), transform.rotation) as GameObject;
-        //clone2.transform.localScale = new Vector3(transform.localScale.y * cloneSizeMultiplier, transform.localScale.y * cloneSizeMultiplier, transform.localScale.z);
     }
 }

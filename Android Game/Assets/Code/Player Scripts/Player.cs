@@ -69,10 +69,10 @@ public class Player : MonoBehaviour, ITakeDamage
     public void Update()
     {
         _canFireIn -= Time.deltaTime; // When this reaches 0, they player can shoot again
-
+        /*
         if (!IsDead)
             HandleInput(); // Handles what the player press (left, right, jump, shoot)
-
+            */
         // Changes movement factor depending on if the Player object is falling in midair, or when it is grounded
         var movementFactor = _controller.State.IsGrounded ? SpeedAccelerationOnGround : SpeedAccelerationInAir;
 
@@ -90,8 +90,8 @@ public class Player : MonoBehaviour, ITakeDamage
         Animator.SetFloat("Speed", Mathf.Abs(hInput));        
 
         // Touch Controls
-        //MoveHorizontal(hInput);
-        //MoveVertical(vInput);
+        MoveHorizontal(hInput);
+        MoveVertical(vInput);
     }
 
     /*

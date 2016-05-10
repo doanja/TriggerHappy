@@ -65,14 +65,14 @@ public class NinjaElizabethCloneAI : MonoBehaviour, ITakeDamage
             return;
 
         // Casts rays to detect player
-        var raycast = Physics2D.Raycast(transform.position, _direction, 10, 1 << LayerMask.NameToLayer("Player"));
+        var raycast = Physics2D.Raycast(transform.position, _direction, 50, 1 << LayerMask.NameToLayer("Player"));
         if (!raycast)
             return;
 
         // Instantiates the projectile, and initilializes the speed, and direction of the projectile
         var projectile = (Projectile)Instantiate(Projectile, ProjectileFireLocation.position, ProjectileFireLocation.rotation);
         projectile.Initialize(gameObject, _direction, _controller.Velocity);
-        Cooldown = FireRate; // time frame, when projectiles can be shot from this GameObject
+        Cooldown = FireRate; // time frame, when projectiles can be shot from this GameObject        
     }
 
     /*
@@ -120,5 +120,21 @@ public class NinjaElizabethCloneAI : MonoBehaviour, ITakeDamage
         AudioSource.PlayClipAtPoint(BlowupSound, transform.position);
         Instantiate(BlowupEffect, transform.position, transform.rotation);
         gameObject.SetActive(false);                // hides this GameObject
+    }
+
+    /*
+    * @param checkpoint, the last checkpoint the Player Object has acquired
+    * @param player, the Player Object
+    * Method used to respawn this GameObject after the player respawns at the given checkpoint
+    */
+    public void OnPlayerRespawnInThisCheckpoint(Checkpoint checkpoint, Player player)
+    {
+        // Re-initializes this GameObject's direction, and start position
+        _direction = new Vector2(-1, 0);
+        transform.localScale = new Vector3(1, 1, 1);
+        gameObject.SetActive(true);                     // shows this GameObject       
+
+        // Resets health
+        Health = MaxHealth;                             // sets current health to the GameObject's max health
     }
 }

@@ -105,12 +105,14 @@
     <Compile Include="Assets\Code\Platforms, Pickups\FollowPath.cs" />
     <Compile Include="Assets\Code\Platforms, Pickups\JumpPlatform.cs" />
     <Compile Include="Assets\Code\Platforms, Pickups\PathDefinition.cs" />
+    <Compile Include="Assets\Code\Platforms, Pickups\PickupWeapon.cs" />
     <Compile Include="Assets\Code\Platforms, Pickups\PointStar.cs" />
     <Compile Include="Assets\Code\Player Scripts\CharacterController2D.cs" />
     <Compile Include="Assets\Code\Player Scripts\ControllerParameters2D.cs" />
     <Compile Include="Assets\Code\Player Scripts\ControllerState2D.cs" />
     <Compile Include="Assets\Code\Player Scripts\GiveDamageToPlayer.cs" />
     <Compile Include="Assets\Code\Player Scripts\Player.cs" />
+    <Compile Include="Assets\Code\Player Scripts\PlayerWeapon.cs" />
     <Compile Include="Assets\Code\Projectiles\AutoDestroyParticleSystem.cs" />
     <Compile Include="Assets\Code\Projectiles\PathedProjectile.cs" />
     <Compile Include="Assets\Code\Projectiles\PathedProjectileSpawner.cs" />

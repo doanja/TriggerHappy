@@ -25,16 +25,16 @@ public class Player : MonoBehaviour, ITakeDamage
     public float SpeedAccelerationInAir = 5f;       // how quickly the Player Object goes from moving to not moving on air
     public int MaxHealth = 100;                     // maximum health of the Player Object
     public GameObject OuchEffect;                   // effect played when the Player Object is receiving damage
-
+    /*
     // Projectile
     public Projectile Projectile;                   // the Player Object's projectile
     public float FireRate;                          // cooldown after firing a projectile
-    public Transform ProjectileFireLocation;        // the location of which the projectile is fired at
+    public Transform ProjectileFireLocation = ;        // the location of which the projectile is fired at
     public GameObject FireProjectileEffect;         // the effect played when the Player Object is shooting
-    private float _canFireIn;                       // Player object is able to fire when this equals the FireRate
-
+    private float cooldown;                       // Player object is able to fire when this equals the FireRate
+    */
     // Sound
-    public AudioClip PlayerHitSound, PlayerShootSound, PlayerHealthSound, PlayerDeathSound;
+    public AudioClip PlayerHitSound, /*PlayerShootSound,*/ PlayerHealthSound, PlayerDeathSound;
 
     // Health & Lives
     public int Health { get; private set; }         // Player Object's current health
@@ -50,7 +50,9 @@ public class Player : MonoBehaviour, ITakeDamage
 
     // Touch Control Movement
     public int hInput = 0;
-    public int vInput = 0;        
+    public int vInput = 0;
+
+    public PlayerWeapon Weapon;
 
     // Use this for initialization
     public void Awake()
@@ -68,11 +70,11 @@ public class Player : MonoBehaviour, ITakeDamage
     // Update is called once per frame
     public void Update()
     {
-        _canFireIn -= Time.deltaTime; // When this reaches 0, they player can shoot again
-        /*
+        Weapon.Cooldown -= Time.deltaTime; // When this reaches 0, they player can shoot again
+        
         if (!IsDead)
             HandleInput(); // Handles what the player press (left, right, jump, shoot)
-            */
+            
         // Changes movement factor depending on if the Player object is falling in midair, or when it is grounded
         var movementFactor = _controller.State.IsGrounded ? SpeedAccelerationOnGround : SpeedAccelerationInAir;
 
@@ -90,8 +92,8 @@ public class Player : MonoBehaviour, ITakeDamage
         Animator.SetFloat("Speed", Mathf.Abs(hInput));        
 
         // Touch Controls
-        MoveHorizontal(hInput);
-        MoveVertical(vInput);
+        //MoveHorizontal(hInput);
+        //MoveVertical(vInput);
     }
 
     /*
@@ -268,13 +270,13 @@ public class Player : MonoBehaviour, ITakeDamage
     public void FireProjectile()
     {
         // If the cooldown is still counting down to 0, the player cannot fire.
-        if (_canFireIn > 0)
+        if (Weapon.Cooldown > 0)
             return;
 
-        if (FireProjectileEffect != null)
+        if (Weapon.FireProjectileEffect != null)
         {
             // Plays the effect in the direction the player is facing
-            var effect = (GameObject)Instantiate(FireProjectileEffect, ProjectileFireLocation.position, ProjectileFireLocation.rotation);
+            var effect = (GameObject)Instantiate(Weapon.FireProjectileEffect, Weapon.ProjectileFireLocation.position, Weapon.ProjectileFireLocation.rotation);
             effect.transform.parent = transform;
         }
 
@@ -282,12 +284,12 @@ public class Player : MonoBehaviour, ITakeDamage
         var direction = _isFacingRight ? Vector2.right : -Vector2.right;
 
         // Instantiates the projectile, and initilializes the speed, and direction of the projectile
-        var projectile = (Projectile)Instantiate(Projectile, ProjectileFireLocation.position, ProjectileFireLocation.rotation);
+        var projectile = (Projectile)Instantiate(Weapon.Projectile, Weapon.ProjectileFireLocation.position, Weapon.ProjectileFireLocation.rotation);
         projectile.Initialize(gameObject, direction, _controller.Velocity);
-        _canFireIn = FireRate; // time frame, when projectiles can be shot from this GameObject      
+        Weapon.Cooldown = Weapon.FireRate; // time frame, when projectiles can be shot from this GameObject      
 
         // Sound
-        AudioSource.PlayClipAtPoint(PlayerShootSound, transform.position);
+        AudioSource.PlayClipAtPoint(Weapon.PlayerShootSound, transform.position);
 
         // Animation
         Animator.SetTrigger("Shoot");

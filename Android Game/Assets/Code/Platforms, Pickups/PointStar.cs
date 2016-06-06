@@ -19,10 +19,7 @@ public class PointStar : MonoBehaviour, IPlayerRespawnListener {
     * Handles what happens to the GameObject
     */
     public void OnTriggerEnter2D(Collider2D other)
-    {
-        //if (_isCollected)
-         //   return;
-
+    {       
         // Does nothing if another GameObject collides with this GameObject
         if (other.GetComponent<Player>() == null)
            return;

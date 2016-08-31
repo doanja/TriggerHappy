@@ -35,6 +35,7 @@ public class Player : MonoBehaviour, ITakeDamage
     */
     // Sound
     public AudioClip PlayerHitSound, /*PlayerShootSound,*/ PlayerHealthSound, PlayerDeathSound;
+   
 
     // Health & Lives
     public int Health { get; private set; }         // Player Object's current health
@@ -53,6 +54,11 @@ public class Player : MonoBehaviour, ITakeDamage
     public int vInput = 0;
 
     public PlayerWeapon Weapon;
+
+    // Jump Sounds
+    public AudioClip[] JumpSounds;
+    public int refCounterRNG;
+    
 
     // Use this for initialization
     public void Awake()
@@ -89,11 +95,15 @@ public class Player : MonoBehaviour, ITakeDamage
         Animator.SetBool("IsGrounded", _controller.State.IsGrounded);
         Animator.SetBool("IsDead", IsDead);
         //Animator.SetFloat("Speed", Mathf.Abs(_controller.Velocity.x) / MaxSpeed);
-        Animator.SetFloat("Speed", Mathf.Abs(hInput));        
+        Animator.SetFloat("Speed", Mathf.Abs(hInput));
 
         // Touch Controls
         //MoveHorizontal(hInput);
         //MoveVertical(vInput);
+
+        // Handles selection of random AudioClip selected from JumpSounds array
+        int counterRNG = Random.Range(0, (JumpSounds.Length + 1));
+        refCounterRNG = counterRNG; // updates the refCounterRNG variable
     }
 
     /*
@@ -255,6 +265,9 @@ public class Player : MonoBehaviour, ITakeDamage
         if (_controller.CanJump && Input.GetKeyDown(KeyCode.Space))
         {
             _controller.Jump();
+            
+            // Sound
+            AudioSource.PlayClipAtPoint(JumpSounds[refCounterRNG], transform.position);
         }
         
         // Handles shooting

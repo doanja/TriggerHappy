@@ -25,16 +25,9 @@ public class Player : MonoBehaviour, ITakeDamage
     public float SpeedAccelerationInAir = 5f;       // how quickly the Player Object goes from moving to not moving on air
     public int MaxHealth = 100;                     // maximum health of the Player Object
     public GameObject OuchEffect;                   // effect played when the Player Object is receiving damage
-    /*
-    // Projectile
-    public Projectile Projectile;                   // the Player Object's projectile
-    public float FireRate;                          // cooldown after firing a projectile
-    public Transform ProjectileFireLocation = ;        // the location of which the projectile is fired at
-    public GameObject FireProjectileEffect;         // the effect played when the Player Object is shooting
-    private float cooldown;                       // Player object is able to fire when this equals the FireRate
-    */
+    
     // Sound
-    public AudioClip PlayerHitSound, /*PlayerShootSound,*/ PlayerHealthSound, PlayerDeathSound;
+    public AudioClip PlayerHealthSound, PlayerDeathSound;
     public AudioClip[] JumpSounds;
     public AudioClip[] PlayerHitSounds;
 
@@ -58,8 +51,8 @@ public class Player : MonoBehaviour, ITakeDamage
     public PlayerWeapon Weapon;
 
     // RNG Reference Variables
-    public int refCounterRNG;
-    public int refHitRNG;
+    private int refCounterRNG;
+    private int refHitRNG;
 
     // Use this for initialization
     public void Awake()
@@ -103,11 +96,11 @@ public class Player : MonoBehaviour, ITakeDamage
         //MoveVertical(vInput);
 
         // Handles selection of random AudioClip selected from JumpSounds array
-        int counterRNG = Random.Range(0, (JumpSounds.Length + 1));
+        int counterRNG = Random.Range(0, (JumpSounds.Length));
         refCounterRNG = counterRNG; // updates the refCounterRNG variable
 
         // Handles selection of random AudioClip selected from PlayerHitSounds array
-        int hitRNG = Random.Range(0, (PlayerHitSounds.Length + 1));
+        int hitRNG = Random.Range(0, (PlayerHitSounds.Length));
         refHitRNG = hitRNG; // updates the refHitRNG variable
     }
 
@@ -174,14 +167,11 @@ public class Player : MonoBehaviour, ITakeDamage
         FloatingText.Show(string.Format("-{0}", damage), "PlayerTakeDamageText", new FromWorldPointTextPositioner(Camera.main, transform.position, 2f, 60f));
 
         // Sound
-        AudioSource.PlayClipAtPoint(PlayerHitSound, transform.position);
+        AudioSource.PlayClipAtPoint(PlayerHitSounds[refHitRNG], transform.position);
 
         // Decrement's the player's health
         Instantiate(OuchEffect, transform.position, transform.rotation);
         Health -= damage;
-
-        // Sound
-        AudioSource.PlayClipAtPoint(PlayerHitSounds[refHitRNG], transform.position);
 
         // If the player's Health reaches zero, call KillPlayer
         if (Health <= 0)

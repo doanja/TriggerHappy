@@ -85,17 +85,6 @@
      <Compile Include="Assets\Code\Level Managers\IPlayerRespawnListener.cs" />
      <Compile Include="Assets\Code\Level Managers\LevelManager.cs" />
      <Compile Include="Assets\Code\Level Managers\NextLevel.cs" />
-     <Compile Include="Assets\Code\Old Scripts\Camera2D.cs" />
-     <Compile Include="Assets\Code\Old Scripts\FrogAI.cs" />
-     <Compile Include="Assets\Code\Old Scripts\MageElizabethAI.cs" />
-     <Compile Include="Assets\Code\Old Scripts\PathedProjectileSpawner2.cs" />
-     <Compile Include="Assets\Code\Old Scripts\PickupDestroy.cs" />
-     <Compile Include="Assets\Code\Old Scripts\PlayerController.cs" />
-     <Compile Include="Assets\Code\Old Scripts\PlayerMove.cs" />
-     <Compile Include="Assets\Code\Old Scripts\Scroll.cs" />
-     <Compile Include="Assets\Code\Old Scripts\SimpleEnemyScript.cs" />
-     <Compile Include="Assets\Code\Old Scripts\StartScreen.cs" />
-     <Compile Include="Assets\Code\Old Scripts\SwimmingController2D.cs" />
      <Compile Include="Assets\Code\Platforms, Pickups\ControllerPhysicsVolume2D.cs" />
      <Compile Include="Assets\Code\Platforms, Pickups\CrumblingPlatform.cs" />
      <Compile Include="Assets\Code\Platforms, Pickups\FollowPath.cs" />
@@ -125,17 +114,11 @@
      <Compile Include="Assets\Code\Touch Screen Stuff\Portal.cs" />
      <Compile Include="Assets\Code\Touch Screen Stuff\TouchControls.cs" />
      <Compile Include="Assets\Code\Touch Screen Stuff\TouchManager.cs" />
- <Reference Include="UnityEngine.Advertisements">
- <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/Advertisements/UnityEngine.Advertisements.dll</HintPath>
- </Reference>
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.Networking">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
- </Reference>
- <Reference Include="UnityEngine.Analytics">
- <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/UnityAnalytics/UnityEngine.Analytics.dll</HintPath>
  </Reference>
  <Reference Include="Mono.Cecil">
  <HintPath>C:/Program Files/Unity/Editor/Data/Managed/Mono.Cecil.dll</HintPath>

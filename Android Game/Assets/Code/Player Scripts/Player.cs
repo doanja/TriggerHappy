@@ -35,7 +35,9 @@ public class Player : MonoBehaviour, ITakeDamage
     */
     // Sound
     public AudioClip PlayerHitSound, /*PlayerShootSound,*/ PlayerHealthSound, PlayerDeathSound;
-   
+    public AudioClip[] JumpSounds;
+    public AudioClip[] PlayerHitSounds;
+
 
     // Health & Lives
     public int Health { get; private set; }         // Player Object's current health
@@ -55,10 +57,9 @@ public class Player : MonoBehaviour, ITakeDamage
 
     public PlayerWeapon Weapon;
 
-    // Jump Sounds
-    public AudioClip[] JumpSounds;
+    // RNG Reference Variables
     public int refCounterRNG;
-    
+    public int refHitRNG;
 
     // Use this for initialization
     public void Awake()
@@ -104,6 +105,10 @@ public class Player : MonoBehaviour, ITakeDamage
         // Handles selection of random AudioClip selected from JumpSounds array
         int counterRNG = Random.Range(0, (JumpSounds.Length + 1));
         refCounterRNG = counterRNG; // updates the refCounterRNG variable
+
+        // Handles selection of random AudioClip selected from PlayerHitSounds array
+        int hitRNG = Random.Range(0, (PlayerHitSounds.Length + 1));
+        refHitRNG = hitRNG; // updates the refHitRNG variable
     }
 
     /*
@@ -174,6 +179,9 @@ public class Player : MonoBehaviour, ITakeDamage
         // Decrement's the player's health
         Instantiate(OuchEffect, transform.position, transform.rotation);
         Health -= damage;
+
+        // Sound
+        AudioSource.PlayClipAtPoint(PlayerHitSounds[refHitRNG], transform.position);
 
         // If the player's Health reaches zero, call KillPlayer
         if (Health <= 0)
@@ -348,6 +356,8 @@ public class Player : MonoBehaviour, ITakeDamage
         if (_controller.CanJump)
         {
             _controller.Jump();
+            // Sound
+            AudioSource.PlayClipAtPoint(JumpSounds[refCounterRNG], transform.position);
         }
     }
 

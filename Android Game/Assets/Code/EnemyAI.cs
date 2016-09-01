@@ -3,7 +3,7 @@
 public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
 {
 
-    /* All Enemy Type Parameters*/
+    /* Beginning of All Enemy Type Parameters*/
     public float MovementSpeed;         // travel speed of this GameObject
     public GameObject DestroyedEffect;  // the destroyed effect
     public int PointsToGivePlayer;      // points awarded to the player upon killing this GameObject
@@ -12,22 +12,29 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
     private Vector2 _direction;                 // the x-direction of this GameObject
     private Vector2 _startPosition;             // the initial spawn position of this GameObject
 
-    public int MaxHealth = 100;             // maximum health of the this GameObject
-    public int Health { get; private set; } // this GameObject's current health    
+    public int MaxHealth = 100;                 // maximum health of the this GameObject
+    public int Health { get; private set; }     // this GameObject's current health    
 
-    public AudioClip[] EnemyDestroySounds;     // sound played when this GameObject is destroyed
+    public AudioClip[] EnemyDestroySounds;      // sound played when this GameObject is destroyed
+    public GameObject[] ItemDroplist;
+    /* End of All Enemy Type Parameters*/
 
-    // RNG Reference Variables
-    private int refCounterRNG;
+    /* Enemies with Projectiles */
+    public float FireRate = 1;                  // cooldown time after firing a projectile
+    private float Cooldown;                     // the amount of time this GameObject can shoot projectiles
+    public Projectile Projectile;               // this GameObject's projectile
+    public Transform ProjectileFireLocation;    // the location of which the projectile is fired at
+    public AudioClip ShootSound;                // the sound when this GameObject shoots a projectile
+    public AudioClip EnemyDetectedSound;        // sound played when EnemyType has detected the Player
 
-    // Enemy Behavior Based on Type
-    public enum EnemyType
+    private int refCounterRNG;          // RNG reference variable for EnemyDestroySounds
+    private int refItemRNG;             
+    public enum EnemyType               // enemy behavior based on type
     {
         Patrol,
         PatrolShoot
     }
-
-    public EnemyType Enemy;
+    public EnemyType Enemy;             // instance of an EnemyType, used to determine AI behavior
     
     // Use this for initialization
     void Start () {
@@ -41,11 +48,17 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
 	void Update () {
 
         // Handles selection of random AudioClip selected from EnemyDestroySounds array
-        int counterRNG = Random.Range(0, (EnemyDestroySounds.Length));
+        int counterRNG = Random.Range(0, EnemyDestroySounds.Length);
         refCounterRNG = counterRNG; // updates the refCounterRNG variable
 
-        if (Enemy == EnemyType.Patrol)
+        // Handles selection of random AudioClip selected from ItemDroplist array
+        int itemRNG = Random.Range(0, ItemDroplist.Length);
+        refItemRNG = itemRNG;       // updates the refItemRNG variable
+
+        if (Enemy == EnemyType.Patrol || Enemy == EnemyType.PatrolShoot)
         {
+            /* Handles basic movement */
+
             // Sets the x-velocity of this GameObject
             _controller.SetHorizontalForce(_direction.x * MovementSpeed);
 
@@ -54,6 +67,28 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
             {
                 _direction = -_direction; // switches direction
                 transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
+            }
+
+            /* Projectiles */
+            if(Enemy == EnemyType.PatrolShoot)
+            {
+                // Handles when this GameObject cannot shoot
+                if ((Cooldown -= Time.deltaTime) > 0)
+                    return;
+
+                // Casts rays to detect player
+                var raycast = Physics2D.Raycast(transform.position, _direction, 10, 1 << LayerMask.NameToLayer("Player"));
+                if (!raycast)
+                    return;
+
+                // Instantiates the projectile, and initilializes the speed, and direction of the projectile
+                var projectile = (Projectile)Instantiate(Projectile, ProjectileFireLocation.position, ProjectileFireLocation.rotation);
+                projectile.Initialize(gameObject, _direction, _controller.Velocity);
+                Cooldown = FireRate; // time frame, when projectiles can be shot from this GameObject
+
+                // Handles Sound
+                if (ShootSound != null)
+                    AudioSource.PlayClipAtPoint(ShootSound, transform.position);
             }
         }
 	}

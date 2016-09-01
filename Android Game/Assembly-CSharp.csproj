@@ -51,16 +51,15 @@
      <Compile Include="Assets\Code\EnemyAI Scripts\Elizabeth Ninja\NinjaElizabethCloneAI.cs" />
      <Compile Include="Assets\Code\EnemyAI Scripts\ElizabethBossAI.cs" />
      <Compile Include="Assets\Code\EnemyAI Scripts\EnemyManager.cs" />
-     <Compile Include="Assets\Code\EnemyAI Scripts\ExecutionerElizabethAI.cs" />
      <Compile Include="Assets\Code\EnemyAI Scripts\GhostAI.cs" />
      <Compile Include="Assets\Code\EnemyAI Scripts\GuardAI.cs" />
+     <Compile Include="Assets\Code\EnemyAI Scripts\In EnemyAI\JumpAI.cs" />
      <Compile Include="Assets\Code\EnemyAI Scripts\In EnemyAI\PatrolAI.cs" />
-     <Compile Include="Assets\Code\EnemyAI Scripts\JumpAI.cs" />
+     <Compile Include="Assets\Code\EnemyAI Scripts\In EnemyAI\PatrolRaycastChargeAI.cs" />
+     <Compile Include="Assets\Code\EnemyAI Scripts\In EnemyAI\PatrolRaycastShootAI.cs" />
      <Compile Include="Assets\Code\EnemyAI Scripts\MonsterSpawner.cs" />
      <Compile Include="Assets\Code\EnemyAI Scripts\MoveTowardsPatrolAI.cs" />
      <Compile Include="Assets\Code\EnemyAI Scripts\PainterElizabeth.cs" />
-     <Compile Include="Assets\Code\EnemyAI Scripts\PatrolRaycastChargeAI.cs" />
-     <Compile Include="Assets\Code\EnemyAI Scripts\PatrolRaycastShootAI.cs" />
      <Compile Include="Assets\Code\EnemyAI Scripts\PatrolSelfDestruct.cs" />
      <Compile Include="Assets\Code\EnemyAI Scripts\RaycastShootUp.cs" />
      <Compile Include="Assets\Code\EnemyAI Scripts\ReflectProjectiles.cs" />
@@ -115,17 +114,11 @@
      <Compile Include="Assets\Code\Touch Screen Stuff\Portal.cs" />
      <Compile Include="Assets\Code\Touch Screen Stuff\TouchControls.cs" />
      <Compile Include="Assets\Code\Touch Screen Stuff\TouchManager.cs" />
- <Reference Include="UnityEngine.Advertisements">
- <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/Advertisements/UnityEngine.Advertisements.dll</HintPath>
- </Reference>
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.Networking">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
- </Reference>
- <Reference Include="UnityEngine.Analytics">
- <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/UnityAnalytics/UnityEngine.Analytics.dll</HintPath>
  </Reference>
  <Reference Include="Mono.Cecil">
  <HintPath>C:/Program Files/Unity/Editor/Data/Managed/Mono.Cecil.dll</HintPath>

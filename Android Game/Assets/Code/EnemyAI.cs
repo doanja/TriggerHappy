@@ -26,7 +26,7 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
     public Transform ProjectileFireLocation;    // the location of which the projectile is fired at
     public AudioClip ShootSound;                // the sound when this GameObject shoots a projectile
     public AudioClip EnemyDetectedSound;        // sound played when EnemyType has detected the Player
-
+   
     /* Enemies using OverlapCircle */
     private Player Player;                  // instance of the player class
     public float PlayerDetectionRadius;     // the distance between the Player Object and this GameObject
@@ -34,14 +34,14 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
     public bool IsPlayerFacingAway;         // if the Player Object is not facing this GameObject
     public LayerMask DetectThisLayer;       // determines what this GameObject is colliding with
 
-    /* Charge */
-    private float OriginalMovementSpeed;// variable used to store the initial Movementspeed
+    /* Guardian */
+    public GameObject ProjectileSpawnEffect;    // effect played when spawning the projectiles
 
     private int refCounterRNG;          // RNG reference variable for EnemyDestroySounds[]
     private int refItemRNG;             // RNG reference variable for ItemDroplist[]
     public enum EnemyType               // enemy behavior based on type
     {
-        Gaurd,
+        Guardian,
         Jumper,
         Patrol,
         PatrolShoot,
@@ -58,7 +58,6 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
         _startPosition = transform.position;                    // starting position of this GameObject
         Health = MaxHealth;
         Player = FindObjectOfType<Player>();
-        OriginalMovementSpeed = MovementSpeed;
     }
 
     // Update is called once per frame
@@ -115,7 +114,7 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
         }
 
         // untested from GhostAI
-        if (Enemy == EnemyType.PatrolTurn || Enemy == EnemyType.Stalker || Enemy == EnemyType.Charge)
+        if (Enemy == EnemyType.PatrolTurn || Enemy == EnemyType.Stalker || Enemy == EnemyType.Charge || Enemy == EnemyType.Guardian)
         {
             // Variable used to determine if the DetectThisLayer overlaps with the Circle
             IsPlayerInRange = Physics2D.OverlapCircle(transform.position, PlayerDetectionRadius, DetectThisLayer);
@@ -162,10 +161,42 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
 
                 transform.position = Vector3.MoveTowards(transform.position, Player.transform.position, MovementSpeed * Time.deltaTime);
             }
-        }
+
+            /* TESTING */
+            if (Enemy == EnemyType.Guardian)
+            {
+                // Variable used to determines if the CollisionMask overlaps with the Circle
+                IsPlayerInRange = Physics2D.OverlapCircle(transform.position, PlayerDetectionRadius, DetectThisLayer);
+
+                // If the Player Object is in range of this GameObject, and they are facing away, move this GameObject towards the PlayerObject
+                if (IsPlayerInRange)
+                {
+                    // Handles when this GameObject cannot shoot
+                    if ((Cooldown -= Time.deltaTime) > 0)
+                        return;
+
+                    // Instantiates the projectile, and initilializes the speed, and direction of the projectile
+                    var projectile = (Projectile)Instantiate(Projectile, ProjectileFireLocation.position, ProjectileFireLocation.rotation);
+                    projectile.Initialize(gameObject, _direction, _controller.Velocity);
+                    Cooldown = FireRate; // time frame, when projectiles can be shot from this GameObject
+                        
+                    // Handles Sound
+                    if (ShootSound != null)
+                        AudioSource.PlayClipAtPoint(ShootSound, transform.position);
+
+                    // Handles projectile effects
+                    if (ProjectileSpawnEffect != null)
+                        Instantiate(ProjectileSpawnEffect, ProjectileFireLocation.transform.position, ProjectileFireLocation.transform.rotation);
+                }
+            }
+        } // END OF PHYSICS2D OVERLAPCIRCLE ENEMIES
+
+
+
+
 
         
-    }
+    } // END OF UPDATE
 
     // Method draws a sphere indicating the range of view of this GameObject
     public void OnDrawGizmosSelected()

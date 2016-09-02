@@ -7,7 +7,7 @@
 * This GameObject casts rays, which if it detects a player-tagged Game Object, it will
 * speed up and pursue the Player.
 */
-public class MoveTowardsPatrolAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
+public class SnakeAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
 {
     // Parameters
     private Player player;              // instance of the player class

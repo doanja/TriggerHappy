@@ -58,11 +58,11 @@
      <Compile Include="Assets\Code\EnemyAI Scripts\In EnemyAI\PatrolRaycastChargeAI.cs" />
      <Compile Include="Assets\Code\EnemyAI Scripts\In EnemyAI\PatrolRaycastShootAI.cs" />
      <Compile Include="Assets\Code\EnemyAI Scripts\MonsterSpawner.cs" />
-     <Compile Include="Assets\Code\EnemyAI Scripts\MoveTowardsPatrolAI.cs" />
      <Compile Include="Assets\Code\EnemyAI Scripts\PainterElizabeth.cs" />
      <Compile Include="Assets\Code\EnemyAI Scripts\PatrolSelfDestruct.cs" />
      <Compile Include="Assets\Code\EnemyAI Scripts\RaycastShootUp.cs" />
      <Compile Include="Assets\Code\EnemyAI Scripts\ReflectProjectiles.cs" />
+     <Compile Include="Assets\Code\EnemyAI Scripts\SnakeAI.cs" />
      <Compile Include="Assets\Code\EnemyAI Scripts\SporeMushroom.cs" />
      <Compile Include="Assets\Code\EnemyAI Scripts\TimeToLive.cs" />
      <Compile Include="Assets\Code\EnemyAI.cs" />
@@ -98,6 +98,7 @@
      <Compile Include="Assets\Code\Player Scripts\GiveDamageToPlayer.cs" />
      <Compile Include="Assets\Code\Player Scripts\Player.cs" />
      <Compile Include="Assets\Code\Player Scripts\PlayerWeapon.cs" />
+     <Compile Include="Assets\Code\Projectiles\AllProjectiles.cs" />
      <Compile Include="Assets\Code\Projectiles\AutoDestroyParticleSystem.cs" />
      <Compile Include="Assets\Code\Projectiles\PathedProjectile.cs" />
      <Compile Include="Assets\Code\Projectiles\PathedProjectileSpawner.cs" />

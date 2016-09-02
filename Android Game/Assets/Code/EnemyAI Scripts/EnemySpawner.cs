@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class EnemyManager : MonoBehaviour
+public class EnemySpawner : MonoBehaviour
 {
     private Player thePlayer;                // Reference to the player's health.
     public GameObject enemy;                // The enemy prefab to be spawned.

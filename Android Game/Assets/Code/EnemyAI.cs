@@ -33,26 +33,29 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
     public bool IsPlayerFacingAway;         // if the Player Object is not facing this GameObject
     public LayerMask DetectThisLayer;       // determines what this GameObject is colliding with
 
-    /* Guardian */
+    /* Shielder */
     public GameObject ProjectileSpawnEffect;    // effect played when spawning the projectiles
 
     /* PathedProjectileSpawner */
     public Transform Destination;           // the location where the projectile will travel to
-    public float ProjectileSpeed;                     // the travel speed of the projectile towards its destination
+    public float ProjectileSpeed;           // the travel speed of the projectile towards its destination
     public Animator anim;                   // animation
 
-    private int refCounterRNG;          // RNG reference variable for EnemyDestroySounds[]
-    private int refItemRNG;             // RNG reference variable for ItemDroplist[]
+    /* SelfDestruct*/
+    public GameObject BlowupEffect;     // the blowup effect
+    public AudioClip BlowupSound;       // sound played when this GameObject collides with the Player
+
     public enum EnemyType               // enemy behavior based on type
     {
-        Guardian,
+        Charger,
         Jumper,
         Patrol,
         PatrolShoot,
         PatrolTurn,
-        Stalker,
-        Charge,
-        PathedProjectileSpawner
+        PathedProjectileSpawner,
+        SelfDestruct,
+        Shielder,
+        Stalker
     }
     public EnemyType Enemy;             // instance of an EnemyType, used to determine AI behavior
     
@@ -70,15 +73,7 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
 
     // Update is called once per frame
     void Update()
-    {
-        // Handles selection of random AudioClip selected from EnemyDestroySounds array
-        int counterRNG = Random.Range(0, EnemyDestroySounds.Length);
-        refCounterRNG = counterRNG; // updates the refCounterRNG variable
-
-        // Handles selection of random AudioClip selected from ItemDroplist array
-        int itemRNG = Random.Range(0, ItemDroplist.Length);
-        refItemRNG = itemRNG;       // updates the refItemRNG variable
-
+    { 
         // Handles basic movement
         if(Enemy != EnemyType.PathedProjectileSpawner)
         {
@@ -150,7 +145,7 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
         }
 
         // untested from GhostAI
-        if (Enemy == EnemyType.PatrolTurn || Enemy == EnemyType.Stalker || Enemy == EnemyType.Charge || Enemy == EnemyType.Guardian)
+        if (Enemy == EnemyType.PatrolTurn || Enemy == EnemyType.Stalker || Enemy == EnemyType.Charger || Enemy == EnemyType.Shielder)
         {
             // Variable used to determine if the DetectThisLayer overlaps with the Circle
             IsPlayerInRange = Physics2D.OverlapCircle(transform.position, PlayerDetectionRadius, DetectThisLayer);
@@ -188,7 +183,7 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
             }
             
             /* working */
-            if (Enemy == EnemyType.Charge)
+            if (Enemy == EnemyType.Charger)
             {
                 // Casts rays to detect player
                 var raycast = Physics2D.Raycast(transform.position, _direction, 10, 1 << LayerMask.NameToLayer("Player"));
@@ -199,7 +194,7 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
             }
 
             /* WORKING */
-            if (Enemy == EnemyType.Guardian)
+            if (Enemy == EnemyType.Shielder)
             {
                 // Variable used to determines if the CollisionMask overlaps with the Circle
                 IsPlayerInRange = Physics2D.OverlapCircle(transform.position, PlayerDetectionRadius, DetectThisLayer);
@@ -250,6 +245,23 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
     }
 
     /*
+    * @param other, the other GameObject colliding with this GameObject
+    * Function that handles what happens on collision.
+    */
+    public void OnTriggerEnter2D(Collider2D other)
+    {
+        if (Enemy == EnemyType.SelfDestruct)
+        {
+            if (other.GetComponent<Player>() == null)
+                return;
+
+            AudioSource.PlayClipAtPoint(BlowupSound, transform.position);
+            Instantiate(BlowupEffect, transform.position, transform.rotation);
+            gameObject.SetActive(false);                // hides this GameObject
+        }
+    }
+
+    /*
     * @param damage, the damage this GameObject receives
     * @param instigator, the GameObject inflicting damage on this GameObject
     * Handles how this GameObject receives damage from the Player Object's projectiles
@@ -276,8 +288,8 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
         // If this GameObject's health reaches zero
         if (Health <= 0)
         {
-            AudioSource.PlayClipAtPoint(EnemyDestroySounds[refCounterRNG], transform.position);
-            // instantiate item
+            AudioSource.PlayClipAtPoint(EnemyDestroySounds[Random.Range(0, EnemyDestroySounds.Length)], transform.position);
+            Instantiate(ItemDroplist[Random.Range(0, ItemDroplist.Length)], transform.position, Quaternion.identity);
             Health = 0;                                 // sets this GameObject's health to 0 
             gameObject.SetActive(false);                // hides this GameObject
         }

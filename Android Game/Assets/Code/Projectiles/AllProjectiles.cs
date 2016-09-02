@@ -20,6 +20,12 @@ public class AllProjectiles : Projectile, ITakeDamage {
     private Vector3 Axis;
     private Vector3 Pos;
 
+    /* Status Effect Bonuses */
+    // freeze, reverse direction
+    public bool CanFreeze;
+    public bool CanConfuse;
+    private EnemyAI Enemy;
+
     public enum ProjectileType          // projectile behavior based on type
     {
         SimpleProjectile,
@@ -42,6 +48,10 @@ public class AllProjectiles : Projectile, ITakeDamage {
             Pos = transform.position;
             Axis = transform.up;
         }
+
+        Enemy = FindObjectOfType<EnemyAI>();
+        //CanFreeze = false;
+        //CanConfuse = false;
     }
 	
 	// Update is called once per frame
@@ -118,6 +128,19 @@ public class AllProjectiles : Projectile, ITakeDamage {
     */
     protected override void OnCollideTakeDamage(Collider2D other, ITakeDamage takeDamage)
     {
+        // Handles what happens when the enemy is frozen
+        if (other.CompareTag("Enemies") && CanFreeze == true)
+        {
+            Enemy.MovementSpeed /= 2;
+            Enemy.SpriteColor.color = Color.cyan;
+        }
+
+        // Handles what happens when the enemy is confused
+        if(other.CompareTag("Enemies") && CanConfuse == true)
+        {
+            Enemy.Reverse();
+        }
+
         takeDamage.TakeDamage(Damage, gameObject);
         DestroyProjectile(); // destroys the projectile
     }

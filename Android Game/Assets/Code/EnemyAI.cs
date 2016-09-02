@@ -17,6 +17,7 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
 
     public AudioClip[] EnemyDestroySounds;      // sound played when this GameObject is destroyed
     public GameObject[] ItemDroplist;
+    public SpriteRenderer SpriteColor;
     /* End of All Enemy Type Parameters*/
 
     /* Enemies with Projectiles */
@@ -50,6 +51,8 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
     public GameObject BlockedEffect;
     public AudioClip BlockedSound;
 
+    
+
     public enum EnemyType               // enemy behavior based on type
     {
         Charger,
@@ -72,6 +75,7 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
         _startPosition = transform.position;                    // starting position of this GameObject
         Health = MaxHealth;
         Player = FindObjectOfType<Player>();
+        SpriteColor.color = Color.white;
 
         if (Enemy == EnemyType.PathedProjectileSpawner)
             Cooldown = FireRate;
@@ -88,8 +92,7 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
             // Checks to see if this GameObject is colliding with something in the same direction
             if ((_direction.x < 0 && _controller.State.IsCollidingLeft) || (_direction.x > 0 && _controller.State.IsCollidingRight))
             {
-                _direction = -_direction; // switches direction
-                transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
+                Reverse();
             }
         }
 
@@ -259,6 +262,13 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
 
         Instantiate(BlockedEffect, Shield.transform.position, Shield.transform.rotation);
         FireProjectile();
+    }
+
+    // Function to change direction and velocity
+    public void Reverse()
+    {
+        _direction = -_direction; // switches direction
+        transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
     }
 
     /*

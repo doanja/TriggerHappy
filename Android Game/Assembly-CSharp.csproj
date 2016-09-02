@@ -64,6 +64,7 @@
      <Compile Include="Assets\Code\EnemyAI Scripts\In EnemyAI\SnakeAI.cs" />
      <Compile Include="Assets\Code\EnemyAI Scripts\RaycastShootUp.cs" />
      <Compile Include="Assets\Code\EnemyAI Scripts\ReflectProjectiles.cs" />
+     <Compile Include="Assets\Code\EnemyAI Scripts\Shield.cs" />
      <Compile Include="Assets\Code\EnemyAI Scripts\SporeMushroom.cs" />
      <Compile Include="Assets\Code\EnemyAI.cs" />
      <Compile Include="Assets\Code\Health\GiveHealth.cs" />

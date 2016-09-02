@@ -12,21 +12,25 @@ public class ReflectProjectiles : MonoBehaviour {
     private Vector2 _startPosition;             // the initial spawn position of this GameObject
 
     // Projectile
-    //public Projectile Projectile;               // this GameObject's projectile
-    //public Transform ProjectileFireLocation;    // the location of which the projectile is fired at
-    //public GameObject ProjectileSpawnEffect;    // effect played when spawning the projectile
+    public Projectile Projectile;               // this GameObject's projectile
+    public Transform ProjectileFireLocation;    // the location of which the projectile is fired at
+    public GameObject ProjectileSpawnEffect;    // effect played when spawning the projectile
 
     // Sound
     public AudioClip BlockProjectileSound;            // the sound when this GameObject shoots a projectile
+
+    private EnemyAI Enemy;                  // instance of the player class
 
     // Use this for initialization
     void Start()
     {
         _controller = GetComponent<CharacterController2D>();    // instance of Charactercontroller2D
         _direction = new Vector2(-1, 0);                        // this GameObject will move the left upon initialization
-        _startPosition = transform.position;                    // starting position of this GameObject       
-    }
+        _startPosition = transform.position;                    // starting position of this GameObject 
 
+        Enemy = FindObjectOfType<EnemyAI>();
+    }
+    
     /*
     * @param other, the other GameObject colliding with this GameObject
     * Function that handles what happens on collision.
@@ -42,20 +46,16 @@ public class ReflectProjectiles : MonoBehaviour {
         
         // Checks to see if the owner of the projectile is the player
         if (projectile != null && projectile.Owner.GetComponent<Player>() != null)
-        {/*
+        {
             // Handles projectile effects
             if (ProjectileSpawnEffect != null)
                 Instantiate(ProjectileSpawnEffect, ProjectileFireLocation.transform.position, ProjectileFireLocation.transform.rotation);
-        */
+        
             // Sound
             if (BlockProjectileSound != null)
                 AudioSource.PlayClipAtPoint(BlockProjectileSound, transform.position);
 
             DestroyObject(other); // destroys the projectile
-            /*
-            // Instantiates the projectile, and initilializes the speed, and direction of the projectile
-            projectile = (SimpleProjectile)Instantiate(Projectile, ProjectileFireLocation.position, ProjectileFireLocation.rotation);
-            projectile.Initialize(gameObject, _direction, _controller.Velocity);*/
         }
     }
 }

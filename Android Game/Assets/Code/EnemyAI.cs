@@ -21,7 +21,7 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
 
     /* Enemies with Projectiles */
     public float FireRate = 1;                  // cooldown time after firing a projectile
-    private float Cooldown;                     // the amount of time this GameObject can shoot projectiles
+    public float Cooldown;                     // the amount of time this GameObject can shoot projectiles
     public Projectile Projectile;               // this GameObject's projectile
     public Transform ProjectileFireLocation;    // the location of which the projectile is fired at
     public AudioClip ShootSound;                // the sound when this GameObject shoots a projectile
@@ -29,11 +29,11 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
     /* Enemies using OverlapCircle */
     private Player Player;                  // instance of the player class
     public float PlayerDetectionRadius;     // the distance between the Player Object and this GameObject
-    public bool IsPlayerInRange;            // used to determine if the Player Object is in range of this GameObject
-    public bool IsPlayerFacingAway;         // if the Player Object is not facing this GameObject
+    private bool IsPlayerInRange;            // used to determine if the Player Object is in range of this GameObject
+    private bool IsPlayerFacingAway;         // if the Player Object is not facing this GameObject
     public LayerMask DetectThisLayer;       // determines what this GameObject is colliding with
 
-    /* Shielder */
+    /* Guardian */
     public GameObject ProjectileSpawnEffect;    // effect played when spawning the projectiles
 
     /* PathedProjectileSpawner */
@@ -45,9 +45,15 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
     public GameObject BlowupEffect;     // the blowup effect
     public AudioClip BlowupSound;       // sound played when this GameObject collides with the Player
 
+    /* Shielder */
+    public GameObject Shield;
+    public GameObject BlockedEffect;
+    public AudioClip BlockedSound;
+
     public enum EnemyType               // enemy behavior based on type
     {
         Charger,
+        Guardian,
         Jumper,
         Patrol,
         PatrolShoot,
@@ -100,40 +106,20 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
                 var raycast = Physics2D.Raycast(transform.position, _direction, 10, 1 << LayerMask.NameToLayer("Player"));
                 if (!raycast)
                     return;
-
-                // Instantiates the projectile, and initilializes the speed, and direction of the projectile
-                var projectile = (Projectile)Instantiate(Projectile, ProjectileFireLocation.position, ProjectileFireLocation.rotation);
-                projectile.Initialize(gameObject, _direction, _controller.Velocity);
-
-                Cooldown = FireRate; // time frame, when projectiles can be shot from this GameObject
-
-                // Handles Sound
-                if (ShootSound != null)
-                    AudioSource.PlayClipAtPoint(ShootSound, transform.position);
             }
 
-            if (Enemy == EnemyType.PatrolShoot)
+            if (Enemy == EnemyType.PathedProjectileSpawner)
             {
-                var projectile = (PathedProjectile)Instantiate(Projectile, transform.position, transform.rotation); // initializes the projectile
-                projectile.Initialize(Destination, ProjectileSpeed); // moving the projectile
-
-                // Handles projectile effects
-                if (ProjectileSpawnEffect != null)
-                    Instantiate(ProjectileSpawnEffect, transform.position, transform.rotation);
-
-                Cooldown = FireRate; // time frame, when projectiles can be shot from this GameObject
-
-                // Sound
-                if (ShootSound != null)
-                    AudioSource.PlayClipAtPoint(ShootSound, transform.position);
-
                 if (anim != null)
                     anim.SetTrigger("Fire");
             }
 
-            
+            FireProjectile();
+            Cooldown = FireRate; // time frame, when projectiles can be shot from this GameObject
 
-            
+            // Handles Sound
+            if (ShootSound != null)
+                AudioSource.PlayClipAtPoint(ShootSound, transform.position);
         }
 
         /* Jump */
@@ -145,7 +131,7 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
         }
 
         // untested from GhostAI
-        if (Enemy == EnemyType.PatrolTurn || Enemy == EnemyType.Stalker || Enemy == EnemyType.Charger || Enemy == EnemyType.Shielder)
+        if (Enemy == EnemyType.PatrolTurn || Enemy == EnemyType.Stalker || Enemy == EnemyType.Charger || Enemy == EnemyType.Guardian)
         {
             // Variable used to determine if the DetectThisLayer overlaps with the Circle
             IsPlayerInRange = Physics2D.OverlapCircle(transform.position, PlayerDetectionRadius, DetectThisLayer);
@@ -194,7 +180,7 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
             }
 
             /* WORKING */
-            if (Enemy == EnemyType.Shielder)
+            if (Enemy == EnemyType.Guardian)
             {
                 // Variable used to determines if the CollisionMask overlaps with the Circle
                 IsPlayerInRange = Physics2D.OverlapCircle(transform.position, PlayerDetectionRadius, DetectThisLayer);
@@ -221,10 +207,6 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
                 }
             }
         } // END OF PHYSICS2D OVERLAPCIRCLE ENEMIES
-
-
-
-
 
         
     } // END OF UPDATE
@@ -259,6 +241,24 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
             Instantiate(BlowupEffect, transform.position, transform.rotation);
             gameObject.SetActive(false);                // hides this GameObject
         }
+    }
+
+    // Function called by AI to instantiate a projectile and fire it in its direction
+    public void FireProjectile()
+    {
+        // Instantiates the projectile, and initilializes the speed, and direction of the projectile
+        var projectile = (Projectile)Instantiate(Projectile, ProjectileFireLocation.position, ProjectileFireLocation.rotation);
+        projectile.Initialize(gameObject, _direction, _controller.Velocity);
+    }
+
+    // Function called by Shield script to reflect a projectile
+    public void ReflectProjectile()
+    {
+        if (BlockedSound != null)
+            AudioSource.PlayClipAtPoint(BlockedSound, transform.position);
+
+        Instantiate(BlockedEffect, Shield.transform.position, Shield.transform.rotation);
+        FireProjectile();
     }
 
     /*

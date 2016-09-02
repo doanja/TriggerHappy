@@ -12,7 +12,7 @@ public class PathedProjectile : Projectile, ITakeDamage {
     public float TimeToLive;            // the amount of time this GameObject lives
 
     public AudioClip DestroySound;      // the sound played when this GameObject dies
-    public GameObject DestroyEffect;    // the effect played when this GameObject dies
+    public GameObject DestroyedEffect;    // the effect played when this GameObject dies
     public int PointsToGivePlayer;      // amount of points awarded to player
 
     // Constructor
@@ -39,8 +39,8 @@ public class PathedProjectile : Projectile, ITakeDamage {
             return;
 
         // Handles special effects
-        if (DestroyEffect != null)
-            Instantiate(DestroyEffect, transform.position, transform.rotation);
+        if (DestroyedEffect != null)
+            Instantiate(DestroyedEffect, transform.position, transform.rotation);
 
         // Sound
         if (DestroySound != null)
@@ -62,8 +62,8 @@ public class PathedProjectile : Projectile, ITakeDamage {
     private void DestroyProjectile()
     {
         // Handles effects
-        if (DestroyEffect != null)
-            Instantiate(DestroyEffect, transform.position, transform.rotation);
+        if (DestroyedEffect != null)
+            Instantiate(DestroyedEffect, transform.position, transform.rotation);
 
         // Handles Sound
         if (DestroySound != null)
@@ -81,8 +81,8 @@ public class PathedProjectile : Projectile, ITakeDamage {
     public void TakeDamage(int damage, GameObject instigator)
     {
         // effects
-        if (DestroyEffect != null)
-            Instantiate(DestroyEffect, transform.position, transform.rotation);
+        if (DestroyedEffect != null)
+            Instantiate(DestroyedEffect, transform.position, transform.rotation);
 
         Destroy(gameObject); // destroys this GameObject
 

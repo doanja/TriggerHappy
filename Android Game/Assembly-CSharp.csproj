@@ -59,6 +59,7 @@
      <Compile Include="Assets\Code\EnemyAI Scripts\In EnemyAI\PatrolRaycastShootAI.cs" />
      <Compile Include="Assets\Code\EnemyAI Scripts\MonsterSpawner.cs" />
      <Compile Include="Assets\Code\EnemyAI Scripts\PainterElizabeth.cs" />
+     <Compile Include="Assets\Code\EnemyAI Scripts\PathedProjectileSpawner.cs" />
      <Compile Include="Assets\Code\EnemyAI Scripts\PatrolSelfDestruct.cs" />
      <Compile Include="Assets\Code\EnemyAI Scripts\RaycastShootUp.cs" />
      <Compile Include="Assets\Code\EnemyAI Scripts\ReflectProjectiles.cs" />
@@ -99,12 +100,11 @@
      <Compile Include="Assets\Code\Player Scripts\Player.cs" />
      <Compile Include="Assets\Code\Player Scripts\PlayerWeapon.cs" />
      <Compile Include="Assets\Code\Projectiles\AllProjectiles.cs" />
+     <Compile Include="Assets\Code\Projectiles\AllProjectiles\SimpleProjectile.cs" />
+     <Compile Include="Assets\Code\Projectiles\AllProjectiles\SinProjectile.cs" />
      <Compile Include="Assets\Code\Projectiles\AutoDestroyParticleSystem.cs" />
      <Compile Include="Assets\Code\Projectiles\PathedProjectile.cs" />
-     <Compile Include="Assets\Code\Projectiles\PathedProjectileSpawner.cs" />
      <Compile Include="Assets\Code\Projectiles\Projectile.cs" />
-     <Compile Include="Assets\Code\Projectiles\SimpleProjectile.cs" />
-     <Compile Include="Assets\Code\Projectiles\SinProjectile.cs" />
      <Compile Include="Assets\Code\Touch Screen Stuff\ButtonMovement.cs" />
      <Compile Include="Assets\Code\Touch Screen Stuff\EndLevelMenu.cs" />
      <Compile Include="Assets\Code\Touch Screen Stuff\LevelSelect.cs" />

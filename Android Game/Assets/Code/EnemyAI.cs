@@ -25,7 +25,6 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
     public Projectile Projectile;               // this GameObject's projectile
     public Transform ProjectileFireLocation;    // the location of which the projectile is fired at
     public AudioClip ShootSound;                // the sound when this GameObject shoots a projectile
-    public AudioClip EnemyDetectedSound;        // sound played when EnemyType has detected the Player
    
     /* Enemies using OverlapCircle */
     private Player Player;                  // instance of the player class
@@ -37,6 +36,11 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
     /* Guardian */
     public GameObject ProjectileSpawnEffect;    // effect played when spawning the projectiles
 
+    /* PathedProjectileSpawner */
+    public Transform Destination;           // the location where the projectile will travel to
+    public float ProjectileSpeed;                     // the travel speed of the projectile towards its destination
+    public Animator anim;                   // animation
+
     private int refCounterRNG;          // RNG reference variable for EnemyDestroySounds[]
     private int refItemRNG;             // RNG reference variable for ItemDroplist[]
     public enum EnemyType               // enemy behavior based on type
@@ -47,7 +51,8 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
         PatrolShoot,
         PatrolTurn,
         Stalker,
-        Charge
+        Charge,
+        PathedProjectileSpawner
     }
     public EnemyType Enemy;             // instance of an EnemyType, used to determine AI behavior
     
@@ -58,6 +63,9 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
         _startPosition = transform.position;                    // starting position of this GameObject
         Health = MaxHealth;
         Player = FindObjectOfType<Player>();
+
+        if (Enemy == EnemyType.PathedProjectileSpawner)
+            Cooldown = FireRate;
     }
 
     // Update is called once per frame
@@ -71,38 +79,66 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
         int itemRNG = Random.Range(0, ItemDroplist.Length);
         refItemRNG = itemRNG;       // updates the refItemRNG variable
 
-        /* Handles basic movement */
-
-        // Sets the x-velocity of this GameObject
-        _controller.SetHorizontalForce(_direction.x * MovementSpeed);
-
-        // Checks to see if this GameObject is colliding with something in the same direction
-        if ((_direction.x < 0 && _controller.State.IsCollidingLeft) || (_direction.x > 0 && _controller.State.IsCollidingRight))
+        // Handles basic movement
+        if(Enemy != EnemyType.PathedProjectileSpawner)
         {
-            _direction = -_direction; // switches direction
-            transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
+            _controller.SetHorizontalForce(_direction.x * MovementSpeed); // Sets the x-velocity of this GameObject
+
+            // Checks to see if this GameObject is colliding with something in the same direction
+            if ((_direction.x < 0 && _controller.State.IsCollidingLeft) || (_direction.x > 0 && _controller.State.IsCollidingRight))
+            {
+                _direction = -_direction; // switches direction
+                transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
+            }
         }
 
         /* Projectiles */
-        if (Enemy == EnemyType.PatrolShoot)
+        if (Enemy == EnemyType.PatrolShoot || Enemy == EnemyType.PathedProjectileSpawner)
         {
             // Handles when this GameObject cannot shoot
             if ((Cooldown -= Time.deltaTime) > 0)
                 return;
 
-            // Casts rays to detect player
-            var raycast = Physics2D.Raycast(transform.position, _direction, 10, 1 << LayerMask.NameToLayer("Player"));
-            if (!raycast)
-                return;
+            if (Enemy == EnemyType.PatrolShoot)
+            {
+                // Casts rays to detect player
+                var raycast = Physics2D.Raycast(transform.position, _direction, 10, 1 << LayerMask.NameToLayer("Player"));
+                if (!raycast)
+                    return;
 
-            // Instantiates the projectile, and initilializes the speed, and direction of the projectile
-            var projectile = (Projectile)Instantiate(Projectile, ProjectileFireLocation.position, ProjectileFireLocation.rotation);
-            projectile.Initialize(gameObject, _direction, _controller.Velocity);
-            Cooldown = FireRate; // time frame, when projectiles can be shot from this GameObject
+                // Instantiates the projectile, and initilializes the speed, and direction of the projectile
+                var projectile = (Projectile)Instantiate(Projectile, ProjectileFireLocation.position, ProjectileFireLocation.rotation);
+                projectile.Initialize(gameObject, _direction, _controller.Velocity);
 
-            // Handles Sound
-            if (ShootSound != null)
-                AudioSource.PlayClipAtPoint(ShootSound, transform.position);
+                Cooldown = FireRate; // time frame, when projectiles can be shot from this GameObject
+
+                // Handles Sound
+                if (ShootSound != null)
+                    AudioSource.PlayClipAtPoint(ShootSound, transform.position);
+            }
+
+            if (Enemy == EnemyType.PatrolShoot)
+            {
+                var projectile = (PathedProjectile)Instantiate(Projectile, transform.position, transform.rotation); // initializes the projectile
+                projectile.Initialize(Destination, ProjectileSpeed); // moving the projectile
+
+                // Handles projectile effects
+                if (ProjectileSpawnEffect != null)
+                    Instantiate(ProjectileSpawnEffect, transform.position, transform.rotation);
+
+                Cooldown = FireRate; // time frame, when projectiles can be shot from this GameObject
+
+                // Sound
+                if (ShootSound != null)
+                    AudioSource.PlayClipAtPoint(ShootSound, transform.position);
+
+                if (anim != null)
+                    anim.SetTrigger("Fire");
+            }
+
+            
+
+            
         }
 
         /* Jump */
@@ -162,7 +198,7 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
                 transform.position = Vector3.MoveTowards(transform.position, Player.transform.position, MovementSpeed * Time.deltaTime);
             }
 
-            /* TESTING */
+            /* WORKING */
             if (Enemy == EnemyType.Guardian)
             {
                 // Variable used to determines if the CollisionMask overlaps with the Circle
@@ -202,6 +238,15 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
     public void OnDrawGizmosSelected()
     {
         Gizmos.DrawSphere(transform.position, PlayerDetectionRadius);
+
+        if(Enemy == EnemyType.PathedProjectileSpawner)
+        {
+            if (Destination == null)
+                return;
+
+            Gizmos.color = Color.red;
+            Gizmos.DrawLine(transform.position, Destination.position);
+        }
     }
 
     /*

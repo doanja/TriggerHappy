@@ -1,5 +1,10 @@
 ﻿using UnityEngine;
 
+/*
+ * This class is a collection of all Projectiles classes that handles the
+ * trajectory the projectile, what happens when the projectile is destroyed,
+ * and any secondary effects that the projectile has.
+ */
 public class AllProjectiles : Projectile, ITakeDamage {
 
     /* All Projectiles Must Have */
@@ -15,22 +20,26 @@ public class AllProjectiles : Projectile, ITakeDamage {
 
     /* SinProjectile */
     public float ProjectileTravelSpeed = 5.0f;
-    public float Frequency = 6.0f;      // Speed of sine movement
-    public float Magnitude = 1.0f;      // Size of sine movement
+    public float Frequency = 6.0f;      // speed of sine movement
+    public float Magnitude = 1.0f;      // size of sine movement
     private Vector3 Axis;
     private Vector3 Pos;
 
-    /* Status Effect Bonuses */
-    // freeze, reverse direction
-    public bool CanFreeze;
-    public bool CanConfuse;
-    private EnemyAI Enemy;
+    /* Projectile Secondary Effects */
+    public bool CanFreeze;              // slows enemy movement speed
+    public bool CanConfuse;             // reverse enemy direction
+    public bool CanParaylyze;           // disable enemy from firing projectiles
+    public bool CanDisable;             // prevents enemy from moving or firing projectiles
+    public bool CanPierce;              // passes through enemies
+
+    private EnemyAI Enemy;              // instance of the EnemyAI
 
     public enum ProjectileType          // projectile behavior based on type
     {
         SimpleProjectile,
         PathedProjectile,
-        SinProjectile
+        SinProjectile,
+        Trajectory
     }
     public ProjectileType Proj;         // instance of an ProjectileType, used to determine Projectile behavior
 
@@ -49,15 +58,13 @@ public class AllProjectiles : Projectile, ITakeDamage {
             Axis = transform.up;
         }
 
-        Enemy = FindObjectOfType<EnemyAI>();
-        //CanFreeze = false;
-        //CanConfuse = false;
+        Enemy = FindObjectOfType<EnemyAI>();    // find instance of the EnemyAI
     }
 	
 	// Update is called once per frame
 	void Update () {
 
-        // The amount of time this projectile lives
+        // Handles how long the projectory stays active
         if ((TimeToLive -= Time.deltaTime) <= 0)
         {
             DestroyProjectile();
@@ -67,14 +74,14 @@ public class AllProjectiles : Projectile, ITakeDamage {
         // SimpleProjectiles
         if (Proj == ProjectileType.SimpleProjectile)
         {
-            // Handles the speed of the projectile
+            // Handles trajectory
             transform.Translate(Direction * ((Mathf.Abs(InitialVelocity.x) + Speed) * Time.deltaTime), Space.World);
         }
         
-        /* PathedProjectile */
+        // PathedProjectile
         if (Proj == ProjectileType.PathedProjectile)
         {
-            // Handles the travel path of the object
+            // Handles trajectory
             transform.position = Vector3.MoveTowards(transform.position, _destination.position, Time.deltaTime * _speed);
             var distanceSquared = (_destination.transform.position - transform.position).sqrMagnitude;
             if (distanceSquared > 0.1f * 0.01f)
@@ -86,18 +93,16 @@ public class AllProjectiles : Projectile, ITakeDamage {
         // SinProjectiles
         if (Proj == ProjectileType.SinProjectile)
         {
-            // Handles the speed of the projectile
+            // Handles trajectory
             Pos += transform.right * Time.deltaTime * ProjectileTravelSpeed;
-
-            // Handles the Position of the projectile
             transform.position = Pos + Axis * Mathf.Sin(Time.time * Frequency) * Magnitude;
         }
     }
 
     /*
-    * @param damage, the amount of damage
+    * @param damage, the amount of damage the projectile deals
     * @param instigator, the GameObject inflicting damage
-    * Method allows this projectile to deal damage to another GameObject
+    * Function to handle damage and awarding the player points
     */
     public void TakeDamage(int damage, GameObject instigator)
     {
@@ -114,7 +119,7 @@ public class AllProjectiles : Projectile, ITakeDamage {
 
     /*
     * @param other, the other GameObject
-    * Instance of this projectile is destroyed
+    * Destroys this projectile when it collides with other
     */
     protected override void OnCollideOther(Collider2D other)
     {
@@ -145,7 +150,7 @@ public class AllProjectiles : Projectile, ITakeDamage {
         DestroyProjectile(); // destroys the projectile
     }
 
-    // Method to destroy the projectile
+    // Function that handles what happens when the projectile is destroyed
     private void DestroyProjectile()
     {
         // Handles effects

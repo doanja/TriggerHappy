@@ -1,12 +1,13 @@
 fileFormatVersion: 2
 guid: 17d8a2d33c8db374b85f7899b5b78a24
-timeCreated: 1461603463
+timeCreated: 1472891312
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
     21300000: Elizabeth Gun_0
     21300002: Elizabeth Gun_1
     21300004: Elizabeth Gun_2
+    21300006: Elizabeth Gun_3
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -56,9 +57,9 @@ TextureImporter:
     - name: Elizabeth Gun_0
       rect:
         serializedVersion: 2
-        x: 14
-        y: 0
-        width: 434
+        x: 84
+        y: 826
+        width: 532
         height: 448
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -66,20 +67,30 @@ TextureImporter:
     - name: Elizabeth Gun_1
       rect:
         serializedVersion: 2
-        x: 462
-        y: 0
-        width: 434
-        height: 434
+        x: 784
+        y: 826
+        width: 532
+        height: 448
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Elizabeth Gun_2
       rect:
         serializedVersion: 2
-        x: 896
-        y: 0
-        width: 448
+        x: 84
+        y: 126
+        width: 532
         height: 448
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Elizabeth Gun_3
+      rect:
+        serializedVersion: 2
+        x: 910
+        y: 224
+        width: 266
+        height: 252
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}

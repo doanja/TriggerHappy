@@ -58,7 +58,10 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
     public GameObject BlockedEffect;    // effect played when the shield blocks a projectile
     public AudioClip BlockedSound;      // sound played when the shield blocks a projectile
 
-    
+    /* EnemySpawner */
+    public GameObject SpawnedEnemy;     // the enemy prefab to be spawned
+    public float spawnTime = 3f;        // how long between each spawn
+    public Transform[] spawnPoints;     // an array of the spawn points this enemy can spawn from
 
     public enum EnemyType               // enemy behavior based on type
     {
@@ -70,7 +73,9 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
         PatrolTurn,                     // 
         PathedProjectileSpawner,        // spawns a projectile that travels torward a set 'destination'
         SelfDestruct,                   // destroys itself upon collision with the player
-        Stalker                         // 
+        Stalker,                        //
+        EnemySpawner                    // periodically spawns enemy based on a transform.position
+
     }
     public EnemyType Enemy;             // instance of an EnemyType, used to determine AI behavior
     
@@ -86,6 +91,12 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
 
         if (Enemy == EnemyType.PathedProjectileSpawner)         // sets the PathedProjectileSpawner cooldown
             Cooldown = FireRate;
+
+        if(Enemy == EnemyType.EnemySpawner)
+        {
+            // calls the Spawn function after a delay of the spawnTime and then continue to call after the same amount of time.
+            InvokeRepeating("Spawn", spawnTime, spawnTime);
+        }
     }
 
     // Update is called once per frame
@@ -261,6 +272,20 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
             Instantiate(BlowupEffect, transform.position, transform.rotation);
             gameObject.SetActive(false);
         }
+    }
+
+    // Function called by EnemySpawner AIs that spawns a enemy at set locations
+    public void Spawn()
+    {
+        // If the player has no health left...
+        if (Player.Health <= 0)
+            return; // ... exit the function.
+
+        // Find a random index between zero and one less than the number of spawn points.
+        int spawnPointIndex = Random.Range(0, spawnPoints.Length);
+
+        // Create an instance of the enemy prefab at the randomly selected spawn point's position and rotation.
+        Instantiate(SpawnedEnemy, spawnPoints[spawnPointIndex].position, spawnPoints[spawnPointIndex].rotation);
     }
 
     // Function called by AI to instantiate a projectile and fire it in its direction

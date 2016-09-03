@@ -1,11 +1,13 @@
 fileFormatVersion: 2
 guid: 1c59f9f69584c2245812cc79bb90dc1a
-timeCreated: 1472812999
+timeCreated: 1472884527
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
     21300000: Shotgun_0
     21300002: Shotgun_1
+    21300004: Shotgun_2
+    21300006: Shotgun_3
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -65,7 +67,27 @@ TextureImporter:
     - name: Shotgun_1
       rect:
         serializedVersion: 2
-        x: 252
+        x: 952
+        y: 980
+        width: 196
+        height: 84
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Shotgun_2
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: 266
+        width: 518
+        height: 154
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Shotgun_3
+      rect:
+        serializedVersion: 2
+        x: 952
         y: 280
         width: 196
         height: 84

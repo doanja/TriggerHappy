@@ -24,6 +24,7 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
     public AudioClip[] EnemyDestroySounds;      // sound played when this GameObject is destroyed
     public GameObject[] ItemDroplist;           // array of items that the enemy can drop
     public SpriteRenderer SpriteColor;          // reference to the AI's sprite color
+    public bool CanFireProjectiles;             // used by AllProjectiles to disable AI from firing projectiles
     /* End of All Enemy Type Parameters */
 
     /* Enemies with Projectiles */
@@ -81,6 +82,7 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
         CurrentHealth = MaxHealth;                              // sets current health to maximum health
         Player = FindObjectOfType<Player>();                    // finds instances of the player
         SpriteColor.color = Color.white;                        // sets the color to white by default
+        CanFireProjectiles = true;                              // by default allows AI to shoot projectiles
 
         if (Enemy == EnemyType.PathedProjectileSpawner)         // sets the PathedProjectileSpawner cooldown
             Cooldown = FireRate;
@@ -122,12 +124,17 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
                     anim.SetTrigger("Fire");
             }
 
-            FireProjectile();       // calls the FireProjectile function to fire a projectile
+            if(CanFireProjectiles == true)
+            {
+                FireProjectile();       // calls the FireProjectile function to fire a projectile
+                
+                // Handles Sound when the projectile is instantiated by the AI
+                if (ShootSound != null)
+                    AudioSource.PlayClipAtPoint(ShootSound, transform.position);
+            }
+            
             Cooldown = FireRate;    // resets the cooldown
-
-            // Handles Sound when the projectile is instantiated by the AI
-            if (ShootSound != null)
-                AudioSource.PlayClipAtPoint(ShootSound, transform.position);
+            
         }
 
         /* Jump */

@@ -28,9 +28,8 @@ public class AllProjectiles : Projectile, ITakeDamage {
     /* Projectile Secondary Effects */
     public bool CanFreeze;              // slows enemy movement speed
     public bool CanConfuse;             // reverse enemy direction
-    public bool CanParaylyze;           // disable enemy from firing projectiles
+    public bool CanParalyze;            // disable enemy from firing projectiles
     public bool CanDisable;             // prevents enemy from moving or firing projectiles
-    public bool CanPierce;              // passes through enemies
 
     private EnemyAI Enemy;              // instance of the EnemyAI
 
@@ -144,6 +143,19 @@ public class AllProjectiles : Projectile, ITakeDamage {
         if(other.CompareTag("Enemies") && CanConfuse == true)
         {
             Enemy.Reverse();
+        }
+
+        // Handles what happens when the enemy is paralyzed
+        if (other.CompareTag("Enemies") && CanParalyze == true)
+        {
+            Enemy.CanFireProjectiles = false;
+        }
+
+        // Handles what happens when the enemy is disabled
+        if (other.CompareTag("Enemies") && CanDisable == true)
+        {
+            Enemy.MovementSpeed = 0;
+            Enemy.CanFireProjectiles = false;
         }
 
         takeDamage.TakeDamage(Damage, gameObject);

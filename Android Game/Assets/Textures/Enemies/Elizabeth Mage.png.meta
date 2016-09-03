@@ -1,12 +1,13 @@
 fileFormatVersion: 2
 guid: 99f02c54ae97fb54daac48c58edcccd4
-timeCreated: 1462233934
+timeCreated: 1472905347
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
     21300000: Elizabeth Mage_0
     21300002: Elizabeth Mage_1
     21300004: Elizabeth Mage_2
+    21300006: Elizabeth Mage_3
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -56,9 +57,9 @@ TextureImporter:
     - name: Elizabeth Mage_0
       rect:
         serializedVersion: 2
-        x: 42
-        y: 0
-        width: 406
+        x: 70
+        y: 798
+        width: 476
         height: 518
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -66,20 +67,30 @@ TextureImporter:
     - name: Elizabeth Mage_1
       rect:
         serializedVersion: 2
-        x: 588
-        y: 0
-        width: 420
-        height: 504
+        x: 728
+        y: 798
+        width: 518
+        height: 518
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Elizabeth Mage_2
       rect:
         serializedVersion: 2
-        x: 1162
-        y: 0
-        width: 406
+        x: 42
+        y: 98
+        width: 504
         height: 518
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Elizabeth Mage_3
+      rect:
+        serializedVersion: 2
+        x: 966
+        y: 224
+        width: 168
+        height: 252
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}

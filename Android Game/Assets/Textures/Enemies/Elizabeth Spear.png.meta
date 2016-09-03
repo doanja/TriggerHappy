@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 4efa5ef7f4e2c174bae24c9953777f81
-timeCreated: 1462408769
+timeCreated: 1472907602
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -57,40 +57,40 @@ TextureImporter:
     - name: Elizabeth Spear_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 68
-        width: 631
-        height: 451
+        x: 70
+        y: 826
+        width: 546
+        height: 448
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Elizabeth Spear_1
       rect:
         serializedVersion: 2
-        x: 656
-        y: 68
-        width: 591
-        height: 437
+        x: 784
+        y: 826
+        width: 532
+        height: 448
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Elizabeth Spear_2
       rect:
         serializedVersion: 2
-        x: 1259
-        y: 68
-        width: 632
-        height: 451
+        x: 70
+        y: 126
+        width: 546
+        height: 448
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Elizabeth Spear_3
       rect:
         serializedVersion: 2
-        x: 1916
-        y: 68
-        width: 591
-        height: 437
+        x: 882
+        y: 196
+        width: 322
+        height: 322
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}

@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 42502ed518c88bc4881663368426145d
-timeCreated: 1462066426
+timeCreated: 1472892998
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -56,8 +56,8 @@ TextureImporter:
     - name: Elizabeth_0
       rect:
         serializedVersion: 2
-        x: 28
-        y: 0
+        x: 84
+        y: 616
         width: 392
         height: 448
       alignment: 0
@@ -66,18 +66,18 @@ TextureImporter:
     - name: Elizabeth_1
       rect:
         serializedVersion: 2
-        x: 476
-        y: 0
+        x: 644
+        y: 616
         width: 392
-        height: 434
+        height: 448
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Elizabeth_2
       rect:
         serializedVersion: 2
-        x: 924
-        y: 0
+        x: 84
+        y: 56
         width: 392
         height: 448
       alignment: 0

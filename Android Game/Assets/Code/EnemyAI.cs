@@ -63,6 +63,11 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
     public float spawnTime = 3f;        // how long between each spawn
     public Transform[] spawnPoints;     // an array of the spawn points this enemy can spawn from
 
+    /* DeathSpawn */
+    private Vector3 _currentPosition;   // current position of the AI
+    public GameObject EnemyPrefab;      // the enemy prefab to spawn
+    public GameObject SpawnEffect;      // the effect played when the enemy is spawned
+
     public enum EnemyType               // enemy behavior based on type
     {
         Charger,                        // movement speed is increased upon raycast returning true
@@ -74,7 +79,8 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
         PathedProjectileSpawner,        // spawns a projectile that travels torward a set 'destination'
         SelfDestruct,                   // destroys itself upon collision with the player
         Stalker,                        //
-        EnemySpawner                    // periodically spawns enemy based on a transform.position
+        EnemySpawner,                   // periodically spawns enemy based on a transform.position
+        DeathSpawn                      // spawns an enemy upon death
 
     }
     public EnemyType Enemy;             // instance of an EnemyType, used to determine AI behavior
@@ -235,7 +241,8 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
             }
         } // END OF PHYSICS2D OVERLAPCIRCLE ENEMIES
 
-        
+        if(Enemy == EnemyType.DeathSpawn)
+            _currentPosition = transform.position;
 
 
 
@@ -342,6 +349,13 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
         // If this GameObject's CurrentHealth reaches zero
         if (CurrentHealth <= 0)
         {
+            // Handles what happens when AI DeathSpawn dies
+            if (Enemy == EnemyType.DeathSpawn)
+            {
+                GameObject clone = Instantiate(EnemyPrefab, _currentPosition, transform.rotation) as GameObject;
+                Instantiate(SpawnEffect, transform.position, transform.rotation);
+            }
+
             // Sound and Item drops
             AudioSource.PlayClipAtPoint(EnemyDestroySounds[Random.Range(0, EnemyDestroySounds.Length)], transform.position);
             Instantiate(ItemDroplist[Random.Range(0, ItemDroplist.Length)], transform.position, Quaternion.identity);

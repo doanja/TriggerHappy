@@ -25,6 +25,16 @@ public class AllProjectiles : Projectile, ITakeDamage {
     private Vector3 Axis;
     private Vector3 Pos;
 
+    /* HomingProjectile */
+    private Player Player;              // instance of the player class
+    public float TurnSpeed = 1.5f;      // speed of which the projectile can adjust its position
+    private Vector3 Target;             // the target's location
+
+    /* Lock On Projectiles */
+    private bool IsTargetInRange;       // used to determine if the target is in range of this projectile
+    public float DetectionRadius;       // the distance between the target and this projectile
+    public LayerMask DetectThisLayer;   // determines what this target is colliding with
+
     /* Projectile Secondary Effects */
     public bool CanFreeze;              // slows enemy movement speed
     public bool CanConfuse;             // reverse enemy direction
@@ -35,10 +45,11 @@ public class AllProjectiles : Projectile, ITakeDamage {
 
     public enum ProjectileType          // projectile behavior based on type
     {
-        SimpleProjectile,
-        PathedProjectile,
-        SinProjectile,
-        Trajectory
+        SimpleProjectile,               // standard projectile that travels straight
+        PathedProjectile,               // projectile that follows a set path towards its destination
+        SinProjectile,                  // projectile that oscillates
+        HomingProjectile,               // projectile that pursues its target (can be invaded)
+        LockOnProjectile                // projectile that can lock onto a target and cannot be invaded
     }
     public ProjectileType Proj;         // instance of an ProjectileType, used to determine Projectile behavior
 
@@ -58,6 +69,7 @@ public class AllProjectiles : Projectile, ITakeDamage {
         }
 
         Enemy = FindObjectOfType<EnemyAI>();    // find instance of the EnemyAI
+        Player = FindObjectOfType<Player>();    // finds instances of the player
     }
 	
 	// Update is called once per frame
@@ -71,10 +83,24 @@ public class AllProjectiles : Projectile, ITakeDamage {
         }
 
         // SimpleProjectiles
-        if (Proj == ProjectileType.SimpleProjectile)
+        if (Proj == ProjectileType.SimpleProjectile || Proj == ProjectileType.LockOnProjectile)
         {
             // Handles trajectory
             transform.Translate(Direction * ((Mathf.Abs(InitialVelocity.x) + Speed) * Time.deltaTime), Space.World);
+
+            if (Proj == ProjectileType.LockOnProjectile)
+            {
+                // Determines if target is in range
+                IsTargetInRange = Physics2D.OverlapCircle(transform.position, DetectionRadius, DetectThisLayer);
+
+                // Checks to see if target is in range of the projectile
+                if (IsTargetInRange)
+                {
+                    // Handles movement of this projectile
+                    transform.position = Vector3.MoveTowards(transform.position, Player.transform.position, Speed * Time.deltaTime);
+                    return;
+                }
+            }
         }
         
         // PathedProjectile
@@ -96,6 +122,26 @@ public class AllProjectiles : Projectile, ITakeDamage {
             Pos += transform.right * Time.deltaTime * ProjectileTravelSpeed;
             transform.position = Pos + Axis * Mathf.Sin(Time.time * Frequency) * Magnitude;
         }
+
+        // Homing Projectiles
+        if (Proj == ProjectileType.HomingProjectile)
+        {
+            // Calculates Player position and rotations to limit homing accuracy
+            Target = Player.transform.position;
+            Vector2 Direction = Target - transform.position;
+            Quaternion Rotation = Quaternion.LookRotation(Direction);
+            transform.rotation = Quaternion.Slerp(transform.rotation, Rotation, TurnSpeed * Time.deltaTime);
+
+            // Projectile Movement
+            transform.Translate(Direction * ((Mathf.Abs(InitialVelocity.x) + Speed) * Time.deltaTime), Space.World);
+        }
+    }
+
+
+    // Function that indicates that displays range of the DetectionRadius
+    public void OnDrawGizmosSelected()
+    {
+        Gizmos.DrawSphere(transform.position, DetectionRadius);
     }
 
     /*

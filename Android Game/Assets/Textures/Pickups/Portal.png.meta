@@ -1,9 +1,25 @@
 fileFormatVersion: 2
 guid: 4f7559e693e5ce1439094979af9563fb
-timeCreated: 1456455886
+timeCreated: 1472968174
 licenseType: Free
 TextureImporter:
-  fileIDToRecycleName: {}
+  fileIDToRecycleName:
+    21300000: Portal_0
+    21300002: Portal_1
+    21300004: Portal_2
+    21300006: Portal_3
+    21300008: Portal_4
+    21300010: Portal_5
+    21300012: Portal_6
+    21300014: Portal_7
+    21300016: Portal_8
+    21300018: Portal_9
+    21300020: Portal_10
+    21300022: Portal_11
+    21300024: Portal_12
+    21300026: Portal_13
+    21300028: Portal_14
+    21300030: Portal_15
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -30,7 +46,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     filterMode: -1
-    aniso: -1
+    aniso: 16
     mipBias: -1
     wrapMode: 1
   nPOTScale: 0
@@ -38,7 +54,7 @@ TextureImporter:
   rGBM: 0
   compressionQuality: 50
   allowsAlphaSplitting: 0
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -49,7 +65,167 @@ TextureImporter:
   textureType: 8
   buildTargetSettings: []
   spriteSheet:
-    sprites: []
+    sprites:
+    - name: Portal_0
+      rect:
+        serializedVersion: 2
+        x: 154
+        y: 1456
+        width: 126
+        height: 224
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Portal_1
+      rect:
+        serializedVersion: 2
+        x: 602
+        y: 1456
+        width: 126
+        height: 224
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Portal_2
+      rect:
+        serializedVersion: 2
+        x: 1050
+        y: 1456
+        width: 126
+        height: 224
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Portal_3
+      rect:
+        serializedVersion: 2
+        x: 1498
+        y: 1456
+        width: 126
+        height: 224
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Portal_4
+      rect:
+        serializedVersion: 2
+        x: 154
+        y: 1008
+        width: 126
+        height: 224
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Portal_5
+      rect:
+        serializedVersion: 2
+        x: 602
+        y: 1008
+        width: 126
+        height: 224
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Portal_6
+      rect:
+        serializedVersion: 2
+        x: 1050
+        y: 1008
+        width: 126
+        height: 224
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Portal_7
+      rect:
+        serializedVersion: 2
+        x: 1498
+        y: 1008
+        width: 126
+        height: 224
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Portal_8
+      rect:
+        serializedVersion: 2
+        x: 154
+        y: 560
+        width: 126
+        height: 224
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Portal_9
+      rect:
+        serializedVersion: 2
+        x: 602
+        y: 560
+        width: 126
+        height: 224
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Portal_10
+      rect:
+        serializedVersion: 2
+        x: 1050
+        y: 560
+        width: 126
+        height: 224
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Portal_11
+      rect:
+        serializedVersion: 2
+        x: 1498
+        y: 560
+        width: 126
+        height: 224
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Portal_12
+      rect:
+        serializedVersion: 2
+        x: 154
+        y: 112
+        width: 126
+        height: 224
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Portal_13
+      rect:
+        serializedVersion: 2
+        x: 602
+        y: 112
+        width: 126
+        height: 224
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Portal_14
+      rect:
+        serializedVersion: 2
+        x: 1050
+        y: 112
+        width: 126
+        height: 224
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Portal_15
+      rect:
+        serializedVersion: 2
+        x: 1498
+        y: 112
+        width: 126
+        height: 224
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
   spritePackingTag: 
   userData: 
   assetBundleName: 

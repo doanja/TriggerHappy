@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 99f02c54ae97fb54daac48c58edcccd4
-timeCreated: 1472905347
+timeCreated: 1472974072
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -87,10 +87,10 @@ TextureImporter:
     - name: Elizabeth Mage_3
       rect:
         serializedVersion: 2
-        x: 966
-        y: 224
-        width: 168
-        height: 252
+        x: 854
+        y: 112
+        width: 392
+        height: 392
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}

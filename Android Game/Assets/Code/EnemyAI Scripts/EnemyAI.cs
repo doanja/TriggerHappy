@@ -191,11 +191,16 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
             // Stalkers moves only if the Player is facing away
             else if (Enemy == EnemyType.Stalker)
             {
+                SpriteColor.color = Color.clear;
+
                 // If the Player Object is in range of this GameObject, and they are facing IsPlayerFacingIsPlayerFacingAway, move this GameObject towards the PlayerObject
                 if (IsPlayerInRange && IsPlayerFacingAway)
                 {
+                    SpriteColor.color = Color.white;
+
                     // Handles movement of this GameObject
                     transform.position = Vector3.MoveTowards(transform.position, Player.transform.position, MovementSpeed * Time.deltaTime);
+
                     return;
                 }
             }
@@ -206,7 +211,13 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
                 // Casts rays to detect player
                 var raycast = Physics2D.Raycast(transform.position, _direction, 10, 1 << LayerMask.NameToLayer("Player"));
                 if (!raycast)
+                {
+                    SpriteColor.color = Color.white;
                     return;
+                }
+                    
+                // Changes sprite color
+                SpriteColor.color = Color.red;
 
                 // Increases the AI speed upon detecting the player
                 transform.position = Vector3.MoveTowards(transform.position, Player.transform.position, MovementSpeed * Time.deltaTime);

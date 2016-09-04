@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 37da1c662048e29439be6448ef205d5b
-timeCreated: 1462380319
+timeCreated: 1472968247
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -8,6 +8,8 @@ TextureImporter:
     21300002: Elizabeth Archer_1
     21300004: Elizabeth Archer_2
     21300006: Elizabeth Archer_3
+    21300008: Elizabeth Archer_4
+    21300010: Elizabeth Archer_5
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -58,39 +60,59 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 55
-        y: 0
-        width: 492
-        height: 547
+        y: 1525
+        width: 576
+        height: 450
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Elizabeth Archer_1
       rect:
         serializedVersion: 2
-        x: 615
-        y: 0
-        width: 492
-        height: 533
+        x: 783
+        y: 1525
+        width: 534
+        height: 450
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Elizabeth Archer_2
       rect:
         serializedVersion: 2
-        x: 1203
-        y: 0
-        width: 464
-        height: 547
+        x: 69
+        y: 825
+        width: 562
+        height: 450
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Elizabeth Archer_3
       rect:
         serializedVersion: 2
-        x: 1735
-        y: 0
-        width: 492
-        height: 533
+        x: 937
+        y: 937
+        width: 226
+        height: 226
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Elizabeth Archer_4
+      rect:
+        serializedVersion: 2
+        x: 279
+        y: 293
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Elizabeth Archer_5
+      rect:
+        serializedVersion: 2
+        x: 923
+        y: 237
+        width: 240
+        height: 240
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}

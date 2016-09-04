@@ -25,7 +25,6 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
     public GameObject[] ItemDroplist;           // array of items that the enemy can drop
     public SpriteRenderer SpriteColor;          // reference to the AI's sprite color
     public bool CanFireProjectiles;             // used by AllProjectiles to disable AI from firing projectiles
-    public bool CanMove;                        // boolean value to determine if an enemy can move
     /* End of All Enemy Type Parameters */
 
     /* Enemies with Projectiles */
@@ -69,6 +68,9 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
     public GameObject EnemyPrefab;      // the enemy prefab to spawn
     public GameObject SpawnEffect;      // the effect played when the enemy is spawned
 
+    /* Stalker */
+    private float StoredSpeed;          // stores original movement speed
+
     public enum EnemyType               // enemy behavior based on type
     {
         Charger,                        // movement speed is increased upon raycast returning true
@@ -95,7 +97,7 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
         Player = FindObjectOfType<Player>();                    // finds instances of the player
         SpriteColor.color = Color.white;                        // sets the color to white by default
         CanFireProjectiles = true;                              // by default allows AI to shoot projectiles
-        CanMove = true;
+        StoredSpeed = MovementSpeed;                            // stores original movement speed
 
         if (Enemy == EnemyType.PathedProjectileSpawner)         // sets the PathedProjectileSpawner cooldown
             Cooldown = FireRate;
@@ -109,9 +111,18 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
 
     // Update is called once per frame
     void Update()
-    { 
+    {
+        // Check to see if the player is facing away from the AI
+        if ((Player.transform.position.x < transform.position.x && Player.transform.localScale.x < 0)
+        || (Player.transform.position.x > transform.position.x && Player.transform.localScale.x > 0))
+        {
+            IsPlayerFacingAway = true;
+        }
+        else
+            IsPlayerFacingAway = false;
+
         // Handles basic movement
-        if(Enemy != EnemyType.PathedProjectileSpawner && Enemy != EnemyType.Stalker)
+        if (Enemy != EnemyType.PathedProjectileSpawner)
         {
             // Sets the x-velocity of this GameObject
             _controller.SetHorizontalForce(_direction.x * MovementSpeed);
@@ -153,7 +164,23 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
             }
             
             Cooldown = FireRate;    // resets the cooldown
-            
+        }
+
+        // Stalker AI
+        if (Enemy == EnemyType.Stalker)
+        {
+            if (IsPlayerFacingAway)
+            {
+                MovementSpeed = StoredSpeed;
+                SpriteColor.color = Color.white;    // makes AI visible, and moves the AI
+            }
+
+            if (!IsPlayerFacingAway)                // Player facing at the AI
+            {
+                MovementSpeed = 0;
+                SpriteColor.color = Color.clear;    // make AI invisible
+            }
+
         }
 
         // START OF PHYSICS2D OVERLAPCIRCLE ENEMIES
@@ -161,15 +188,6 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
         {
             // Variable used to determine if the DetectThisLayer overlaps with the Circle
             IsPlayerInRange = Physics2D.OverlapCircle(transform.position, PlayerDetectionRadius, DetectThisLayer);
-
-            // If the Player Object is on the left of this GameObject and is facing IsPlayerFacingAway or vice versa
-            if ((Player.transform.position.x < transform.position.x && Player.transform.localScale.x < 0)
-            || (Player.transform.position.x > transform.position.x && Player.transform.localScale.x > 0))
-            {
-                IsPlayerFacingAway = true;
-            }
-            else
-                IsPlayerFacingAway = false;
 
             // PatrolTurn enemies will turn around if the Player is behind them [DOES NOT WORK]
             if (Enemy == EnemyType.PatrolTurn)
@@ -207,25 +225,6 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
                     if (ProjectileSpawnEffect != null)
                         Instantiate(ProjectileSpawnEffect, ProjectileFireLocation.transform.position, ProjectileFireLocation.transform.rotation);
                 }
-            }
-
-            // Stalker AI [BUGGED]
-            if (Enemy == EnemyType.Stalker)
-            {
-                if (IsPlayerFacingAway)
-                {
-                    // Checks to see if this GameObject is colliding with something in the same direction
-                    if ((_direction.x < 0 && _controller.State.IsCollidingLeft) || (_direction.x > 0 && _controller.State.IsCollidingRight))
-                        Reverse();
-
-                    // makes AI visible, and moves the AI
-                    SpriteColor.color = Color.white;
-                    transform.position = Vector3.MoveTowards(transform.position, Player.transform.position, MovementSpeed * Time.deltaTime);
-                }
-
-                if (!IsPlayerFacingAway)                // Player facing at the AI
-                    SpriteColor.color = Color.clear;    // make AI invisible
-                
             }
 
         } // END OF PHYSICS2D OVERLAPCIRCLE ENEMIES

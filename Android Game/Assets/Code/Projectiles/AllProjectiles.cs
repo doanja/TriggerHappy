@@ -39,7 +39,7 @@ public class AllProjectiles : Projectile, ITakeDamage {
     public bool CanFreeze;              // slows enemy movement speed
     public bool CanConfuse;             // reverse enemy direction
     public bool CanParalyze;            // disable enemy from firing projectiles
-    public bool CanDisable;             // prevents enemy from moving or firing projectiles
+    public bool CanDisable;             // prevents enemy from moving and firing projectiles
 
     private EnemyAI Enemy;              // instance of the EnemyAI
 

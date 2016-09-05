@@ -61,7 +61,7 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
     /* EnemySpawner */
     public GameObject SpawnedEnemy;     // the enemy prefab to be spawned
     public float spawnTime = 3f;        // how long between each spawn
-    public Transform[] spawnPoints;     // an array of the spawn points this enemy can spawn from
+    public Transform[] spawnPoints;     // an array of the spawn points this enemy can spawn from              
 
     /* DeathSpawn */
     private Vector3 _currentPosition;   // current position of the AI
@@ -297,7 +297,7 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
     public void Spawn()
     {
         // If the player has no health left...
-        if (Player.Health <= 0)
+        if (Player.Health <= 0 || CurrentHealth == 0)
             return; // ... exit the function.
 
         // Find a random index between zero and one less than the number of spawn points.

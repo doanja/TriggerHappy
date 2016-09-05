@@ -50,8 +50,8 @@
      <Compile Include="Assets\Code\EnemyAI Scripts\Boss AI\Elizabeth Ninja\NinjaElizabethCloneAI.cs" />
      <Compile Include="Assets\Code\EnemyAI Scripts\Boss AI\ElizabethBossAI.cs" />
      <Compile Include="Assets\Code\EnemyAI Scripts\Boss AI\PainterElizabeth.cs" />
+     <Compile Include="Assets\Code\EnemyAI Scripts\BossAI.cs" />
      <Compile Include="Assets\Code\EnemyAI Scripts\EnemyAI.cs" />
-     <Compile Include="Assets\Code\EnemyAI Scripts\GhostAI.cs" />
      <Compile Include="Assets\Code\EnemyAI Scripts\In EnemyAI\BirdAI.cs" />
      <Compile Include="Assets\Code\EnemyAI Scripts\In EnemyAI\EnemySpawner.cs" />
      <Compile Include="Assets\Code\EnemyAI Scripts\In EnemyAI\GuardAI.cs" />
@@ -65,7 +65,8 @@
      <Compile Include="Assets\Code\EnemyAI Scripts\In EnemyAI\ReflectProjectiles.cs" />
      <Compile Include="Assets\Code\EnemyAI Scripts\In EnemyAI\SnakeAI.cs" />
      <Compile Include="Assets\Code\EnemyAI Scripts\In EnemyAI\SporeMushroom.cs" />
-     <Compile Include="Assets\Code\EnemyAI Scripts\RaycastShootUp.cs" />
+     <Compile Include="Assets\Code\EnemyAI Scripts\Scrapped\GhostAI.cs" />
+     <Compile Include="Assets\Code\EnemyAI Scripts\Scrapped\RaycastShootUp.cs" />
      <Compile Include="Assets\Code\EnemyAI Scripts\Shield.cs" />
      <Compile Include="Assets\Code\Health\GiveHealth.cs" />
      <Compile Include="Assets\Code\Health\HealthBar.cs" />

@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 7f4557b99acb94b409ff111b927fdabe
-timeCreated: 1455148326
+timeCreated: 1473059752
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -60,17 +60,7 @@ TextureImporter:
         width: 308
         height: 280
       alignment: 0
-      pivot: {x: .5, y: .5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Cannon_1
-      rect:
-        serializedVersion: 2
-        x: 600
-        y: 120
-        width: 285
-        height: 225
-      alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
   spritePackingTag: 
   userData: 

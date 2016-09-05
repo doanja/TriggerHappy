@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections;
 
 public class BossAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
 {
@@ -17,19 +18,57 @@ public class BossAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
     public AudioClip[] EnemyDestroySounds;      // sound played when this GameObject is destroyed
     public GameObject[] ItemDroplist;           // array of items that the enemy can drop
     /* End of All Enemy Type Parameters */
-    
+
+
+    // Boss Shit
+    public GameObject Orbs;
+    public Transform[] OrbPosition;
+    public float OrbSummoningDelay;
+
+    public GameObject Crystal;
+    private Vector3 CrystalPosition;
+    public float CrystalSummoningDelay;
+
+    public GameObject SpawnEffect;
+
+
     // Use this for initialization
     void Start () {
         _controller = GetComponent<CharacterController2D>();    // instance of Charactercontroller2D
         _direction = new Vector2(-1, 0);                        // this GameObject will move the left upon initialization
         _startPosition = transform.position;                    // starting position of this GameObject
         CurrentHealth = MaxHealth;                              // sets current health to maximum health
+
+        CrystalPosition = transform.position;
     }
 	
 	// Update is called once per frame
 	void Update () {
-	
+
+        StartCoroutine(CountDownSummonOrb());
+
+        // for each OrbPosition, summon an orb
+        // courntine method
 	}
+
+    // Function to summon Orb prefab at random orb position
+    public void SummonOrb()
+    {
+        Instantiate(OrbPosition[Random.Range(0, OrbPosition.Length)], transform.position, Quaternion.identity);
+    }
+
+    IEnumerator CountDownSummonOrb()
+    {
+        yield return new WaitForSeconds(OrbSummoningDelay);
+        yield return 0;
+    }
+
+    // Function to summon Crystal prefab at random orb position
+    public void SummonCrystal()
+    {
+        GameObject clone = Instantiate(Crystal, CrystalPosition, transform.rotation) as GameObject;
+        Instantiate(SpawnEffect, transform.position, transform.rotation);
+    }
 
     /*
     * @param damage, the damage this AI receives

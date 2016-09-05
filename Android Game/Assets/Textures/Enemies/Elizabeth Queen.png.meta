@@ -1,0 +1,125 @@
+fileFormatVersion: 2
+guid: 00280517eb6874a498a087a309ff4481
+timeCreated: 1473073011
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: Elizabeth Queen_0
+    21300002: Elizabeth Queen_1
+    21300004: Elizabeth Queen_2
+    21300006: Elizabeth Queen_3
+    21300008: Elizabeth Queen_4
+    21300010: Elizabeth Queen_5
+    21300012: Elizabeth Queen_6
+    21300014: Elizabeth Queen_7
+    21300016: Elizabeth Queen_8
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: .25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 8
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: -1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  allowsAlphaSplitting: 0
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: .5, y: .5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: Elizabeth Queen_0
+      rect:
+        serializedVersion: 2
+        x: 55
+        y: 1791
+        width: 576
+        height: 646
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Elizabeth Queen_1
+      rect:
+        serializedVersion: 2
+        x: 852
+        y: 1791
+        width: 619
+        height: 646
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Elizabeth Queen_2
+      rect:
+        serializedVersion: 2
+        x: 55
+        y: 951
+        width: 576
+        height: 646
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Elizabeth Queen_3
+      rect:
+        serializedVersion: 2
+        x: 1119
+        y: 1133
+        width: 269
+        height: 268
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Elizabeth Queen_4
+      rect:
+        serializedVersion: 2
+        x: 335
+        y: 349
+        width: 157
+        height: 156
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Elizabeth Queen_5
+      rect:
+        serializedVersion: 2
+        x: 1175
+        y: 349
+        width: 156
+        height: 156
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -1,73 +1,81 @@
 ﻿using UnityEngine;
-using System.Collections;
 
-public class BossAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
+public class BossHelperAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
 {
-    /* Beginning of All Enemy Type Parameters */
-    public float MovementSpeed;         // travel speed of this GameObject
-    public GameObject DestroyedEffect;  // the destroyed effect
-    public int PointsToGivePlayer;      // points awarded to the player upon killing this GameObject
-
+    // Standard AI Variables
+    public float MovementSpeed;                 // travel speed of this GameObject
+    public GameObject DestroyedEffect;          // the destroyed effect
+    public int PointsToGivePlayer;              // points awarded to the player upon killing this GameObject
     private CharacterController2D _controller;  // has an instance of the CharacterController2D
     private Vector2 _direction;                 // the x-direction of this GameObject
     private Vector2 _startPosition;             // the initial spawn position of this GameObject
-
     public int MaxHealth = 100;                         // maximum health of the this GameObject
     public int CurrentHealth { get; private set; }      // this GameObject's current health    
-
     public AudioClip[] EnemyDestroySounds;      // sound played when this GameObject is destroyed
-    public GameObject[] ItemDroplist;           // array of items that the enemy can drop
-    /* End of All Enemy Type Parameters */
 
-
-    // Boss Shit
-    public GameObject Orbs;
-    public Transform[] OrbPosition;
-    public float OrbSummoningDelay;
-
-    public GameObject Crystal;
-    private Vector3 CrystalPosition;
-    public float CrystalSummoningDelay;
-
+    private Player Player;                      // instance of the player class
     public GameObject SpawnEffect;
 
+    /* EnemySpawner */
+    public EnemyAI SpawnedEnemy;     // the enemy prefab to be spawned
+    public float SpawnTime = 3f;        // how long between each spawn
+    public Transform[] SpawnPoints;     // an array of the spawn points this enemy can spawn from
+
+    public enum AIType
+    {
+        EnemySpawner,
+
+    }
+    public AIType AI;
 
     // Use this for initialization
-    void Start () {
+    void Start()
+    {
         _controller = GetComponent<CharacterController2D>();    // instance of Charactercontroller2D
         _direction = new Vector2(-1, 0);                        // this GameObject will move the left upon initialization
         _startPosition = transform.position;                    // starting position of this GameObject
         CurrentHealth = MaxHealth;                              // sets current health to maximum health
 
-        CrystalPosition = transform.position;
-    }
-	
-	// Update is called once per frame
-	void Update () {
+        Player = FindObjectOfType<Player>();                    // finds instances of the player
 
-        StartCoroutine(CountDownSummonOrb());
-
-        // for each OrbPosition, summon an orb
-        // courntine method
-	}
-
-    // Function to summon Orb prefab at random orb position
-    public void SummonOrb()
-    {
-        Instantiate(OrbPosition[Random.Range(0, OrbPosition.Length)], transform.position, Quaternion.identity);
+        if (AI == AIType.EnemySpawner)
+        {
+            // calls the Spawn function after a delay of the SpawnTime and then continue to call after the same amount of time.
+            InvokeRepeating("Spawn", SpawnTime, SpawnTime);
+        }
     }
 
-    IEnumerator CountDownSummonOrb()
+    // Update is called once per frame
+    void Update()
     {
-        yield return new WaitForSeconds(OrbSummoningDelay);
-        yield return 0;
+        // Handles basic movement
+        _controller.SetHorizontalForce(_direction.x * MovementSpeed);
+
+        // Checks to see if this GameObject is colliding with something in the same direction
+        if ((_direction.x < 0 && _controller.State.IsCollidingLeft) || (_direction.x > 0 && _controller.State.IsCollidingRight))
+            Reverse();
     }
 
-    // Function to summon Crystal prefab at random orb position
-    public void SummonCrystal()
+    // Function called by EnemySpawner AIs that spawns a enemy at set locations
+    public void Spawn()
     {
-        GameObject clone = Instantiate(Crystal, CrystalPosition, transform.rotation) as GameObject;
-        Instantiate(SpawnEffect, transform.position, transform.rotation);
+        // soes not spawn enemies when the player or the AI has zero health
+        if (Player.Health <= 0 || CurrentHealth == 0)
+            return;
+
+        // find a random index between zero and one less than the number of spawn points
+        int spawnPointIndex = Random.Range(0, SpawnPoints.Length);
+
+        // create an instance of the enemy prefab at the randomly selected spawn point's position and rotation
+        Instantiate(SpawnedEnemy, SpawnPoints[spawnPointIndex].position, SpawnPoints[spawnPointIndex].rotation);
+    }
+
+    // Function to change direction and velocity
+    public void Reverse()
+    {
+        // switches direction and flips the sprite
+        _direction = -_direction;
+        transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
     }
 
     /*
@@ -99,7 +107,6 @@ public class BossAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
         {
             // Sound and Item drops
             AudioSource.PlayClipAtPoint(EnemyDestroySounds[Random.Range(0, EnemyDestroySounds.Length)], transform.position);
-            Instantiate(ItemDroplist[Random.Range(0, ItemDroplist.Length)], transform.position, Quaternion.identity);
 
             // Death of this AI
             CurrentHealth = 0;

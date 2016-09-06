@@ -45,12 +45,12 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Code\EnemyAI Scripts\Boss AI\BossAI.cs" />
+     <Compile Include="Assets\Code\EnemyAI Scripts\Boss AI\BossHelperAI.cs" />
      <Compile Include="Assets\Code\EnemyAI Scripts\Boss AI\Elizabeth Ninja\ElizabethNinjaHealthBar.cs" />
      <Compile Include="Assets\Code\EnemyAI Scripts\Boss AI\Elizabeth Ninja\NinjaElizabethAI.cs" />
      <Compile Include="Assets\Code\EnemyAI Scripts\Boss AI\Elizabeth Ninja\NinjaElizabethCloneAI.cs" />
-     <Compile Include="Assets\Code\EnemyAI Scripts\Boss AI\ElizabethBossAI.cs" />
      <Compile Include="Assets\Code\EnemyAI Scripts\Boss AI\PainterElizabeth.cs" />
-     <Compile Include="Assets\Code\EnemyAI Scripts\BossAI.cs" />
      <Compile Include="Assets\Code\EnemyAI Scripts\EnemyAI.cs" />
      <Compile Include="Assets\Code\EnemyAI Scripts\In EnemyAI\BirdAI.cs" />
      <Compile Include="Assets\Code\EnemyAI Scripts\In EnemyAI\EnemySpawner.cs" />
@@ -117,17 +117,11 @@
      <Compile Include="Assets\Code\Touch UI\Portal.cs" />
      <Compile Include="Assets\Code\Touch UI\TouchControls.cs" />
      <Compile Include="Assets\Code\Touch UI\TouchManager.cs" />
- <Reference Include="UnityEngine.Advertisements">
- <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/Advertisements/UnityEngine.Advertisements.dll</HintPath>
- </Reference>
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.Networking">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
- </Reference>
- <Reference Include="UnityEngine.Analytics">
- <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/UnityAnalytics/UnityEngine.Analytics.dll</HintPath>
  </Reference>
  <Reference Include="Mono.Cecil">
  <HintPath>C:/Program Files/Unity/Editor/Data/Managed/Mono.Cecil.dll</HintPath>

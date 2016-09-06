@@ -8,7 +8,7 @@
 public class AllProjectiles : Projectile, ITakeDamage {
 
     /* All Projectiles Must Have */
-    public int Damage;                  // the damage this projectile inflicts
+   
     public GameObject DestroyedEffect;  // the effect played upon the destruction of this GameObject
     public int PointsToGiveToPlayer;    // the amount of points the Player Object receives
     public float TimeToLive;            // the amount of time this GameObject lives

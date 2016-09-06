@@ -60,7 +60,7 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
 
     /* EnemySpawner */
     public GameObject SpawnedEnemy;     // the enemy prefab to be spawned
-    public float spawnTime = 3f;        // how long between each spawn
+    public float SpawnTime = 3f;        // how long between each spawn
     public Transform[] spawnPoints;     // an array of the spawn points this enemy can spawn from              
 
     /* DeathSpawn */
@@ -69,7 +69,7 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
     public GameObject SpawnEffect;      // the effect played when the enemy is spawned
 
     /* Stalker */
-    private float StoredSpeed;          // stores original movement speed
+    private float StoredSpeed;          // stores original movement
 
     public enum EnemyType               // enemy behavior based on type
     {
@@ -104,8 +104,8 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
 
         if(Enemy == EnemyType.EnemySpawner)
         {
-            // calls the Spawn function after a delay of the spawnTime and then continue to call after the same amount of time.
-            InvokeRepeating("Spawn", spawnTime, spawnTime);
+            // calls the Spawn function after a delay of the SpawnTime and then continue to call after the same amount of time.
+            InvokeRepeating("Spawn", SpawnTime, SpawnTime);
         }
     }
 

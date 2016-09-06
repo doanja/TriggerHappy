@@ -6,7 +6,7 @@
 * 
 */
 public class Projectile : MonoBehaviour {
-    
+    public int Damage;                  // the damage this projectile inflicts
     public float Speed;                 // travel speed of the projectile
     public LayerMask CollisionMask;     // determines which layers this projectile will collide with
 

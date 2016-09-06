@@ -18,6 +18,20 @@ public class BossAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
     public AudioClip[] EnemyDestroySounds;      // sound played when this GameObject is destroyed
     public SpriteRenderer SpriteColor;          // reference to the AI's sprite color
 
+    public bool HalfDamage;
+
+    // Projectiles
+    public float FireRate = 4;                  // cooldown time after firing a projectile
+    public Projectile Projectile;               // this GameObject's projectile
+    public Transform ProjectileFireLocation;    // the location of which the projectile is fired at
+    public AudioClip ShootSound;                // the sound when this GameObject shoots a projectile
+
+    // Overlap Circle
+    private Player Player;                  // instance of the player class
+    public float PlayerDetectionRadius;     // the distance between the Player Object and this GameObject
+    private bool IsPlayerInRange;           // used to determine if the Player Object is in range of this GameObject
+    public LayerMask DetectThisLayer;       // determines what this GameObject is colliding with
+
     // Crystal
     public GameObject SpawnEffect;
     public GameObject CrystalPrefab;
@@ -25,7 +39,7 @@ public class BossAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
     public float SummonTime;                    // time it takes before a crystal can be summon again
     public float Cooldown;                      // used to count down the time before an action can be taken by the AI
 
-    public bool HalfDamage;
+    
 
     // Use this for initialization
     void Start () {
@@ -33,12 +47,11 @@ public class BossAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
         _direction = new Vector2(-1, 0);                        // this GameObject will move the left upon initialization
         _startPosition = transform.position;                    // starting position of this GameObject
         CurrentHealth = MaxHealth;                              // sets current health to maximum health
-        Cooldown = SummonTime;
     }
 	
 	// Update is called once per frame
 	void Update () {
-        Debug.Log(CurrentHealth);
+
         // Handles basic movement
         _controller.SetHorizontalForce(_direction.x * MovementSpeed);
 
@@ -46,30 +59,61 @@ public class BossAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
         if ((_direction.x < 0 && _controller.State.IsCollidingLeft) || (_direction.x > 0 && _controller.State.IsCollidingRight))
             Reverse();
 
-        if ((Cooldown -= Time.deltaTime) > 0)
-            return;
+        // Variable used to determine if the DetectThisLayer overlaps with the Circle
+        IsPlayerInRange = Physics2D.OverlapCircle(transform.position, PlayerDetectionRadius, DetectThisLayer);
 
-        if(CurrentHealth >= (MaxHealth * .50))
+        // Checks to see when the AI can jump
+        if (_controller.CanJump && IsPlayerInRange == true)
+            _controller.Jump();
+
+        // AI will only summon crystal prefab under these conditions
+        if (CurrentHealth >= (MaxHealth * .50))
         {
-            StartCoroutine(CountDownSummonCrystal());
-            Cooldown = SummonTime;
+            // Checks cooldown count
+            if ((Cooldown -= Time.deltaTime) > 0)
+                return;
+
+            StartCoroutine(CountDownSummonCrystal());   // summons the orb
+            Cooldown = SummonTime;                      // resets the cooldown
         }
 
-        if(CurrentHealth <= (MaxHealth * .50))
+        // AI moves, and changes color to indicate that it is more OP
+        if (CurrentHealth <= MaxHealth*.50)
         {
-            // Changes sprite color
             SpriteColor.color = Color.yellow;
             HalfDamage = true;
-            MovementSpeed = 4;
-            
+            MovementSpeed = 7;
         }
        
+        // AI begins shooting, and moves faster
+        if (CurrentHealth <= MaxHealth*.25)
+        {
+            SpriteColor.color = Color.blue;
+            HalfDamage = true;
+            MovementSpeed = 4;
+
+            // Checks cooldown count
+            if ((Cooldown -= Time.deltaTime) > 0)
+                return;
+
+            // Casts rays to detect player
+            var raycast = Physics2D.Raycast(transform.position, _direction, 10, 1 << LayerMask.NameToLayer("Player"));
+            if (!raycast)
+                return;
+
+            var projectile = (Projectile)Instantiate(Projectile, ProjectileFireLocation.position, ProjectileFireLocation.rotation);
+            projectile.Initialize(gameObject, _direction, _controller.Velocity);
+
+            if (ShootSound != null)
+                AudioSource.PlayClipAtPoint(ShootSound, transform.position);
+
+            Cooldown = FireRate;
+        }
 	}
    
     // Function to summon Crystal the AI's current position
     public void SummonCrystal()
     {
-        Debug.Log("SummonCrystal: Summoned...");
         Instantiate(CrystalPrefab, transform.position, transform.rotation);
         Instantiate(SpawnEffect, transform.position, transform.rotation);
     }
@@ -77,7 +121,6 @@ public class BossAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
     // Function to count down time before this AI can summon another Crystal
     IEnumerator CountDownSummonCrystal()
     {
-        Debug.Log("CountDownSummonCrystal: Counting down...");
         yield return new WaitForSeconds(CrystalSummoningDelay);
         SummonCrystal();
         yield return 0;
@@ -110,6 +153,12 @@ public class BossAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
             if(HalfDamage == true)
                 projectile.Damage /= 2;
         }
+    }
+
+    // Function that indicates that displays range of the PlayerDetectionRadius
+    public void OnDrawGizmosSelected()
+    {
+        Gizmos.DrawSphere(transform.position, PlayerDetectionRadius);
     }
 
     /*

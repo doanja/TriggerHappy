@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 00280517eb6874a498a087a309ff4481
-timeCreated: 1473073011
+timeCreated: 1473149463
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -11,8 +11,6 @@ TextureImporter:
     21300008: Elizabeth Queen_4
     21300010: Elizabeth Queen_5
     21300012: Elizabeth Queen_6
-    21300014: Elizabeth Queen_7
-    21300016: Elizabeth Queen_8
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -72,9 +70,9 @@ TextureImporter:
     - name: Elizabeth Queen_1
       rect:
         serializedVersion: 2
-        x: 852
+        x: 853
         y: 1791
-        width: 619
+        width: 618
         height: 646
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -82,9 +80,9 @@ TextureImporter:
     - name: Elizabeth Queen_2
       rect:
         serializedVersion: 2
-        x: 55
-        y: 951
-        width: 576
+        x: 1734
+        y: 1791
+        width: 577
         height: 646
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -92,9 +90,9 @@ TextureImporter:
     - name: Elizabeth Queen_3
       rect:
         serializedVersion: 2
-        x: 1119
+        x: 279
         y: 1133
-        width: 269
+        width: 268
         height: 268
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -102,20 +100,30 @@ TextureImporter:
     - name: Elizabeth Queen_4
       rect:
         serializedVersion: 2
-        x: 335
-        y: 349
+        x: 1174
+        y: 1189
         width: 157
-        height: 156
+        height: 157
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Elizabeth Queen_5
       rect:
         serializedVersion: 2
-        x: 1175
-        y: 349
+        x: 2015
+        y: 1189
         width: 156
-        height: 156
+        height: 157
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Elizabeth Queen_6
+      rect:
+        serializedVersion: 2
+        x: 237
+        y: 237
+        width: 352
+        height: 380
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}

@@ -81,10 +81,10 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
         PatrolTurn,                     // 
         PathedProjectileSpawner,        // spawns a projectile that travels torward a set 'destination'
         SelfDestruct,                   // destroys itself upon collision with the player
-        Stalker,                        //
+        Stalker,                        // visible and moves only when the player is facing away
         EnemySpawner,                   // periodically spawns enemy based on a transform.position
-        DeathSpawn                      // spawns an enemy upon death
-
+        DeathSpawn,                     // spawns an enemy upon death
+        Pooper                          // patrols, and spawns SelfDestruct AIs
     }
     public EnemyType Enemy;             // instance of an EnemyType, used to determine AI behavior
     
@@ -258,6 +258,18 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
         // DeathSpawn AI
         if (Enemy == EnemyType.DeathSpawn)
             _currentPosition = transform.position;  // constantsly updates current position used to spawn an enemy during death
+
+        // Pooper AI
+        if (Enemy == EnemyType.Pooper)
+        {
+            // interval when AI is unable to spawn poop (which is a SelfDestruct AI)
+            if ((Cooldown -= Time.deltaTime) > 0)
+                return;
+
+            Instantiate(SpawnedEnemy, transform.position, transform.rotation);
+
+            Cooldown = FireRate;    // resets the cooldown
+        }
 
     } // END OF UPDATE
 

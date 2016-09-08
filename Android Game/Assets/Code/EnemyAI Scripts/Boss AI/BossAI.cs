@@ -14,9 +14,12 @@ public class BossAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
 
     public int MaxHealth = 100;                         // maximum health of the this GameObject
     public int CurrentHealth { get; private set; }      // this GameObject's current health    
+    public GameObject HealthBar;                        // health bar to display this AI's current health
 
     public AudioClip[] EnemyDestroySounds;      // sound played when this GameObject is destroyed
     public SpriteRenderer SpriteColor;          // reference to the AI's sprite color
+
+    public GameObject gate;
 
     public bool HalfDamage;
 
@@ -188,6 +191,9 @@ public class BossAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
         // If this GameObject's CurrentHealth reaches zero
         if (CurrentHealth <= 0)
         {
+            gate.SetActive(true);                       // makes end level portal visible
+            HealthBar.SetActive(false);                 // hides the health bar
+
             // Sound and Item drops
             AudioSource.PlayClipAtPoint(EnemyDestroySounds[Random.Range(0, EnemyDestroySounds.Length)], transform.position);
 

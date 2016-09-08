@@ -23,8 +23,7 @@ public class BossHelperAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
 
     public enum AIType
     {
-        EnemySpawner,
-
+        EnemySpawner
     }
     public AIType AI;
 

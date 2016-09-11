@@ -48,6 +48,7 @@
      <Compile Include="Assets\Code\EnemyAI Scripts\Boss AI\BossAI.cs" />
      <Compile Include="Assets\Code\EnemyAI Scripts\Boss AI\BossHealthBar.cs" />
      <Compile Include="Assets\Code\EnemyAI Scripts\Boss AI\BossHelperAI.cs" />
+     <Compile Include="Assets\Code\EnemyAI Scripts\Boss AI\BossTestAI.cs" />
      <Compile Include="Assets\Code\EnemyAI Scripts\Boss AI\Elizabeth Ninja\ElizabethNinjaHealthBar.cs" />
      <Compile Include="Assets\Code\EnemyAI Scripts\Boss AI\Elizabeth Ninja\NinjaElizabethAI.cs" />
      <Compile Include="Assets\Code\EnemyAI Scripts\Boss AI\Elizabeth Ninja\NinjaElizabethCloneAI.cs" />

@@ -60,11 +60,9 @@ public class Player : MonoBehaviour, ITakeDamage
         _controller = GetComponent<CharacterController2D>();    // initializes an instance of the CharacterController2D
         _isFacingRight = transform.localScale.x > 0;            // ensure Player Object's sprite is facing to the right
         Health = MaxHealth;                                     // initializes Player Object's health to max health
+        GravityStore = _controller.DefaultParameters.Gravity;   // stores the Player's starting gravity
 
-        // Ladder initialization
-        GravityStore = _controller.DefaultParameters.Gravity;
-
-        lifeSystem = FindObjectOfType<LifeManager>();
+        //lifeSystem = FindObjectOfType<LifeManager>();
     }
 
     // Update is called once per frame
@@ -112,11 +110,8 @@ public class Player : MonoBehaviour, ITakeDamage
     */
     public void FinishLevel()
     {
-        // TODO: play sound + animation
-
         enabled = false;
         _controller.enabled = false;
-        //GetComponent<Collider2D>().enabled = false;
     }
 
     /*
@@ -153,7 +148,7 @@ public class Player : MonoBehaviour, ITakeDamage
 
         transform.position = spawnPoint.position;   // respawns the player at the spawnPoint
 
-        lifeSystem.TakeLife();                      // decrements lives on the LifeManager
+        //lifeSystem.TakeLife();                      // decrements lives on the LifeManager
     }
 
     /*

@@ -184,7 +184,7 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
         }
 
         // START OF PHYSICS2D OVERLAPCIRCLE ENEMIES
-        if (Enemy == EnemyType.PatrolTurn || Enemy == EnemyType.Guardian || Enemy == EnemyType.Stalker)
+        if (Enemy == EnemyType.PatrolTurn || Enemy == EnemyType.Guardian || Enemy == EnemyType.Pooper)
         {
             // Variable used to determine if the DetectThisLayer overlaps with the Circle
             IsPlayerInRange = Physics2D.OverlapCircle(transform.position, PlayerDetectionRadius, DetectThisLayer);
@@ -205,7 +205,7 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
             }
 
             // Gaurdian AI
-            if (Enemy == EnemyType.Guardian)
+            if (Enemy == EnemyType.Guardian || Enemy == EnemyType.Pooper)
             {
                 // Handles the event that the Player is in range of dectiong by the AI
                 if (IsPlayerInRange)
@@ -214,18 +214,33 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
                     if ((Cooldown -= Time.deltaTime) > 0)
                         return;
 
-                    FireProjectile();
+                    if (Enemy == EnemyType.Guardian)
+                    {
+                        FireProjectile();
+
+                        // Handles Sound when the projectile is instantiated
+                        if (ShootSound != null)
+                            AudioSource.PlayClipAtPoint(ShootSound, transform.position);
+
+                        // Handles Effects when the projectile is instantiated
+                        if (ProjectileSpawnEffect != null)
+                            Instantiate(ProjectileSpawnEffect, ProjectileFireLocation.transform.position, ProjectileFireLocation.transform.rotation);
+                    }
+
+                    // Pooper AI
+                    if (Enemy == EnemyType.Pooper)
+                    {
+                        // Spawns Poop
+                        Instantiate(SpawnedEnemy, transform.position, transform.rotation);
+
+                    }
+
+                    // Resets cooldown
                     Cooldown = FireRate;
-
-                    // Handles Sound when the projectile is instantiated
-                    if (ShootSound != null)
-                        AudioSource.PlayClipAtPoint(ShootSound, transform.position);
-
-                    // Handles Effects when the projectile is instantiated
-                    if (ProjectileSpawnEffect != null)
-                        Instantiate(ProjectileSpawnEffect, ProjectileFireLocation.transform.position, ProjectileFireLocation.transform.rotation);
                 }
             }
+
+            
 
         } // END OF PHYSICS2D OVERLAPCIRCLE ENEMIES
 
@@ -259,17 +274,7 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
         if (Enemy == EnemyType.DeathSpawn)
             _currentPosition = transform.position;  // constantsly updates current position used to spawn an enemy during death
 
-        // Pooper AI
-        if (Enemy == EnemyType.Pooper)
-        {
-            // interval when AI is unable to spawn poop (which is a SelfDestruct AI)
-            if ((Cooldown -= Time.deltaTime) > 0)
-                return;
-
-            Instantiate(SpawnedEnemy, transform.position, transform.rotation);
-
-            Cooldown = FireRate;    // resets the cooldown
-        }
+       
 
     } // END OF UPDATE
 

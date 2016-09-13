@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 
-public class PlayerWeapon : MonoBehaviour {
+public class PlayerWeapon : MonoBehaviour
+{
 
     public Sprite WeaponSprite;
 
@@ -13,13 +14,15 @@ public class PlayerWeapon : MonoBehaviour {
     public AudioClip PlayerShootSound;
 
     // Use this for initialization
-    void Start () {
+    void Start()
+    {
         WeaponSprite = GetComponent<SpriteRenderer>().sprite;
     }
-	
-	// Update is called once per frame
-	void Update () {
+
+    // Update is called once per frame
+    void Update()
+    {
         GetComponent<SpriteRenderer>().sprite = WeaponSprite;
-        
+
     }
 }

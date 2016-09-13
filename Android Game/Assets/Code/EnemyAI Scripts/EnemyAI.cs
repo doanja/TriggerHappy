@@ -71,6 +71,13 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
     /* Stalker */
     private float StoredSpeed;          // stores original movement
 
+    /* Zombie */
+    public float RevivalTime;
+    public Sprite DeathSprite;
+    public Animator EnemyAnimator;
+    private Sprite StoredSprite;
+    
+
     public enum EnemyType               // enemy behavior based on type
     {
         Charger,                        // movement speed is increased upon raycast returning true
@@ -84,7 +91,8 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
         Stalker,                        // visible and moves only when the player is facing away
         EnemySpawner,                   // periodically spawns enemy based on a transform.position
         DeathSpawn,                     // spawns an enemy upon death
-        Pooper                          // patrols, and spawns SelfDestruct AIs
+        Pooper,                         // patrols, and spawns SelfDestruct AIs
+        Zombie                          // does not die, revive self after time passes
     }
     public EnemyType Enemy;             // instance of an EnemyType, used to determine AI behavior
     
@@ -106,6 +114,11 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
         {
             // calls the Spawn function after a delay of the SpawnTime and then continue to call after the same amount of time.
             InvokeRepeating("Spawn", SpawnTime, SpawnTime);
+        }
+
+        if (Enemy == EnemyType.Zombie)
+        {
+            StoredSprite = SpriteColor.sprite;
         }
     }
 
@@ -274,7 +287,26 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
         if (Enemy == EnemyType.DeathSpawn)
             _currentPosition = transform.position;  // constantsly updates current position used to spawn an enemy during death
 
-       
+        // Zombie AI
+        if (Enemy == EnemyType.Zombie)
+        {
+            Debug.Log(CurrentHealth);
+            // Check to see when projectiles can be fired
+            if ((Cooldown -= Time.deltaTime) > 0)
+                return;
+
+            if (CurrentHealth == 0)
+            {
+                MovementSpeed = StoredSpeed;        // resets speed
+                SpriteColor.sprite = StoredSprite;  // resets sprite
+                CurrentHealth = MaxHealth;          // resets health
+                EnemyAnimator.enabled = true;
+            }
+
+        }
+
+
+
 
     } // END OF UPDATE
 
@@ -385,13 +417,25 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
                 Instantiate(SpawnEffect, transform.position, transform.rotation);
             }
 
-            // Sound and Item drops
-            AudioSource.PlayClipAtPoint(EnemyDestroySounds[Random.Range(0, EnemyDestroySounds.Length)], transform.position);
-            Instantiate(ItemDroplist[Random.Range(0, ItemDroplist.Length)], transform.position, Quaternion.identity);
+            if (Enemy == EnemyType.Zombie)
+            {
+                CurrentHealth = 0;
+                SpriteColor.sprite = DeathSprite;
+                MovementSpeed = 0;
+                EnemyAnimator.enabled = false;
+                Cooldown = RevivalTime;             // counts down until thing can revive
+            }
 
-            // Death of this AI
-            CurrentHealth = 0;
-            gameObject.SetActive(false);
+            if (Enemy != EnemyType.Zombie)
+            {
+                // Sound and Item drops
+                AudioSource.PlayClipAtPoint(EnemyDestroySounds[Random.Range(0, EnemyDestroySounds.Length)], transform.position);
+                Instantiate(ItemDroplist[Random.Range(0, ItemDroplist.Length)], transform.position, Quaternion.identity);
+
+                // Death of this AI
+                CurrentHealth = 0;
+                gameObject.SetActive(false);
+            }
         }
     }
 

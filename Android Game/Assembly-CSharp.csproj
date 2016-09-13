@@ -116,7 +116,6 @@
      <Compile Include="Assets\Code\Touch UI\LoseMenu.cs" />
      <Compile Include="Assets\Code\Touch UI\MainMenu.cs" />
      <Compile Include="Assets\Code\Touch UI\PauseMenu.cs" />
-     <Compile Include="Assets\Code\Touch UI\Portal.cs" />
      <Compile Include="Assets\Code\Touch UI\TouchControls.cs" />
      <Compile Include="Assets\Code\Touch UI\TouchManager.cs" />
  <Reference Include="UnityEngine.UI">

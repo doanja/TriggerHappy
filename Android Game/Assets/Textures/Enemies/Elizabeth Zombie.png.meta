@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 63a1e9f6f557f1447be9d6e07460c375
-timeCreated: 1473742626
+timeCreated: 1473801493
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -59,60 +59,40 @@ TextureImporter:
     - name: Elizabeth Zombie_0
       rect:
         serializedVersion: 2
-        x: 153
-        y: 1525
-        width: 394
-        height: 450
+        x: 154
+        y: 826
+        width: 392
+        height: 448
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Elizabeth Zombie_1
       rect:
         serializedVersion: 2
-        x: 853
-        y: 1525
-        width: 394
-        height: 450
+        x: 854
+        y: 826
+        width: 392
+        height: 448
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Elizabeth Zombie_2
       rect:
         serializedVersion: 2
-        x: 153
-        y: 825
-        width: 394
-        height: 450
+        x: 154
+        y: 126
+        width: 392
+        height: 448
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Elizabeth Zombie_3
       rect:
         serializedVersion: 2
-        x: 853
-        y: 937
-        width: 380
-        height: 226
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Elizabeth Zombie_4
-      rect:
-        serializedVersion: 2
-        x: 195
-        y: 209
-        width: 296
-        height: 282
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Elizabeth Zombie_5
-      rect:
-        serializedVersion: 2
-        x: 909
-        y: 223
-        width: 268
-        height: 254
+        x: 854
+        y: 182
+        width: 392
+        height: 350
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}

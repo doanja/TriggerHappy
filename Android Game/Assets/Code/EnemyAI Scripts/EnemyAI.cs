@@ -74,6 +74,8 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
     /* Zombie */
     public float RevivalTime;
     public Sprite DeathSprite;
+    public BoxCollider2D EnemyBoxCollider;
+    public GiveDamageToPlayer EnemyGiveDamageToPlayer;
     public Animator EnemyAnimator;
     private Sprite StoredSprite;
     
@@ -297,9 +299,12 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
 
             if (CurrentHealth == 0)
             {
-                MovementSpeed = StoredSpeed;        // resets speed
-                SpriteColor.sprite = StoredSprite;  // resets sprite
-                CurrentHealth = MaxHealth;          // resets health
+                // Resets AIs fields
+                MovementSpeed = StoredSpeed;
+                SpriteColor.sprite = StoredSprite;
+                CurrentHealth = MaxHealth;
+                EnemyBoxCollider.enabled = true;
+                EnemyGiveDamageToPlayer.enabled = true;
                 EnemyAnimator.enabled = true;
             }
 
@@ -410,18 +415,21 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
         // If this GameObject's CurrentHealth reaches zero
         if (CurrentHealth <= 0)
         {
-            // Handles what happens when AI DeathSpawn dies
+            // Handles what happens when DeathSpawn AI dies
             if (Enemy == EnemyType.DeathSpawn)
             {
                 GameObject clone = Instantiate(EnemyPrefab, _currentPosition, transform.rotation) as GameObject;
                 Instantiate(SpawnEffect, transform.position, transform.rotation);
             }
 
+            // Handles what happens when Zombie AI dies
             if (Enemy == EnemyType.Zombie)
             {
                 CurrentHealth = 0;
                 SpriteColor.sprite = DeathSprite;
                 MovementSpeed = 0;
+                EnemyBoxCollider.enabled = false;
+                EnemyGiveDamageToPlayer.enabled = false;
                 EnemyAnimator.enabled = false;
                 Cooldown = RevivalTime;             // counts down until thing can revive
             }

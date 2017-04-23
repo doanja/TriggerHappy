@@ -62,7 +62,7 @@ public class Player : MonoBehaviour, ITakeDamage
         Health = MaxHealth;                                     // initializes Player Object's health to max health
         GravityStore = _controller.DefaultParameters.Gravity;   // stores the Player's starting gravity
 
-        //lifeSystem = FindObjectOfType<LifeManager>();
+        lifeSystem = FindObjectOfType<LifeManager>();
     }
 
     // Update is called once per frame
@@ -148,7 +148,7 @@ public class Player : MonoBehaviour, ITakeDamage
 
         transform.position = spawnPoint.position;   // respawns the player at the spawnPoint
 
-        //lifeSystem.TakeLife();                      // decrements lives on the LifeManager
+        lifeSystem.TakeLife();                      // decrements lives on the LifeManager
     }
 
     /*

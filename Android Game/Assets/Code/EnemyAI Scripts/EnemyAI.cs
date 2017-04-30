@@ -247,7 +247,6 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
                     {
                         // Spawns Poop
                         Instantiate(SpawnedEnemy, transform.position, transform.rotation);
-
                     }
 
                     // Resets cooldown

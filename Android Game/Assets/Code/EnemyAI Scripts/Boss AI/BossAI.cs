@@ -35,14 +35,25 @@ public class BossAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
     private bool IsPlayerInRange;           // used to determine if the Player Object is in range of this GameObject
     public LayerMask DetectThisLayer;       // determines what this GameObject is colliding with
 
-    // Crystal
+    // Helper
     public GameObject SpawnEffect;
-    public GameObject CrystalPrefab;
-    public float CrystalSummoningDelay;
-    public float SummonTime;                    // time it takes before a crystal can be summon again
-    public float Cooldown;                      // used to count down the time before an action can be taken by the AI
+    public GameObject HelperPrefab;
+    public float ActionDelay1;
+    public float ActionDelay2;
+    public float Cooldown1;                  // used to count down the time before an action can be taken by the AI
+    public float Cooldown2;
 
-    
+    // Slime
+    private Vector3 _currentPosition;   // current position of the AI
+    public Transform[] SpawnPoints;
+
+    public enum EnemyType
+    {
+        Slime,
+        Tubby,
+        Queen
+    }
+    public EnemyType Enemy;
 
     // Use this for initialization
     void Start () {
@@ -65,67 +76,127 @@ public class BossAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
         // Variable used to determine if the DetectThisLayer overlaps with the Circle
         IsPlayerInRange = Physics2D.OverlapCircle(transform.position, PlayerDetectionRadius, DetectThisLayer);
 
+
+        if (Enemy == EnemyType.Slime)
+        {
+            // Checks cooldown count
+            if ((Cooldown1 -= Time.deltaTime) > 0 || (Cooldown2 -= Time.deltaTime) > 0)
+                return;
+
+            StartCoroutine(CountdownRegen());  // starts countdown before regenerating health
+            Cooldown1 = ActionDelay1;            // resets the cooldown
+
+            StartCoroutine(CountdownSummon());
+            Cooldown2 = ActionDelay2;
+        }
+
+        /*
         // Checks to see when the AI can jump
         if (_controller.CanJump && IsPlayerInRange == true)
             _controller.Jump();
 
-        // AI will only summon crystal prefab under these conditions
-        if (CurrentHealth >= (MaxHealth * .50))
+        
+        if (Enemy != EnemyType.Queen)
         {
-            // Checks cooldown count
-            if ((Cooldown -= Time.deltaTime) > 0)
-                return;
+            // AI will only summon crystal prefab under these conditions
+            if (CurrentHealth >= (MaxHealth * .50))
+            {
+                // Checks cooldown count
+                if ((Cooldown -= Time.deltaTime) > 0)
+                    return;
 
-            StartCoroutine(CountDownSummonCrystal());   // summons the orb
-            Cooldown = SummonTime;                      // resets the cooldown
+                StartCoroutine(CountDownSummonCrystal());   // summons the orb
+                Cooldown = SummonTime;                      // resets the cooldown
+            }
+
+            // AI moves, and changes color to indicate that it is more OP
+            if (CurrentHealth <= MaxHealth * .50)
+            {
+                SpriteColor.color = Color.yellow;
+                HalfDamage = true;
+                MovementSpeed = 7;
+            }
+
+            // AI begins shooting, and moves faster
+            if (CurrentHealth <= MaxHealth * .25)
+            {
+                SpriteColor.color = Color.blue;
+                HalfDamage = true;
+                MovementSpeed = 4;
+
+                // Checks cooldown count
+                if ((Cooldown -= Time.deltaTime) > 0)
+                    return;
+
+                // Casts rays to detect player
+                var raycast = Physics2D.Raycast(transform.position, _direction, 10, 1 << LayerMask.NameToLayer("Player"));
+                if (!raycast)
+                    return;
+
+                var projectile = (Projectile)Instantiate(Projectile, ProjectileFireLocation.position, ProjectileFireLocation.rotation);
+                projectile.Initialize(gameObject, _direction, _controller.Velocity);
+
+                if (ShootSound != null)
+                    AudioSource.PlayClipAtPoint(ShootSound, transform.position);
+
+                Cooldown = FireRate;
+            }
         }
+        
 
-        // AI moves, and changes color to indicate that it is more OP
-        if (CurrentHealth <= MaxHealth*.50)
+        if (Enemy == EnemyType.Tubby)
         {
-            SpriteColor.color = Color.yellow;
-            HalfDamage = true;
-            MovementSpeed = 7;
+            // Variable used to determine if the DetectThisLayer overlaps with the Circle
+            IsPlayerInRange = Physics2D.OverlapCircle(transform.position, PlayerDetectionRadius, DetectThisLayer);
+
+            // Handles the event that the Player is in range of dectiong by the AI
+            if (IsPlayerInRange)
+            {
+                // Checks to see when the AI can jump
+                if (_controller.CanJump)
+                {
+                    _controller.Jump();
+                    JumpCounter++;
+                }
+            }
+
+            // AI begins shooting, and moves faster
+            if (CurrentHealth <= MaxHealth * .25)
+            {
+                SpriteColor.color = Color.red;
+                HalfDamage = true;
+                MovementSpeed = 4;
+            }
+
+            if(JumpCounter == 3)
+            {
+                StartCoroutine(CountDownSummonHelpers());   // summons the orb
+                Cooldown = SummonTime;                      // resets the cooldown
+            }
+
         }
-       
-        // AI begins shooting, and moves faster
-        if (CurrentHealth <= MaxHealth*.25)
-        {
-            SpriteColor.color = Color.blue;
-            HalfDamage = true;
-            MovementSpeed = 4;
+            */
+    }
 
-            // Checks cooldown count
-            if ((Cooldown -= Time.deltaTime) > 0)
-                return;
-
-            // Casts rays to detect player
-            var raycast = Physics2D.Raycast(transform.position, _direction, 10, 1 << LayerMask.NameToLayer("Player"));
-            if (!raycast)
-                return;
-
-            var projectile = (Projectile)Instantiate(Projectile, ProjectileFireLocation.position, ProjectileFireLocation.rotation);
-            projectile.Initialize(gameObject, _direction, _controller.Velocity);
-
-            if (ShootSound != null)
-                AudioSource.PlayClipAtPoint(ShootSound, transform.position);
-
-            Cooldown = FireRate;
-        }
-	}
-   
     // Function to summon Crystal the AI's current position
-    public void SummonCrystal()
+    public void SummonHelper()
     {
-        Instantiate(CrystalPrefab, transform.position, transform.rotation);
+        Instantiate(HelperPrefab, transform.position, transform.rotation);
         Instantiate(SpawnEffect, transform.position, transform.rotation);
     }
 
-    // Function to count down time before this AI can summon another Crystal
-    IEnumerator CountDownSummonCrystal()
+    // Function to count down time before this AI can summon another Helper
+    IEnumerator CountdownSummon()
     {
-        yield return new WaitForSeconds(CrystalSummoningDelay);
-        SummonCrystal();
+        yield return new WaitForSeconds(ActionDelay2);
+        SummonHelper();
+        yield return 0;
+    }
+
+    IEnumerator CountdownRegen()
+    {
+        yield return new WaitForSeconds(ActionDelay1);
+        CurrentHealth = MaxHealth;
         yield return 0;
     }
 
@@ -191,6 +262,13 @@ public class BossAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
         // If this GameObject's CurrentHealth reaches zero
         if (CurrentHealth <= 0)
         {
+
+            if (Enemy == EnemyType.Slime)
+            {
+                for (int i = 0; i < SpawnPoints.Length; i++)
+                    Instantiate(HelperPrefab, SpawnPoints[i].position, SpawnPoints[i].rotation);
+            }
+
             gate.SetActive(true);                       // makes end level portal visible
             HealthBar.SetActive(false);                 // hides the health bar
 

@@ -94,7 +94,8 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
         EnemySpawner,                   // periodically spawns enemy based on a transform.position
         DeathSpawn,                     // spawns an enemy upon death
         Pooper,                         // patrols, and spawns SelfDestruct AIs
-        Zombie                          // does not die, revive self after time passes
+        Zombie,                         // does not die, revive self after time passes
+        Ghost
     }
     public EnemyType Enemy;             // instance of an EnemyType, used to determine AI behavior
     
@@ -136,8 +137,19 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
         else
             IsPlayerFacingAway = false;
 
+        // Variable used to determine if the DetectThisLayer overlaps with the Circle
+        IsPlayerInRange = Physics2D.OverlapCircle(transform.position, PlayerDetectionRadius, DetectThisLayer);
+
+        // Ghost AI
+        if (Enemy == EnemyType.Ghost)
+        {
+            // Handles movement of this GameObject
+            transform.position = Vector3.MoveTowards(transform.position, Player.transform.position, MovementSpeed * Time.deltaTime);
+            return;
+        }
+
         // Handles basic movement
-        if (Enemy != EnemyType.PathedProjectileSpawner)
+        if (Enemy != EnemyType.PathedProjectileSpawner && Enemy != EnemyType.Ghost)
         {
             // Sets the x-velocity of this GameObject
             _controller.SetHorizontalForce(_direction.x * MovementSpeed);
@@ -199,11 +211,8 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
         }
 
         // START OF PHYSICS2D OVERLAPCIRCLE ENEMIES
-        if (Enemy == EnemyType.PatrolTurn || Enemy == EnemyType.Guardian || Enemy == EnemyType.Pooper)
+        if (Enemy == EnemyType.PatrolTurn || Enemy == EnemyType.Guardian || Enemy == EnemyType.Pooper || Enemy == EnemyType.Ghost)
         {
-            // Variable used to determine if the DetectThisLayer overlaps with the Circle
-            IsPlayerInRange = Physics2D.OverlapCircle(transform.position, PlayerDetectionRadius, DetectThisLayer);
-
             // PatrolTurn enemies will turn around if the Player is behind them [DOES NOT WORK]
             if (Enemy == EnemyType.PatrolTurn)
             {
@@ -225,6 +234,14 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
                 // Handles the event that the Player is in range of dectiong by the AI
                 if (IsPlayerInRange)
                 {
+                    // Ghost AI
+                    if (Enemy == EnemyType.Ghost)
+                    {
+                        // Handles movement of this GameObject
+                        transform.position = Vector3.MoveTowards(transform.position, Player.transform.position, MovementSpeed * Time.deltaTime);
+                        return;
+                    }
+
                     // Check to see when projectiles can be fired
                     if ((Cooldown -= Time.deltaTime) > 0)
                         return;
@@ -335,7 +352,7 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
     */
     public void OnTriggerEnter2D(Collider2D other)
     {
-        if (Enemy == EnemyType.SelfDestruct)
+        if (Enemy == EnemyType.SelfDestruct || Enemy == EnemyType.Ghost)
         {
             if (other.GetComponent<Player>() == null)
                 return;

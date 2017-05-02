@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 /*
 * Resources: 
@@ -31,7 +32,6 @@ public class Player : MonoBehaviour, ITakeDamage
     public AudioClip[] JumpSounds;
     public AudioClip[] PlayerHitSounds;
 
-
     // Health & Lives
     public int Health { get; private set; }         // Player Object's current health
     public bool IsDead { get; private set; }        // determines if the user can control the Player Object
@@ -42,17 +42,33 @@ public class Player : MonoBehaviour, ITakeDamage
     private float GravityStore;                     // variable used to store the Player Object's default gravity
 
     // Animation
-    public Animator Animator;
+    public Animator Animator;                       // animation
 
     // Touch Control Movement
-    public int hInput = 0;
-    public int vInput = 0;
+    public int hInput = 0;                          // handles horizontal touch input
+    public int vInput = 0;                          // handles vertical touch input
 
-    public PlayerWeapon Weapon;
+    // Weapon
+    public PlayerWeapon Weapon;                     // the Player's current weapon
 
     // RNG Reference Variables
     private int refCounterRNG;
     private int refHitRNG;
+
+    // Status Handlers
+    public enum PlayerStatus
+    {
+        Normal,
+        Frozen,
+        Confused,
+        Poisoned,
+        Paraylyzed
+    }
+    public PlayerStatus Status;                     // the PlayerStatus
+    public float MaxDebuffCD;                       // max time before debuffs wear off
+    public float CurrentDebuffCD;                   // current countdown before debuff wears off
+    public float MaxSpeedStore;                     // stores the Player's MaxSpeed
+    public SpriteRenderer SpriteColor;              // reference to the AI's sprite color
 
     // Use this for initialization
     public void Awake()
@@ -61,7 +77,9 @@ public class Player : MonoBehaviour, ITakeDamage
         _isFacingRight = transform.localScale.x > 0;            // ensure Player Object's sprite is facing to the right
         Health = MaxHealth;                                     // initializes Player Object's health to max health
         GravityStore = _controller.DefaultParameters.Gravity;   // stores the Player's starting gravity
-
+        MaxSpeedStore = MaxSpeed;                               // stores the Player's starting MaxSpeed
+        Status = PlayerStatus.Normal;                           // Player will start with Normal Status
+        SpriteColor.color = Color.white;                        // sets the color to white by default
         lifeSystem = FindObjectOfType<LifeManager>();
     }
 
@@ -145,7 +163,7 @@ public class Player : MonoBehaviour, ITakeDamage
         _controller.HandleCollisions = true;        // sets collisions to true again
         Health = MaxHealth;                         // sets current health to the Player object's max health
         onLadder = false;
-
+        Status = PlayerStatus.Normal;               // sets player status to normal
         transform.position = spawnPoint.position;   // respawns the player at the spawnPoint
 
         lifeSystem.TakeLife();                      // decrements lives on the LifeManager
@@ -302,7 +320,7 @@ public class Player : MonoBehaviour, ITakeDamage
     }
 
     // Method to vertically flip the Player object's sprite    
-    private void Flip()
+    public void Flip()
     {
         transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
         _isFacingRight = transform.localScale.x > 0;
@@ -368,5 +386,15 @@ public class Player : MonoBehaviour, ITakeDamage
         if (_isFacingRight)
             Flip();
         Update();
+    }
+
+    public IEnumerator CountdownDebuff()
+    {
+        yield return new WaitForSeconds(MaxDebuffCD);
+        MaxSpeed = MaxSpeedStore;
+        SpriteColor.color = Color.white;
+        Status = Player.PlayerStatus.Normal;
+
+        yield return 0;
     }
 }

@@ -35,23 +35,25 @@ public class BossAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
     private bool IsPlayerInRange;           // used to determine if the Player Object is in range of this GameObject
     public LayerMask DetectThisLayer;       // determines what this GameObject is colliding with
 
+    // RNG Variables
+    private int CurrentRNGCount;
+
     // Helper
-    public GameObject SpawnEffect;
-    public GameObject HelperPrefab;
-    public float ActionDelay1;
-    public float ActionDelay2;
-    public float Cooldown1;                  // used to count down the time before an action can be taken by the AI
-    public float Cooldown2;
+    public GameObject[] Helpers;
+    public GameObject SpawnEffect;          // effect shown when the Helper is Spawned
+    public float MaxActionCD1;              //
+    public float MaxActionCD2;              //
+    public float CurrentActionCD1;          // used to count down the time before an action can be taken by the AI
+    public float CurrentActionCD2;          // used to count down the time before an action can be taken by the AI
 
     // Slime
-    private Vector3 _currentPosition;   // current position of the AI
+    private Vector3 _currentPosition;       // current position of the AI
     public Transform[] SpawnPoints;
+    public GameObject HealEffect;
 
     public enum EnemyType
     {
         Slime,
-        Tubby,
-        Queen
     }
     public EnemyType Enemy;
 
@@ -65,6 +67,10 @@ public class BossAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
 	
 	// Update is called once per frame
 	void Update () {
+
+        // Handles selection of random number within MaxRNGCount
+        int random = Random.Range(0, (Helpers.Length));
+        CurrentRNGCount = random; // updates the CurrentRNGCountRNG
 
         // Handles basic movement
         _controller.SetHorizontalForce(_direction.x * MovementSpeed);
@@ -80,124 +86,40 @@ public class BossAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
         if (Enemy == EnemyType.Slime)
         {
             // Checks cooldown count
-            if ((Cooldown1 -= Time.deltaTime) > 0 || (Cooldown2 -= Time.deltaTime) > 0)
+            if ((CurrentActionCD1 -= Time.deltaTime) > 0 && (CurrentActionCD2 -= Time.deltaTime) > 0)
                 return;
 
-            StartCoroutine(CountdownRegen());  // starts countdown before regenerating health
-            Cooldown1 = ActionDelay1;            // resets the cooldown
+            StartCoroutine(CountdownRegen());   // starts countdown before regenerating health
+            CurrentActionCD1 = MaxActionCD1;    // resets the cooldown
 
-            StartCoroutine(CountdownSummon());
-            Cooldown2 = ActionDelay2;
+            StartCoroutine(CountdownSummon());  // starts countdown before summoning a helper
+            CurrentActionCD2 = MaxActionCD2;    // resets the cooldown
         }
-
-        /*
-        // Checks to see when the AI can jump
-        if (_controller.CanJump && IsPlayerInRange == true)
-            _controller.Jump();
-
-        
-        if (Enemy != EnemyType.Queen)
-        {
-            // AI will only summon crystal prefab under these conditions
-            if (CurrentHealth >= (MaxHealth * .50))
-            {
-                // Checks cooldown count
-                if ((Cooldown -= Time.deltaTime) > 0)
-                    return;
-
-                StartCoroutine(CountDownSummonCrystal());   // summons the orb
-                Cooldown = SummonTime;                      // resets the cooldown
-            }
-
-            // AI moves, and changes color to indicate that it is more OP
-            if (CurrentHealth <= MaxHealth * .50)
-            {
-                SpriteColor.color = Color.yellow;
-                HalfDamage = true;
-                MovementSpeed = 7;
-            }
-
-            // AI begins shooting, and moves faster
-            if (CurrentHealth <= MaxHealth * .25)
-            {
-                SpriteColor.color = Color.blue;
-                HalfDamage = true;
-                MovementSpeed = 4;
-
-                // Checks cooldown count
-                if ((Cooldown -= Time.deltaTime) > 0)
-                    return;
-
-                // Casts rays to detect player
-                var raycast = Physics2D.Raycast(transform.position, _direction, 10, 1 << LayerMask.NameToLayer("Player"));
-                if (!raycast)
-                    return;
-
-                var projectile = (Projectile)Instantiate(Projectile, ProjectileFireLocation.position, ProjectileFireLocation.rotation);
-                projectile.Initialize(gameObject, _direction, _controller.Velocity);
-
-                if (ShootSound != null)
-                    AudioSource.PlayClipAtPoint(ShootSound, transform.position);
-
-                Cooldown = FireRate;
-            }
-        }
-        
-
-        if (Enemy == EnemyType.Tubby)
-        {
-            // Variable used to determine if the DetectThisLayer overlaps with the Circle
-            IsPlayerInRange = Physics2D.OverlapCircle(transform.position, PlayerDetectionRadius, DetectThisLayer);
-
-            // Handles the event that the Player is in range of dectiong by the AI
-            if (IsPlayerInRange)
-            {
-                // Checks to see when the AI can jump
-                if (_controller.CanJump)
-                {
-                    _controller.Jump();
-                    JumpCounter++;
-                }
-            }
-
-            // AI begins shooting, and moves faster
-            if (CurrentHealth <= MaxHealth * .25)
-            {
-                SpriteColor.color = Color.red;
-                HalfDamage = true;
-                MovementSpeed = 4;
-            }
-
-            if(JumpCounter == 3)
-            {
-                StartCoroutine(CountDownSummonHelpers());   // summons the orb
-                Cooldown = SummonTime;                      // resets the cooldown
-            }
-
-        }
-            */
     }
 
-    // Function to summon Crystal the AI's current position
-    public void SummonHelper()
+    // Function to countdown time before BossAI heals to full health
+    IEnumerator CountdownRegen()
     {
-        Instantiate(HelperPrefab, transform.position, transform.rotation);
-        Instantiate(SpawnEffect, transform.position, transform.rotation);
+        yield return new WaitForSeconds(MaxActionCD1);
+        CurrentHealth = MaxHealth;
+        Instantiate(HealEffect, transform.position, transform.rotation);
+        yield return 0;
     }
 
-    // Function to count down time before this AI can summon another Helper
+    // Function to countdown before the BossAI can make a call to SummonHelper()
     IEnumerator CountdownSummon()
     {
-        yield return new WaitForSeconds(ActionDelay2);
+        yield return new WaitForSeconds(MaxActionCD2);
         SummonHelper();
         yield return 0;
     }
 
-    IEnumerator CountdownRegen()
+    // Function to summon an Enemy Prefab at BossAI's current position
+    public void SummonHelper()
     {
-        yield return new WaitForSeconds(ActionDelay1);
-        CurrentHealth = MaxHealth;
-        yield return 0;
+        //Instantiate(Helpers[CurrentRNGCount], transform.position, transform.rotation);
+        Instantiate(Helpers[CurrentRNGCount], SpawnPoints[CurrentRNGCount].position, SpawnPoints[CurrentRNGCount].rotation);
+        Instantiate(SpawnEffect, transform.position, transform.rotation);
     }
 
     // Function to change direction and velocity
@@ -266,7 +188,7 @@ public class BossAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
             if (Enemy == EnemyType.Slime)
             {
                 for (int i = 0; i < SpawnPoints.Length; i++)
-                    Instantiate(HelperPrefab, SpawnPoints[i].position, SpawnPoints[i].rotation);
+                    Instantiate(Helpers[CurrentRNGCount], SpawnPoints[CurrentRNGCount].position, SpawnPoints[CurrentRNGCount].rotation);
             }
 
             gate.SetActive(true);                       // makes end level portal visible

@@ -78,6 +78,11 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
     public GiveDamageToPlayer EnemyGiveDamageToPlayer;
     public Animator EnemyAnimator;
     private Sprite StoredSprite;
+
+    /* Dash */
+    public bool CanDash;
+    public float CurrentDashCooldown;
+    public float MaxDashCooldown;
     
 
     public enum EnemyType               // enemy behavior based on type
@@ -87,7 +92,7 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
         Jumper,                         // jumps and patrols an area
         Patrol,                         // moves back and forth between an area, changing direction upon collision with platforms
         PatrolShoot,                    // patrols an area and fires projectiles with raycast
-        PatrolTurn,                     // 
+        PatrolTurn,                     // [X]
         PathedProjectileSpawner,        // spawns a projectile that travels torward a set 'destination'
         SelfDestruct,                   // destroys itself upon collision with the player
         Stalker,                        // visible and moves only when the player is facing away
@@ -95,9 +100,16 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
         DeathSpawn,                     // spawns an enemy upon death
         Pooper,                         // patrols, and spawns SelfDestruct AIs
         Zombie,                         // does not die, revive self after time passes
-        Ghost
+        Ghost,                          // move torwards player if the player is in range
+        Dash                            // [X]
     }
     public EnemyType Enemy;             // instance of an EnemyType, used to determine AI behavior
+
+    // Status Handlers
+    public bool CanFreeze;
+    public bool CanConfuse;
+    public bool CanPoison;
+    public bool CanParalyze;
     
     // Use this for initialization
     void Start () {
@@ -159,6 +171,15 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
                 Reverse();
         }
 
+        if (Enemy == EnemyType.Dash)
+        {
+            // Handles when this AI cannot shoot
+            if ((CurrentDashCooldown -= Time.deltaTime) > 0)
+                return;
+
+            Dash();  
+        }
+
         /* AI with Projectiles */
         if (Enemy == EnemyType.PatrolShoot || Enemy == EnemyType.PathedProjectileSpawner)
         {
@@ -211,7 +232,7 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
         }
 
         // START OF PHYSICS2D OVERLAPCIRCLE ENEMIES
-        if (Enemy == EnemyType.PatrolTurn || Enemy == EnemyType.Guardian || Enemy == EnemyType.Pooper || Enemy == EnemyType.Ghost)
+        if (Enemy == EnemyType.PatrolTurn || Enemy == EnemyType.Guardian || Enemy == EnemyType.Pooper)
         {
             // PatrolTurn enemies will turn around if the Player is behind them [DOES NOT WORK]
             if (Enemy == EnemyType.PatrolTurn)
@@ -323,12 +344,7 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
                 EnemyGiveDamageToPlayer.enabled = true;
                 EnemyAnimator.enabled = true;
             }
-
         }
-
-
-
-
     } // END OF UPDATE
 
     // Function that indicates that displays range of the PlayerDetectionRadius
@@ -352,6 +368,50 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
     */
     public void OnTriggerEnter2D(Collider2D other)
     {
+        
+        if (other.GetComponent<Player>() == null)
+            return;
+
+        else if (CanFreeze == true)
+        {
+            Debug.Log("Player Frozen");
+            Player.Status = Player.PlayerStatus.Frozen;
+            Player.MaxSpeed = 3;
+            Player.StartCoroutine(Player.CountdownDebuff());  // starts countdown before returning to normal status
+            Player.CurrentDebuffCD = Player.MaxDebuffCD;      // resets the cooldown
+            Player.SpriteColor.color = Color.blue;
+        }
+
+        else if (CanConfuse == true)
+        {
+            Debug.Log("Player Confused");
+            Player.Status = Player.PlayerStatus.Confused;
+            Player.Flip();
+            Player.StartCoroutine(Player.CountdownDebuff());  // starts countdown before returning to normal status
+            Player.CurrentDebuffCD = Player.MaxDebuffCD;      // resets the cooldown
+            Player.SpriteColor.color = Color.red;
+        }
+
+        else if (CanPoison == true)
+        {
+            Debug.Log("Player Poisoned");
+            Player.Status = Player.PlayerStatus.Poisoned;
+            Player.TakeDamage(10, gameObject);
+            Player.StartCoroutine(Player.CountdownDebuff());  // starts countdown before returning to normal status
+            Player.CurrentDebuffCD = Player.MaxDebuffCD;      // resets the cooldown
+            Player.SpriteColor.color = Color.green;
+        }
+            
+        else if (CanParalyze == true)
+        {
+            Debug.Log("Player Paralyzed");
+            Player.Status = Player.PlayerStatus.Paraylyzed;
+            Player.MaxSpeed = 0;
+            Player.StartCoroutine(Player.CountdownDebuff());  // starts countdown before returning to normal status
+            Player.CurrentDebuffCD = Player.MaxDebuffCD;      // resets the cooldown
+            Player.SpriteColor.color = Color.yellow;
+        }
+            
         if (Enemy == EnemyType.SelfDestruct || Enemy == EnemyType.Ghost)
         {
             if (other.GetComponent<Player>() == null)
@@ -402,6 +462,12 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
         // switches direction and flips the sprite
         _direction = -_direction; 
         transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
+    }
+
+    public void Dash()
+    {
+        //rigidbody.AddForce(Vector3.right * 50, ForceMode.VelocityChange);
+        _controller.AddForce(new Vector2(5f, 0));
     }
 
     /*

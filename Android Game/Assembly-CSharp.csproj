@@ -47,34 +47,12 @@
   <ItemGroup>
      <Compile Include="Assets\Code\EnemyAI Scripts\Boss AI\BossAI.cs" />
      <Compile Include="Assets\Code\EnemyAI Scripts\Boss AI\BossHealthBar.cs" />
-     <Compile Include="Assets\Code\EnemyAI Scripts\Boss AI\BossHelperAI.cs" />
-     <Compile Include="Assets\Code\EnemyAI Scripts\Boss AI\BossTestAI.cs" />
-     <Compile Include="Assets\Code\EnemyAI Scripts\Boss AI\Elizabeth Ninja\ElizabethNinjaHealthBar.cs" />
-     <Compile Include="Assets\Code\EnemyAI Scripts\Boss AI\Elizabeth Ninja\NinjaElizabethAI.cs" />
-     <Compile Include="Assets\Code\EnemyAI Scripts\Boss AI\Elizabeth Ninja\NinjaElizabethCloneAI.cs" />
-     <Compile Include="Assets\Code\EnemyAI Scripts\Boss AI\PainterElizabeth.cs" />
      <Compile Include="Assets\Code\EnemyAI Scripts\EnemyAI.cs" />
-     <Compile Include="Assets\Code\EnemyAI Scripts\In EnemyAI\BirdAI.cs" />
-     <Compile Include="Assets\Code\EnemyAI Scripts\In EnemyAI\EnemySpawner.cs" />
-     <Compile Include="Assets\Code\EnemyAI Scripts\In EnemyAI\GuardAI.cs" />
-     <Compile Include="Assets\Code\EnemyAI Scripts\In EnemyAI\JumpAI.cs" />
-     <Compile Include="Assets\Code\EnemyAI Scripts\In EnemyAI\MonsterSpawner.cs" />
-     <Compile Include="Assets\Code\EnemyAI Scripts\In EnemyAI\PathedProjectileSpawner.cs" />
-     <Compile Include="Assets\Code\EnemyAI Scripts\In EnemyAI\PatrolAI.cs" />
-     <Compile Include="Assets\Code\EnemyAI Scripts\In EnemyAI\PatrolRaycastChargeAI.cs" />
-     <Compile Include="Assets\Code\EnemyAI Scripts\In EnemyAI\PatrolRaycastShootAI.cs" />
-     <Compile Include="Assets\Code\EnemyAI Scripts\In EnemyAI\PatrolSelfDestruct.cs" />
-     <Compile Include="Assets\Code\EnemyAI Scripts\In EnemyAI\ReflectProjectiles.cs" />
-     <Compile Include="Assets\Code\EnemyAI Scripts\In EnemyAI\SnakeAI.cs" />
-     <Compile Include="Assets\Code\EnemyAI Scripts\In EnemyAI\SporeMushroom.cs" />
-     <Compile Include="Assets\Code\EnemyAI Scripts\Scrapped\GhostAI.cs" />
-     <Compile Include="Assets\Code\EnemyAI Scripts\Scrapped\RaycastShootUp.cs" />
      <Compile Include="Assets\Code\EnemyAI Scripts\Shield.cs" />
      <Compile Include="Assets\Code\Health\GiveHealth.cs" />
      <Compile Include="Assets\Code\Health\HealthBar.cs" />
      <Compile Include="Assets\Code\Health\ITakeDamage.cs" />
      <Compile Include="Assets\Code\Health\InstaKill.cs" />
-     <Compile Include="Assets\Code\Health\PainterElizabethHealthBar.cs" />
      <Compile Include="Assets\Code\Level Managers\CenteredTextPositioner.cs" />
      <Compile Include="Assets\Code\Level Managers\Checkpoint.cs" />
      <Compile Include="Assets\Code\Level Managers\FloatingText.cs" />
@@ -105,9 +83,6 @@
      <Compile Include="Assets\Code\Player\Player.cs" />
      <Compile Include="Assets\Code\Player\PlayerWeapon.cs" />
      <Compile Include="Assets\Code\Projectiles\AllProjectiles.cs" />
-     <Compile Include="Assets\Code\Projectiles\AllProjectiles\PathedProjectile.cs" />
-     <Compile Include="Assets\Code\Projectiles\AllProjectiles\SimpleProjectile.cs" />
-     <Compile Include="Assets\Code\Projectiles\AllProjectiles\SinProjectile.cs" />
      <Compile Include="Assets\Code\Projectiles\Projectile.cs" />
      <Compile Include="Assets\Code\Touch UI\ButtonMovement.cs" />
      <Compile Include="Assets\Code\Touch UI\EndLevelMenu.cs" />
@@ -118,17 +93,11 @@
      <Compile Include="Assets\Code\Touch UI\PauseMenu.cs" />
      <Compile Include="Assets\Code\Touch UI\TouchControls.cs" />
      <Compile Include="Assets\Code\Touch UI\TouchManager.cs" />
- <Reference Include="UnityEngine.Advertisements">
- <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/Advertisements/UnityEngine.Advertisements.dll</HintPath>
- </Reference>
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.Networking">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
- </Reference>
- <Reference Include="UnityEngine.Analytics">
- <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/UnityAnalytics/UnityEngine.Analytics.dll</HintPath>
  </Reference>
  <Reference Include="Mono.Cecil">
  <HintPath>C:/Program Files/Unity/Editor/Data/Managed/Mono.Cecil.dll</HintPath>

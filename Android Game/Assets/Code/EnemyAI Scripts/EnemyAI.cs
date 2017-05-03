@@ -28,10 +28,10 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
     /* End of All Enemy Type Parameters */
 
     /* Enemies with Projectiles */
-    public float FireRate = 1;                  // cooldown time after firing a projectile
-    public float Cooldown;                      // the amount of time this GameObject can shoot projectiles
+    public float MaxProjectileCD = 1;           // time needed to be able to fire projectiles again
+    public float Cooldown;                      // current time before being able to fire projectiles
     public Projectile Projectile;               // this GameObject's projectile
-    public Transform ProjectileFireLocation;    // the location of which the projectile is fired at
+    public Transform[] ProjectileFireLocation;  // the location of which the projectile is fired at
     public AudioClip ShootSound;                // the sound when this GameObject shoots a projectile
    
     /* Enemies using OverlapCircle */
@@ -123,7 +123,7 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
         StoredSpeed = MovementSpeed;                            // stores original movement speed
 
         if (Enemy == EnemyType.PathedProjectileSpawner)         // sets the PathedProjectileSpawner cooldown
-            Cooldown = FireRate;
+            Cooldown = MaxProjectileCD;
 
         if(Enemy == EnemyType.EnemySpawner)
         {
@@ -211,7 +211,7 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
                     AudioSource.PlayClipAtPoint(ShootSound, transform.position);
             }
             
-            Cooldown = FireRate;    // resets the cooldown
+            Cooldown = MaxProjectileCD;    // resets the cooldown
         }
 
         // Stalker AI
@@ -275,9 +275,12 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
                         if (ShootSound != null)
                             AudioSource.PlayClipAtPoint(ShootSound, transform.position);
 
-                        // Handles Effects when the projectile is instantiated
-                        if (ProjectileSpawnEffect != null)
-                            Instantiate(ProjectileSpawnEffect, ProjectileFireLocation.transform.position, ProjectileFireLocation.transform.rotation);
+                        for (int i = 0; i < ProjectileFireLocation.Length; i++)  // handles multiple projectile firing locations
+                        {
+                            // Handles Effects when the projectile is instantiated
+                            if (ProjectileSpawnEffect != null)
+                                Instantiate(ProjectileSpawnEffect, ProjectileFireLocation[i].transform.position, ProjectileFireLocation[i].transform.rotation);
+                        }
                     }
 
                     // Pooper AI
@@ -288,7 +291,7 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
                     }
 
                     // Resets cooldown
-                    Cooldown = FireRate;
+                    Cooldown = MaxProjectileCD;
                 }
             }
 
@@ -329,7 +332,6 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
         // Zombie AI
         if (Enemy == EnemyType.Zombie)
         {
-            Debug.Log(CurrentHealth);
             // Check to see when projectiles can be fired
             if ((Cooldown -= Time.deltaTime) > 0)
                 return;
@@ -374,7 +376,6 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
 
         else if (CanFreeze == true)
         {
-            Debug.Log("Player Frozen");
             Player.Status = Player.PlayerStatus.Frozen;
             Player.MaxSpeed = 3;
             Player.StartCoroutine(Player.CountdownDebuff());  // starts countdown before returning to normal status
@@ -384,7 +385,6 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
 
         else if (CanConfuse == true)
         {
-            Debug.Log("Player Confused");
             Player.Status = Player.PlayerStatus.Confused;
             Player.Flip();
             Player.StartCoroutine(Player.CountdownDebuff());  // starts countdown before returning to normal status
@@ -394,7 +394,6 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
 
         else if (CanPoison == true)
         {
-            Debug.Log("Player Poisoned");
             Player.Status = Player.PlayerStatus.Poisoned;
             Player.TakeDamage(10, gameObject);
             Player.StartCoroutine(Player.CountdownDebuff());  // starts countdown before returning to normal status
@@ -404,7 +403,6 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
             
         else if (CanParalyze == true)
         {
-            Debug.Log("Player Paralyzed");
             Player.Status = Player.PlayerStatus.Paraylyzed;
             Player.MaxSpeed = 0;
             Player.StartCoroutine(Player.CountdownDebuff());  // starts countdown before returning to normal status
@@ -440,9 +438,12 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
     // Function called by AI to instantiate a projectile and fire it in its direction
     public void FireProjectile()
     {
-        // Instantiates the projectile, and initilializes the speed, and direction of the projectile
-        var projectile = (Projectile)Instantiate(Projectile, ProjectileFireLocation.position, ProjectileFireLocation.rotation);
-        projectile.Initialize(gameObject, _direction, _controller.Velocity);
+        for (int i = 0; i < ProjectileFireLocation.Length; i++)  // handles multiple projectile firing locations
+        {
+            // Instantiates the projectile, and initilializes the speed, and direction of the projectile
+            var projectile = (Projectile)Instantiate(Projectile, ProjectileFireLocation[i].position, ProjectileFireLocation[i].rotation);
+            projectile.Initialize(gameObject, _direction, _controller.Velocity);
+        }
     }
 
     // Function called by Shield.cs to reflect a projectile

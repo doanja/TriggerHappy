@@ -18,15 +18,16 @@ public class BossAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
 
     public AudioClip[] EnemyDestroySounds;      // sound played when this GameObject is destroyed
     public SpriteRenderer SpriteColor;          // reference to the AI's sprite color
-
+    private Vector3 _currentPosition;           // current position of the AI
     public GameObject gate;
 
-    public bool HalfDamage;
+    public bool HalfDamage;                     // damage taken by this enemy is halved when true
 
     // Projectiles
-    public float FireRate = 4;                  // cooldown time after firing a projectile
+    public float MaxProjectileCD = 4;           // time needed to fire again
+    public float CurrentProjectileCD;           // current time before being able to fire projectiles
     public Projectile Projectile;               // this GameObject's projectile
-    public Transform ProjectileFireLocation;    // the location of which the projectile is fired at
+    public Transform[] ProjectileFireLocation;  // the location of which the projectile is fired at
     public AudioClip ShootSound;                // the sound when this GameObject shoots a projectile
 
     // Overlap Circle
@@ -36,24 +37,28 @@ public class BossAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
     public LayerMask DetectThisLayer;       // determines what this GameObject is colliding with
 
     // RNG Variables
-    private int CurrentRNGCount;
+    private int CurrentRNGCount;            // random number variable
 
     // Helper
-    public GameObject[] Helpers;
+    public GameObject[] Helpers;            // array of helpers that can be summoned
     public GameObject SpawnEffect;          // effect shown when the Helper is Spawned
-    public float MaxActionCD1;              //
-    public float MaxActionCD2;              //
-    public float CurrentActionCD1;          // used to count down the time before an action can be taken by the AI
-    public float CurrentActionCD2;          // used to count down the time before an action can be taken by the AI
+    public float MaxActionCD1;              // max countdown before an action can be preformed
+    public float MaxActionCD2;              // max countdown before an action can be preformed
+    public float CurrentActionCD1;          // used to countdown the time before an action can be taken by the AI
+    public float CurrentActionCD2;          // used to countdown the time before an action can be taken by the AI
 
     // Slime
-    private Vector3 _currentPosition;       // current position of the AI
-    public Transform[] SpawnPoints;
+    public Transform[] SpawnPoints;         // locations where Helpers can be spawned
     public GameObject HealEffect;
+
+    // Ogre
+    public bool RageActive;                 // keeps track when Ogre has its rings active
+    public GameObject Barrier;
 
     public enum EnemyType
     {
         Slime,
+        Ogre
     }
     public EnemyType Enemy;
 
@@ -63,6 +68,9 @@ public class BossAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
         _direction = new Vector2(-1, 0);                        // this GameObject will move the left upon initialization
         _startPosition = transform.position;                    // starting position of this GameObject
         CurrentHealth = MaxHealth;                              // sets current health to maximum health
+
+        if (Enemy == EnemyType.Ogre)
+            Barrier.SetActive(false);
     }
 	
 	// Update is called once per frame
@@ -82,7 +90,7 @@ public class BossAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
         // Variable used to determine if the DetectThisLayer overlaps with the Circle
         IsPlayerInRange = Physics2D.OverlapCircle(transform.position, PlayerDetectionRadius, DetectThisLayer);
 
-
+        // Elizabeth Slime
         if (Enemy == EnemyType.Slime)
         {
             // Checks cooldown count
@@ -95,6 +103,51 @@ public class BossAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
             StartCoroutine(CountdownSummon());  // starts countdown before summoning a helper
             CurrentActionCD2 = MaxActionCD2;    // resets the cooldown
         }
+
+        // Elizabeth Ogre
+        if (Enemy == EnemyType.Ogre)
+        {
+            if(RageActive == false)
+            {
+                Debug.Log("Waiting to summon barrier");
+                if ((CurrentActionCD2 -= Time.deltaTime) > 0)                // ogre barrier is not active, call the summon
+                    return;
+
+                StartCoroutine(CountdownBarrierDown());     // starts countdown before summoning the green barrier
+                CurrentActionCD2 = MaxActionCD2;            // resets the cooldown
+            }
+            
+            if (RageActive == true)
+            {
+                Debug.Log("Waiting for barrier to die");
+                // Checks cooldown count
+                if ((CurrentActionCD1 -= Time.deltaTime) > 0)
+                    return;
+
+                Debug.Log("Rage active, waiting to set barrier to false");
+                StartCoroutine(CountdownBarrierUp());   // starts countdown before regenerating health
+                CurrentActionCD1 = MaxActionCD1;        // resets the cooldown
+            }
+        }
+    }
+    // Time before Barrier Goes Down
+    IEnumerator CountdownBarrierUp()
+    {
+        yield return new WaitForSeconds(MaxActionCD1);  // kills barrier after x time
+        RageActive = false;                             // set check to false
+        Barrier.SetActive(false);                    // set the barrier to false
+        Debug.Log("Barrier down");
+        yield return 0;
+    }
+
+    // Sets Barrier to Active
+    IEnumerator CountdownBarrierDown()
+    {
+        yield return new WaitForSeconds(MaxActionCD2);
+        RageActive = true;
+        Barrier.SetActive(true);
+        Debug.Log("Barrier up");
+        yield return 0;
     }
 
     // Function to countdown time before BossAI heals to full health
@@ -117,9 +170,21 @@ public class BossAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
     // Function to summon an Enemy Prefab at BossAI's current position
     public void SummonHelper()
     {
+        Debug.Log("Summoning Helper");
         //Instantiate(Helpers[CurrentRNGCount], transform.position, transform.rotation);
         Instantiate(Helpers[CurrentRNGCount], SpawnPoints[CurrentRNGCount].position, SpawnPoints[CurrentRNGCount].rotation);
         Instantiate(SpawnEffect, transform.position, transform.rotation);
+    }
+
+    // Function called by AI to instantiate a projectile and fire it in its direction
+    public void FireProjectile()
+    {
+        for(int i = 0; i < ProjectileFireLocation.Length; i++)  // handles multiple projectile firing locations
+        {
+            // Instantiates the projectile, and initilializes the speed, and direction of the projectile
+            var projectile = (Projectile)Instantiate(Projectile, ProjectileFireLocation[i].position, ProjectileFireLocation[i].rotation);
+            projectile.Initialize(gameObject, _direction, _controller.Velocity);
+        }
     }
 
     // Function to change direction and velocity
@@ -184,11 +249,11 @@ public class BossAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
         // If this GameObject's CurrentHealth reaches zero
         if (CurrentHealth <= 0)
         {
-
+            // SLIME ONLY: Summon Slime Helpers upon death
             if (Enemy == EnemyType.Slime)
             {
                 for (int i = 0; i < SpawnPoints.Length; i++)
-                    Instantiate(Helpers[CurrentRNGCount], SpawnPoints[CurrentRNGCount].position, SpawnPoints[CurrentRNGCount].rotation);
+                    Instantiate(Helpers[CurrentRNGCount], SpawnPoints[i].position, SpawnPoints[i].rotation);
             }
 
             gate.SetActive(true);                       // makes end level portal visible

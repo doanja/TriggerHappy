@@ -72,18 +72,19 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
     private float StoredSpeed;          // stores original movement
 
     /* Zombie */
-    public float RevivalTime;
-    public Sprite DeathSprite;
-    public BoxCollider2D EnemyBoxCollider;
-    public GiveDamageToPlayer EnemyGiveDamageToPlayer;
-    public Animator EnemyAnimator;
-    private Sprite StoredSprite;
+    public float RevivalTime;                           // time before this EnemyAI is active again
+    public Sprite DeathSprite;                          // sprite shown when this EnemyAI is temporary disabled
+    public BoxCollider2D EnemyBoxCollider;              // this Zombie EnemyAI's box collider
+    public GiveDamageToPlayer EnemyGiveDamageToPlayer;  // this Zombie EnemyAI's damage given to the player
+    public Animator EnemyAnimator;                      // this Zombie EnemyAI's animator
+    private Sprite StoredSprite;                        // this Zombie EnemyAI's original sprite              
 
-    /* Dash */
-    public bool CanDash;
-    public float CurrentDashCooldown;
-    public float MaxDashCooldown;
-    
+    /* Summoner */
+    public AudioClip SummonedSound;
+    public GameObject SummonedEffect;
+
+    /* Card */
+    public float lifetime;              // the amount of time this GameObject lives 
 
     public enum EnemyType               // enemy behavior based on type
     {
@@ -101,15 +102,16 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
         Pooper,                         // patrols, and spawns SelfDestruct AIs
         Zombie,                         // does not die, revive self after time passes
         Ghost,                          // move torwards player if the player is in range
-        Dash                            // [X]
+        Summoner,                       // Summons the Dragon EnemyAI
+        Card
     }
     public EnemyType Enemy;             // instance of an EnemyType, used to determine AI behavior
 
     // Status Handlers
-    public bool CanFreeze;
-    public bool CanConfuse;
-    public bool CanPoison;
-    public bool CanParalyze;
+    public bool CanFreeze;              // slows player's MaxSpeed
+    public bool CanConfuse;             // reverses player's direction
+    public bool CanPoison;              // damages the player over time [WIP]
+    public bool CanParalyze;            // immobilizes the player
     
     // Use this for initialization
     void Start () {
@@ -125,21 +127,33 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
         if (Enemy == EnemyType.PathedProjectileSpawner)         // sets the PathedProjectileSpawner cooldown
             Cooldown = MaxProjectileCD;
 
-        if(Enemy == EnemyType.EnemySpawner)
+        if (Enemy == EnemyType.EnemySpawner)
         {
             // calls the Spawn function after a delay of the SpawnTime and then continue to call after the same amount of time.
             InvokeRepeating("Spawn", SpawnTime, SpawnTime);
         }
 
+        // Stores the Zombie EnemyAI's original sprite
         if (Enemy == EnemyType.Zombie)
-        {
             StoredSprite = SpriteColor.sprite;
-        }
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (Enemy == EnemyType.Card)
+        {
+            if ((lifetime -= Time.deltaTime) <= 0)
+            {
+                AudioSource.PlayClipAtPoint(SummonedSound, transform.position);
+                //Instantiate(SummonedEffect, transform.position, transform.rotation);
+                Instantiate(SpawnedEnemy, transform.position, transform.rotation);
+                Debug.Log("Blue Eyes Summoned");
+                Destroy(this.gameObject);
+                return;
+            }
+        }
+
         // Check to see if the player is facing away from the AI
         if ((Player.transform.position.x < transform.position.x && Player.transform.localScale.x < 0)
         || (Player.transform.position.x > transform.position.x && Player.transform.localScale.x > 0))
@@ -161,7 +175,7 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
         }
 
         // Handles basic movement
-        if (Enemy != EnemyType.PathedProjectileSpawner && Enemy != EnemyType.Ghost)
+        if (Enemy != EnemyType.PathedProjectileSpawner)
         {
             // Sets the x-velocity of this GameObject
             _controller.SetHorizontalForce(_direction.x * MovementSpeed);
@@ -169,15 +183,6 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
             // Checks to see if this GameObject is colliding with something in the same direction
             if ((_direction.x < 0 && _controller.State.IsCollidingLeft) || (_direction.x > 0 && _controller.State.IsCollidingRight))
                 Reverse();
-        }
-
-        if (Enemy == EnemyType.Dash)
-        {
-            // Handles when this AI cannot shoot
-            if ((CurrentDashCooldown -= Time.deltaTime) > 0)
-                return;
-
-            Dash();  
         }
 
         /* AI with Projectiles */
@@ -190,7 +195,7 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
             if (Enemy == EnemyType.PatrolShoot)
             {
                 // Casts rays to detect player
-                var raycast = Physics2D.Raycast(transform.position, _direction, 10, 1 << LayerMask.NameToLayer("Player"));
+                var raycast = Physics2D.Raycast(transform.position, _direction, 15, 1 << LayerMask.NameToLayer("Player"));
                 if (!raycast)
                     return;
             }
@@ -210,8 +215,9 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
                 if (ShootSound != null)
                     AudioSource.PlayClipAtPoint(ShootSound, transform.position);
             }
-            
-            Cooldown = MaxProjectileCD;    // resets the cooldown
+
+            // Resets cooldown
+            Cooldown = MaxProjectileCD;
         }
 
         // Stalker AI
@@ -232,7 +238,7 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
         }
 
         // START OF PHYSICS2D OVERLAPCIRCLE ENEMIES
-        if (Enemy == EnemyType.PatrolTurn || Enemy == EnemyType.Guardian || Enemy == EnemyType.Pooper)
+        if (Enemy == EnemyType.PatrolTurn || Enemy == EnemyType.Guardian || Enemy == EnemyType.Pooper || Enemy == EnemyType.Summoner || Enemy == EnemyType.Card)
         {
             // PatrolTurn enemies will turn around if the Player is behind them [DOES NOT WORK]
             if (Enemy == EnemyType.PatrolTurn)
@@ -246,11 +252,11 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
                 }*/
 
                 // if player.transform.postion.x > transform.position || player.transform.position.x < x
-                // change direction
+                // change direction [5/4/17: Call reverse?]
             }
 
-            // Gaurdian AI
-            if (Enemy == EnemyType.Guardian || Enemy == EnemyType.Pooper)
+            // AI that uses overlap circle physics
+            if (Enemy == EnemyType.Guardian || Enemy == EnemyType.Pooper || Enemy == EnemyType.Summoner || Enemy == EnemyType.Card)
             {
                 // Handles the event that the Player is in range of dectiong by the AI
                 if (IsPlayerInRange)
@@ -261,6 +267,12 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
                         // Handles movement of this GameObject
                         transform.position = Vector3.MoveTowards(transform.position, Player.transform.position, MovementSpeed * Time.deltaTime);
                         return;
+                    }
+
+                    // Card
+                    if (Enemy == EnemyType.Card)
+                    {
+
                     }
 
                     // Check to see when projectiles can be fired
@@ -288,6 +300,23 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
                     {
                         // Spawns Poop
                         Instantiate(SpawnedEnemy, transform.position, transform.rotation);
+                    }
+
+                    if (Enemy == EnemyType.Summoner)
+                    {
+                        Instantiate(SpawnedEnemy, transform.position, transform.rotation);
+   
+                        // Handles Sound when the SpawnedEnemy is instantiated
+                        if (SummonedSound != null)
+                            AudioSource.PlayClipAtPoint(SummonedSound, transform.position);
+
+                        for (int i = 0; i < ProjectileFireLocation.Length; i++)  // handles multiple projectile firing locations
+                        {
+                            // Handles Effects when the SpawnedEnemy is instantiated
+                            if (SummonedEffect != null)
+                                Instantiate(SummonedEffect, ProjectileFireLocation[i].transform.position, ProjectileFireLocation[i].rotation);
+                        }
+
                     }
 
                     // Resets cooldown
@@ -463,12 +492,6 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
         // switches direction and flips the sprite
         _direction = -_direction; 
         transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
-    }
-
-    public void Dash()
-    {
-        //rigidbody.AddForce(Vector3.right * 50, ForceMode.VelocityChange);
-        _controller.AddForce(new Vector2(5f, 0));
     }
 
     /*

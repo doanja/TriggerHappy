@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: c1b76a3cedb2cf749ad25f47767d0474
-timeCreated: 1493883753
+timeCreated: 1493899436
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -11,6 +11,7 @@ TextureImporter:
     21300008: Elizabeth Summoner_4
     21300010: Elizabeth Summoner_5
     21300012: Elizabeth Summoner_6
+    21300014: Elizabeth Summoner_7
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -60,8 +61,8 @@ TextureImporter:
     - name: Elizabeth Summoner_0
       rect:
         serializedVersion: 2
-        x: 139
-        y: 1525
+        x: 209
+        y: 1875
         width: 422
         height: 450
       alignment: 0
@@ -70,8 +71,8 @@ TextureImporter:
     - name: Elizabeth Summoner_1
       rect:
         serializedVersion: 2
-        x: 825
-        y: 1525
+        x: 1035
+        y: 1875
         width: 436
         height: 450
       alignment: 0
@@ -80,8 +81,8 @@ TextureImporter:
     - name: Elizabeth Summoner_2
       rect:
         serializedVersion: 2
-        x: 1525
-        y: 1525
+        x: 1875
+        y: 1875
         width: 436
         height: 450
       alignment: 0
@@ -90,9 +91,9 @@ TextureImporter:
     - name: Elizabeth Summoner_3
       rect:
         serializedVersion: 2
-        x: 265
-        y: 964
-        width: 156
+        x: 335
+        y: 1174
+        width: 157
         height: 185
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -100,8 +101,8 @@ TextureImporter:
     - name: Elizabeth Summoner_4
       rect:
         serializedVersion: 2
-        x: 937
-        y: 951
+        x: 1147
+        y: 1161
         width: 226
         height: 212
       alignment: 0
@@ -110,8 +111,8 @@ TextureImporter:
     - name: Elizabeth Summoner_5
       rect:
         serializedVersion: 2
-        x: 1553
-        y: 839
+        x: 1903
+        y: 1049
         width: 394
         height: 436
       alignment: 0
@@ -120,10 +121,20 @@ TextureImporter:
     - name: Elizabeth Summoner_6
       rect:
         serializedVersion: 2
-        x: 69
-        y: 69
+        x: 111
+        y: 13
+        width: 605
+        height: 814
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Elizabeth Summoner_7
+      rect:
+        serializedVersion: 2
+        x: 979
+        y: 138
         width: 562
-        height: 562
+        height: 563
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}

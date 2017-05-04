@@ -1,0 +1,133 @@
+fileFormatVersion: 2
+guid: c1b76a3cedb2cf749ad25f47767d0474
+timeCreated: 1493883753
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: Elizabeth Summoner_0
+    21300002: Elizabeth Summoner_1
+    21300004: Elizabeth Summoner_2
+    21300006: Elizabeth Summoner_3
+    21300008: Elizabeth Summoner_4
+    21300010: Elizabeth Summoner_5
+    21300012: Elizabeth Summoner_6
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: .25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 8
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: -1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  allowsAlphaSplitting: 0
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: .5, y: .5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: Elizabeth Summoner_0
+      rect:
+        serializedVersion: 2
+        x: 139
+        y: 1525
+        width: 422
+        height: 450
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Elizabeth Summoner_1
+      rect:
+        serializedVersion: 2
+        x: 825
+        y: 1525
+        width: 436
+        height: 450
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Elizabeth Summoner_2
+      rect:
+        serializedVersion: 2
+        x: 1525
+        y: 1525
+        width: 436
+        height: 450
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Elizabeth Summoner_3
+      rect:
+        serializedVersion: 2
+        x: 265
+        y: 964
+        width: 156
+        height: 185
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Elizabeth Summoner_4
+      rect:
+        serializedVersion: 2
+        x: 937
+        y: 951
+        width: 226
+        height: 212
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Elizabeth Summoner_5
+      rect:
+        serializedVersion: 2
+        x: 1553
+        y: 839
+        width: 394
+        height: 436
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Elizabeth Summoner_6
+      rect:
+        serializedVersion: 2
+        x: 69
+        y: 69
+        width: 562
+        height: 562
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

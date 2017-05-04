@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 63a1e9f6f557f1447be9d6e07460c375
-timeCreated: 1473801493
+timeCreated: 1493864938
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -89,10 +89,10 @@ TextureImporter:
     - name: Elizabeth Zombie_3
       rect:
         serializedVersion: 2
-        x: 854
-        y: 182
-        width: 392
-        height: 350
+        x: 770
+        y: 84
+        width: 560
+        height: 406
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}

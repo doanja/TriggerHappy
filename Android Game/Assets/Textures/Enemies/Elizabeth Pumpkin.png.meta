@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: c51fc4e0f62420340b8ab83929c000cd
-timeCreated: 1493609932
+timeCreated: 1493953964
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -57,40 +57,40 @@ TextureImporter:
     - name: Elizabeth Pumpkin_0
       rect:
         serializedVersion: 2
-        x: 84
-        y: 588
+        x: 154
+        y: 826
         width: 392
-        height: 518
+        height: 560
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Elizabeth Pumpkin_1
       rect:
         serializedVersion: 2
-        x: 644
-        y: 588
+        x: 854
+        y: 826
         width: 392
-        height: 518
+        height: 574
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Elizabeth Pumpkin_2
       rect:
         serializedVersion: 2
-        x: 84
-        y: 28
+        x: 154
+        y: 126
         width: 392
-        height: 518
+        height: 560
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Elizabeth Pumpkin_3
       rect:
         serializedVersion: 2
-        x: 686
-        y: 154
-        width: 322
-        height: 322
+        x: 798
+        y: 140
+        width: 504
+        height: 420
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}

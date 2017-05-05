@@ -98,7 +98,8 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
         Pooper,                         // patrols, and spawns SelfDestruct AIs
         Zombie,                         // does not die, revive self after time passes
         Ghost,                          // move torwards player if the player is in range
-        Summoner                        // Summons the Dragon EnemyAI
+        Summoner,                       // Summons the Dragon EnemyAI
+        Ninja
         
     }
     public EnemyType Enemy;             // instance of an EnemyType, used to determine AI behavior
@@ -169,13 +170,13 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
         }
 
         /* AI with Projectiles */
-        if (Enemy == EnemyType.PatrolShoot || Enemy == EnemyType.PathedProjectileSpawner)
+        if (Enemy == EnemyType.PatrolShoot || Enemy == EnemyType.PathedProjectileSpawner || Enemy == EnemyType.Ninja)
         {
             // Handles when this AI cannot shoot
             if ((Cooldown -= Time.deltaTime) > 0)
                 return;
 
-            if (Enemy == EnemyType.PatrolShoot)
+            if (Enemy == EnemyType.PatrolShoot || Enemy == EnemyType.Ninja)
             {
                 // Casts rays to detect player
                 var raycast = Physics2D.Raycast(transform.position, _direction, 15, 1 << LayerMask.NameToLayer("Player"));
@@ -441,6 +442,13 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
         FireProjectile();
     }
 
+    public void Teleport()
+    {
+        // positions self above the Player's current position
+        transform.position = new Vector2(Player.transform.position.x, transform.position.y + 5);
+        PlaySoundEffect(BlockedSound, transform.position);
+    }
+
     // Function to change direction and velocity
     public void Reverse()
     {
@@ -486,6 +494,13 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
         // Effect played upon the death of this GameObject
         Instantiate(DestroyedEffect, transform.position, transform.rotation);
         CurrentHealth -= damage;                               // decrement this GameObject's CurrentHealth
+
+        if (Enemy == EnemyType.Ninja)
+        {
+            Teleport();
+            Reverse();
+            FireProjectile();
+        }
 
         // If this GameObject's CurrentHealth reaches zero
         if (CurrentHealth <= 0)

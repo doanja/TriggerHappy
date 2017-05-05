@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 5f78d23eca7459547812de9eeb3cc22c
-timeCreated: 1493807837
+timeCreated: 1493983878
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -63,8 +63,8 @@ TextureImporter:
     - name: Dirt Platforms_0
       rect:
         serializedVersion: 2
-        x: 84
-        y: 1358
+        x: 56
+        y: 1218
         width: 462
         height: 448
       alignment: 0
@@ -73,8 +73,8 @@ TextureImporter:
     - name: Dirt Platforms_1
       rect:
         serializedVersion: 2
-        x: 714
-        y: 1358
+        x: 630
+        y: 1218
         width: 462
         height: 448
       alignment: 0
@@ -83,8 +83,8 @@ TextureImporter:
     - name: Dirt Platforms_2
       rect:
         serializedVersion: 2
-        x: 1344
-        y: 1288
+        x: 1204
+        y: 1148
         width: 462
         height: 574
       alignment: 0
@@ -93,8 +93,8 @@ TextureImporter:
     - name: Dirt Platforms_3
       rect:
         serializedVersion: 2
-        x: 84
-        y: 840
+        x: 56
+        y: 756
         width: 462
         height: 224
       alignment: 0
@@ -103,8 +103,8 @@ TextureImporter:
     - name: Dirt Platforms_4
       rect:
         serializedVersion: 2
-        x: 714
-        y: 840
+        x: 630
+        y: 756
         width: 462
         height: 224
       alignment: 0
@@ -113,8 +113,8 @@ TextureImporter:
     - name: Dirt Platforms_5
       rect:
         serializedVersion: 2
-        x: 1344
-        y: 770
+        x: 1204
+        y: 686
         width: 462
         height: 350
       alignment: 0
@@ -123,8 +123,8 @@ TextureImporter:
     - name: Dirt Platforms_6
       rect:
         serializedVersion: 2
-        x: 84
-        y: 266
+        x: 56
+        y: 238
         width: 462
         height: 112
       alignment: 0
@@ -133,8 +133,8 @@ TextureImporter:
     - name: Dirt Platforms_7
       rect:
         serializedVersion: 2
-        x: 714
-        y: 266
+        x: 630
+        y: 238
         width: 462
         height: 112
       alignment: 0
@@ -143,8 +143,8 @@ TextureImporter:
     - name: Dirt Platforms_8
       rect:
         serializedVersion: 2
-        x: 1344
-        y: 196
+        x: 1204
+        y: 168
         width: 462
         height: 238
       alignment: 0

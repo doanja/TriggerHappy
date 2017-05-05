@@ -120,6 +120,7 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
         SpriteColor.color = Color.white;                        // sets the color to white by default
         CanFireProjectiles = true;                              // by default allows AI to shoot projectiles
         StoredSpeed = MovementSpeed;                            // stores original movement speed
+        transform.localScale = new Vector2(0.5f, 0.5f);         // fixes resizing issue with touch screen overlay
 
         if (Enemy == EnemyType.PathedProjectileSpawner)         // sets the PathedProjectileSpawner cooldown
             Cooldown = MaxProjectileCD;
@@ -548,5 +549,6 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
         transform.localScale = new Vector3(1, 1, 1);    // resets sprite
         gameObject.SetActive(true);                     // shows this AI
         CurrentHealth = MaxHealth;                      // Resets CurrentHealth
+        transform.localScale = new Vector2(0.5f, 0.5f);         // fixes resizing issue with touch screen overlay
     }
 }

@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: dfd6b8016ff02f145a89c212ec40317e
-timeCreated: 1493609071
+timeCreated: 1493981246
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -9,6 +9,7 @@ TextureImporter:
     21300004: Elizabeth Lanturn_2
     21300006: Elizabeth Lanturn_3
     21300008: Elizabeth Lanturn_4
+    21300010: Elizabeth Lanturn_5
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -58,10 +59,10 @@ TextureImporter:
     - name: Elizabeth Lanturn_0
       rect:
         serializedVersion: 2
-        x: 42
-        y: 1176
-        width: 434
-        height: 448
+        x: 28
+        y: 1218
+        width: 448
+        height: 462
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -69,39 +70,49 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 602
-        y: 1176
-        width: 434
-        height: 448
+        y: 1218
+        width: 448
+        height: 476
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Elizabeth Lanturn_2
       rect:
         serializedVersion: 2
-        x: 42
-        y: 588
-        width: 434
-        height: 476
+        x: 28
+        y: 644
+        width: 448
+        height: 462
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Elizabeth Lanturn_3
       rect:
         serializedVersion: 2
-        x: 770
+        x: 756
         y: 714
-        width: 140
-        height: 266
+        width: 182
+        height: 322
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Elizabeth Lanturn_4
       rect:
         serializedVersion: 2
-        x: 182
-        y: 196
-        width: 182
-        height: 182
+        x: 0
+        y: 14
+        width: 560
+        height: 560
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Elizabeth Lanturn_5
+      rect:
+        serializedVersion: 2
+        x: 574
+        y: 14
+        width: 560
+        height: 560
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}

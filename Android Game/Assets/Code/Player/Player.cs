@@ -67,7 +67,7 @@ public class Player : MonoBehaviour, ITakeDamage
     public PlayerStatus Status;                     // the PlayerStatus
     public float MaxDebuffCD;                       // max time before debuffs wear off
     public float CurrentDebuffCD;                   // current countdown before debuff wears off
-    public float MaxSpeedStore;                     // stores the Player's MaxSpeed
+    private float MaxSpeedStore;                     // stores the Player's MaxSpeed
     public SpriteRenderer SpriteColor;              // reference to the AI's sprite color
 
     // Use this for initialization

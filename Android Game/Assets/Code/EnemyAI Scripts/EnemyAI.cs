@@ -39,7 +39,6 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
     public float PlayerDetectionRadius;     // the distance between the Player Object and this GameObject
     private bool IsPlayerInRange;           // used to determine if the Player Object is in range of this GameObject
     private bool IsPlayerFacingAway;        // if the Player Object is not facing this GameObject
-    public LayerMask DetectThisLayer;       // determines what this GameObject is colliding with
 
     /* Guardian */
     public GameObject GameObjectSpawnEffect;    // effect played when spawning the projectiles
@@ -120,7 +119,7 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
         SpriteColor.color = Color.white;                        // sets the color to white by default
         CanFireProjectiles = true;                              // by default allows AI to shoot projectiles
         StoredSpeed = MovementSpeed;                            // stores original movement speed
-        transform.localScale = new Vector2(0.5f, 0.5f);         // fixes resizing issue with touch screen overlay
+        transform.localScale = new Vector2(0.75f, 0.75f);         // fixes resizing issue with touch screen overlay
 
         if (Enemy == EnemyType.PathedProjectileSpawner)         // sets the PathedProjectileSpawner cooldown
             Cooldown = MaxProjectileCD;
@@ -148,8 +147,8 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
         else
             IsPlayerFacingAway = false;
 
-        // Variable used to determine if the DetectThisLayer overlaps with the Circle
-        IsPlayerInRange = Physics2D.OverlapCircle(transform.position, PlayerDetectionRadius, DetectThisLayer);
+        // Variable used to determine if the Player overlaps with the Circle
+        IsPlayerInRange = Physics2D.OverlapCircle(transform.position, PlayerDetectionRadius, 1 << LayerMask.NameToLayer("Player"));
 
         // Ghost AI
         if (Enemy == EnemyType.Ghost)
@@ -549,6 +548,6 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
         transform.localScale = new Vector3(1, 1, 1);    // resets sprite
         gameObject.SetActive(true);                     // shows this AI
         CurrentHealth = MaxHealth;                      // Resets CurrentHealth
-        transform.localScale = new Vector2(0.5f, 0.5f);         // fixes resizing issue with touch screen overlay
+        transform.localScale = new Vector2(0.75f, 0.75f);         // fixes resizing issue with touch screen overlay
     }
 }

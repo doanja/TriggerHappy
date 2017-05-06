@@ -1,9 +1,18 @@
 fileFormatVersion: 2
 guid: 0887f97e98214c446b5a632ace52ded3
-timeCreated: 1493880191
+timeCreated: 1494064281
 licenseType: Free
 TextureImporter:
-  fileIDToRecycleName: {}
+  fileIDToRecycleName:
+    21300000: Mossy Platforms_0
+    21300002: Mossy Platforms_1
+    21300004: Mossy Platforms_2
+    21300006: Mossy Platforms_3
+    21300008: Mossy Platforms_4
+    21300010: Mossy Platforms_5
+    21300012: Mossy Platforms_6
+    21300014: Mossy Platforms_7
+    21300016: Mossy Platforms_8
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -30,7 +39,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     filterMode: -1
-    aniso: -1
+    aniso: 16
     mipBias: -1
     wrapMode: 1
   nPOTScale: 0
@@ -38,7 +47,7 @@ TextureImporter:
   rGBM: 0
   compressionQuality: 50
   allowsAlphaSplitting: 0
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -49,7 +58,97 @@ TextureImporter:
   textureType: 8
   buildTargetSettings: []
   spriteSheet:
-    sprites: []
+    sprites:
+    - name: Mossy Platforms_0
+      rect:
+        serializedVersion: 2
+        x: 56
+        y: 1218
+        width: 462
+        height: 448
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Mossy Platforms_1
+      rect:
+        serializedVersion: 2
+        x: 630
+        y: 1218
+        width: 462
+        height: 448
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Mossy Platforms_2
+      rect:
+        serializedVersion: 2
+        x: 1204
+        y: 1148
+        width: 462
+        height: 574
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Mossy Platforms_3
+      rect:
+        serializedVersion: 2
+        x: 56
+        y: 756
+        width: 462
+        height: 224
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Mossy Platforms_4
+      rect:
+        serializedVersion: 2
+        x: 630
+        y: 756
+        width: 462
+        height: 224
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Mossy Platforms_5
+      rect:
+        serializedVersion: 2
+        x: 1204
+        y: 686
+        width: 462
+        height: 350
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Mossy Platforms_6
+      rect:
+        serializedVersion: 2
+        x: 56
+        y: 238
+        width: 462
+        height: 112
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Mossy Platforms_7
+      rect:
+        serializedVersion: 2
+        x: 630
+        y: 238
+        width: 462
+        height: 112
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Mossy Platforms_8
+      rect:
+        serializedVersion: 2
+        x: 1204
+        y: 168
+        width: 462
+        height: 238
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
   spritePackingTag: 
   userData: 
   assetBundleName: 

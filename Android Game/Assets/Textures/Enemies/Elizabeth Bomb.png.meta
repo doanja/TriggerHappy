@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: aa9fa63a7c9e28f45a27481a699a70d1
-timeCreated: 1472971970
+timeCreated: 1494134521
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -8,6 +8,7 @@ TextureImporter:
     21300002: Elizabeth Bomb_1
     21300004: Elizabeth Bomb_2
     21300006: Elizabeth Bomb_3
+    21300008: Elizabeth Bomb_4
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -57,9 +58,9 @@ TextureImporter:
     - name: Elizabeth Bomb_0
       rect:
         serializedVersion: 2
-        x: 154
-        y: 826
-        width: 392
+        x: 42
+        y: 1176
+        width: 476
         height: 448
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -67,30 +68,40 @@ TextureImporter:
     - name: Elizabeth Bomb_1
       rect:
         serializedVersion: 2
-        x: 966
-        y: 1260
-        width: 14
-        height: 14
+        x: 602
+        y: 1176
+        width: 476
+        height: 448
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Elizabeth Bomb_2
       rect:
         serializedVersion: 2
-        x: 854
-        y: 826
-        width: 392
-        height: 434
+        x: 28
+        y: 616
+        width: 490
+        height: 448
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Elizabeth Bomb_3
       rect:
         serializedVersion: 2
+        x: 714
+        y: 700
+        width: 252
+        height: 280
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Elizabeth Bomb_4
+      rect:
+        serializedVersion: 2
         x: 154
-        y: 126
-        width: 392
-        height: 448
+        y: 140
+        width: 252
+        height: 280
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}

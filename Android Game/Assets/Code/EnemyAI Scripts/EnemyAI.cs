@@ -400,6 +400,14 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
             if (other.GetComponent<Player>() == null)
                 return;
 
+            if (Enemy == EnemyType.SelfDestruct)
+            {
+                PlaySoundEffect(SummonedSound, transform.position);
+                PlaySoundEffect(BlowupSound, transform.position);
+                Instantiate(BlowupEffect, transform.position, transform.rotation);
+                gameObject.SetActive(false);
+            }
+                
             PlaySoundEffect(BlowupSound, transform.position);
             Instantiate(BlowupEffect, transform.position, transform.rotation);
             gameObject.SetActive(false);

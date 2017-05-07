@@ -29,12 +29,7 @@ public class BossAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
     public Projectile Projectile;               // this GameObject's projectile
     public Transform[] ProjectileFireLocation;  // the location of which the projectile is fired at
     public AudioClip ShootSound;                // the sound when this GameObject shoots a projectile
-
-    // Overlap Circle
-    private Player Player;                  // instance of the player class
-    public float PlayerDetectionRadius;     // the distance between the Player Object and this GameObject
-    private bool IsPlayerInRange;           // used to determine if the Player Object is in range of this GameObject
-    public LayerMask DetectThisLayer;       // determines what this GameObject is colliding with
+    public GameObject GameObjectSpawnEffect;
 
     // RNG Variables
     private int CurrentRNGCount;            // random number variable
@@ -52,8 +47,9 @@ public class BossAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
     public GameObject HealEffect;
 
     // Ogre
-    public bool RageActive;                 // keeps track when Ogre has its rings active
-    public GameObject Barrier;
+    public bool RageActive;                 // true when Barrier is active
+    public GameObject Barrier;              // EnemyAI that helps BossAI Ogre shoot projectiles
+    public GameObject Swamp;
 
     public enum EnemyType
     {
@@ -70,7 +66,10 @@ public class BossAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
         CurrentHealth = MaxHealth;                              // sets current health to maximum health
 
         if (Enemy == EnemyType.Ogre)
+        {
             Barrier.SetActive(false);
+            Swamp.SetActive(false);
+        }
     }
 	
 	// Update is called once per frame
@@ -87,8 +86,7 @@ public class BossAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
         if ((_direction.x < 0 && _controller.State.IsCollidingLeft) || (_direction.x > 0 && _controller.State.IsCollidingRight))
             Reverse();
 
-        // Variable used to determine if the DetectThisLayer overlaps with the Circle
-        IsPlayerInRange = Physics2D.OverlapCircle(transform.position, PlayerDetectionRadius, DetectThisLayer);
+
 
         // Elizabeth Slime
         if (Enemy == EnemyType.Slime)
@@ -103,32 +101,51 @@ public class BossAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
             StartCoroutine(CountdownSummon());  // starts countdown before summoning a helper
             CurrentActionCD2 = MaxActionCD2;    // resets the cooldown
         }
-
+        
         // Elizabeth Ogre
         if (Enemy == EnemyType.Ogre)
         {
-            if(RageActive == false)
+            // Phase 1
+            if(CurrentHealth > (MaxHealth * 0.5))
             {
-                Debug.Log("Waiting to summon barrier");
-                if ((CurrentActionCD2 -= Time.deltaTime) > 0)                // ogre barrier is not active, call the summon
+                // Barrier inactive
+                if (RageActive == false)
+                {
+                    // Waiting to summoning the Barrier
+                    if ((CurrentActionCD2 -= Time.deltaTime) > 0)
+                        return;
+
+                    StartCoroutine(CountdownBarrierDown());
+                    CurrentActionCD2 = MaxActionCD2;
+                }
+
+                // Barrier active
+                if (RageActive == true)
+                {
+                    // Waiting to kill the BArrier
+                    if ((CurrentActionCD1 -= Time.deltaTime) > 0)
+                        return;
+
+                    StartCoroutine(CountdownBarrierUp());
+                    CurrentActionCD1 = MaxActionCD1;
+                }
+            }
+
+            else
+            {
+                // Handles when this AI cannot shoot
+                if ((MaxActionCD2 -= Time.deltaTime) > 0)
                     return;
 
-                StartCoroutine(CountdownBarrierDown());     // starts countdown before summoning the green barrier
-                CurrentActionCD2 = MaxActionCD2;            // resets the cooldown
+                Barrier.SetActive(false);
+                HalfDamage = true;
+                JumpAndPoop();
+                CurrentActionCD2 = MaxActionCD2;
+                Swamp.SetActive(true);
             }
             
-            if (RageActive == true)
-            {
-                Debug.Log("Waiting for barrier to die");
-                // Checks cooldown count
-                if ((CurrentActionCD1 -= Time.deltaTime) > 0)
-                    return;
-
-                Debug.Log("Rage active, waiting to set barrier to false");
-                StartCoroutine(CountdownBarrierUp());   // starts countdown before regenerating health
-                CurrentActionCD1 = MaxActionCD1;        // resets the cooldown
-            }
         }
+        
     }
     // Time before Barrier Goes Down
     IEnumerator CountdownBarrierUp()
@@ -136,7 +153,7 @@ public class BossAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
         yield return new WaitForSeconds(MaxActionCD1);  // kills barrier after x time
         RageActive = false;                             // set check to false
         Barrier.SetActive(false);                    // set the barrier to false
-        Debug.Log("Barrier down");
+        //Debug.Log("Barrier down");
         yield return 0;
     }
 
@@ -146,7 +163,7 @@ public class BossAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
         yield return new WaitForSeconds(MaxActionCD2);
         RageActive = true;
         Barrier.SetActive(true);
-        Debug.Log("Barrier up");
+        //Debug.Log("Barrier up");
         yield return 0;
     }
 
@@ -170,7 +187,6 @@ public class BossAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
     // Function to summon an Enemy Prefab at BossAI's current position
     public void SummonHelper()
     {
-        Debug.Log("Summoning Helper");
         //Instantiate(Helpers[CurrentRNGCount], transform.position, transform.rotation);
         Instantiate(Helpers[CurrentRNGCount], SpawnPoints[CurrentRNGCount].position, SpawnPoints[CurrentRNGCount].rotation);
         Instantiate(SpawnEffect, transform.position, transform.rotation);
@@ -185,6 +201,35 @@ public class BossAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
             var projectile = (Projectile)Instantiate(Projectile, ProjectileFireLocation[i].position, ProjectileFireLocation[i].rotation);
             projectile.Initialize(gameObject, _direction, _controller.Velocity);
         }
+    }
+
+    public void JumpAndPoop()
+    {
+        // Checks to see when the AI can jump
+        if (_controller.CanJump)
+        {
+            _controller.Jump();
+            
+            // Spawns Poop
+            Instantiate(Helpers[0], transform.position, transform.rotation);
+            PlaySoundEffect(ShootSound, transform.position);
+            Instantiate(GameObjectSpawnEffect, transform.position, transform.rotation);
+        }
+            
+    }
+
+    // Handles Sounds
+    public void PlaySoundEffect(AudioClip Sound, Vector3 SoundLocation)
+    {
+        if (Sound != null)
+            AudioSource.PlayClipAtPoint(Sound, SoundLocation);
+    }
+
+    // Handles Effects when a GameObject is instantiated
+    public void PlayGameObjectSpawnEffect(GameObject Effect, Transform EffectLocation)
+    {
+        if (Effect != null)
+            Instantiate(Effect, EffectLocation.transform.position, EffectLocation.transform.rotation);
     }
 
     // Function to change direction and velocity
@@ -214,12 +259,6 @@ public class BossAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
             if(HalfDamage == true)
                 projectile.Damage /= 2;
         }
-    }
-
-    // Function that indicates that displays range of the PlayerDetectionRadius
-    public void OnDrawGizmosSelected()
-    {
-        Gizmos.DrawSphere(transform.position, PlayerDetectionRadius);
     }
 
     /*
@@ -279,5 +318,8 @@ public class BossAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
         transform.localScale = new Vector3(1, 1, 1);    // resets sprite
         gameObject.SetActive(true);                     // shows this AI
         CurrentHealth = MaxHealth;                      // Resets CurrentHealth
+
+        if (Enemy == EnemyType.Ogre)
+            Swamp.SetActive(false);
     }
 }

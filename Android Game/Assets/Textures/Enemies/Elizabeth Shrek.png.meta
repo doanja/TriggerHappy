@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 02f11ea7e72ed684aa2ade5d945fee3c
-timeCreated: 1493720473
+timeCreated: 1494140122
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -100,10 +100,10 @@ TextureImporter:
     - name: Elizabeth Shrek_4
       rect:
         serializedVersion: 2
-        x: 756
-        y: 770
-        width: 154
-        height: 154
+        x: 714
+        y: 728
+        width: 238
+        height: 238
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}

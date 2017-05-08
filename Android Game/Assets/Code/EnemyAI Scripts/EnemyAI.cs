@@ -81,6 +81,9 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
     /* Summoner */
     public AudioClip SummonedSound;     // sound clip played when Summoner EnemyAI instantiates a GameObject
 
+    /* Pathed Projectile 
+    public AllProjectiles PathedProjectile; */
+
     public enum EnemyType               // enemy behavior based on type
     {
         Charger,                        // movement speed is increased upon raycast returning true
@@ -183,14 +186,13 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
                 if (!raycast)
                     return;
             }
-
+            /*
             if (Enemy == EnemyType.PathedProjectileSpawner)
             {
-                // Animation
-                if (anim != null)
-                    anim.SetTrigger("Fire");
+                FirePathedProjectile();
+                Cooldown = MaxProjectileCD;
             }
-
+            */
             if(CanFireProjectiles == true)
                 FireProjectile();
 
@@ -441,7 +443,20 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
             PlaySoundEffect(ShootSound, transform.position);
         }
     }
+    /*
+    public void FirePathedProjectile()
+    {
+        for (int i = 0; i < ProjectileFireLocation.Length; i++)  // handles multiple projectile firing locations
+        {
+            // Instantiates the projectile, and initilializes the speed, and direction of the projectile
+            var projectile = (AllProjectiles)Instantiate(PathedProjectile, ProjectileFireLocation[i].position, ProjectileFireLocation[i].rotation);
+            projectile.Initialize(Destination, ProjectileSpeed);
 
+            // Plays ShootSound audio clip when the projectile is instantiated
+            PlaySoundEffect(ShootSound, transform.position);
+        }
+    }
+    */
     // Function called by Shield.cs to reflect a projectile
     public void ReflectProjectile()
     {

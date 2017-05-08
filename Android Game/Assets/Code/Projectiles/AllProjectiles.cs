@@ -8,7 +8,6 @@
 public class AllProjectiles : Projectile, ITakeDamage {
 
     /* All Projectiles Must Have */
-   
     public GameObject DestroyedEffect;  // the effect played upon the destruction of this GameObject
     public int PointsToGiveToPlayer;    // the amount of points the Player Object receives
     public float TimeToLive;            // the amount of time this GameObject lives
@@ -33,7 +32,6 @@ public class AllProjectiles : Projectile, ITakeDamage {
     /* Lock On Projectiles */
     private bool IsTargetInRange;       // used to determine if the target is in range of this projectile
     public float DetectionRadius;       // the distance between the target and this projectile
-    public LayerMask DetectThisLayer;   // determines what this target is colliding with
 
     /* Projectile Secondary Effects */
     public bool CanFreeze;              // slows enemy movement speed
@@ -49,7 +47,7 @@ public class AllProjectiles : Projectile, ITakeDamage {
         PathedProjectile,               // projectile that follows a set path towards its destination
         SinProjectile,                  // projectile that oscillates
         HomingProjectile,               // projectile that pursues its target (can be invaded)
-        LockOnProjectile                // projectile that can lock onto a target and cannot be invaded
+        LockOnProjectile                // projectile that can lock onto a target and cannot be invaded [WIP]
     }
     public ProjectileType Proj;         // instance of an ProjectileType, used to determine Projectile behavior
 
@@ -91,7 +89,7 @@ public class AllProjectiles : Projectile, ITakeDamage {
             if (Proj == ProjectileType.LockOnProjectile)
             {
                 // Determines if target is in range
-                IsTargetInRange = Physics2D.OverlapCircle(transform.position, DetectionRadius, DetectThisLayer);
+                IsTargetInRange = Physics2D.OverlapCircle(transform.position, DetectionRadius, 1 << LayerMask.NameToLayer("Player"));
 
                 // Checks to see if target is in range of the projectile
                 if (IsTargetInRange)

@@ -1,9 +1,15 @@
 fileFormatVersion: 2
 guid: 820f7add1fc5b144cbf819e20035d21f
-timeCreated: 1494134495
+timeCreated: 1494163046
 licenseType: Free
 TextureImporter:
-  fileIDToRecycleName: {}
+  fileIDToRecycleName:
+    21300000: Elizabeth Bow_0
+    21300002: Elizabeth Bow_1
+    21300004: Elizabeth Bow_2
+    21300006: Elizabeth Bow_3
+    21300008: Elizabeth Bow_4
+    21300010: Elizabeth Bow_5
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -30,7 +36,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     filterMode: -1
-    aniso: -1
+    aniso: 16
     mipBias: -1
     wrapMode: 1
   nPOTScale: 0
@@ -38,7 +44,7 @@ TextureImporter:
   rGBM: 0
   compressionQuality: 50
   allowsAlphaSplitting: 0
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -49,7 +55,67 @@ TextureImporter:
   textureType: 8
   buildTargetSettings: []
   spriteSheet:
-    sprites: []
+    sprites:
+    - name: Elizabeth Bow_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1358
+        width: 476
+        height: 448
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Elizabeth Bow_1
+      rect:
+        serializedVersion: 2
+        x: 630
+        y: 1358
+        width: 476
+        height: 448
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Elizabeth Bow_2
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 728
+        width: 504
+        height: 448
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Elizabeth Bow_3
+      rect:
+        serializedVersion: 2
+        x: 770
+        y: 742
+        width: 322
+        height: 434
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Elizabeth Bow_4
+      rect:
+        serializedVersion: 2
+        x: 98
+        y: 112
+        width: 364
+        height: 434
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Elizabeth Bow_5
+      rect:
+        serializedVersion: 2
+        x: 770
+        y: 266
+        width: 336
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
   spritePackingTag: 
   userData: 
   assetBundleName: 

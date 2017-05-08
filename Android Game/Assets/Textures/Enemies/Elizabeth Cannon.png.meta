@@ -1,9 +1,19 @@
 fileFormatVersion: 2
 guid: 28b4be689eb938a4bb5f926d3f39a0d8
-timeCreated: 1473974445
+timeCreated: 1494223518
 licenseType: Free
 TextureImporter:
-  fileIDToRecycleName: {}
+  fileIDToRecycleName:
+    21300000: Elizabeth Cannon_0
+    21300002: Elizabeth Cannon_1
+    21300004: Elizabeth Cannon_2
+    21300006: Elizabeth Cannon_3
+    21300008: Elizabeth Cannon_4
+    21300010: Elizabeth Cannon_5
+    21300012: Elizabeth Cannon_6
+    21300014: Elizabeth Cannon_7
+    21300016: Elizabeth Cannon_8
+    21300018: Elizabeth Cannon_9
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -30,7 +40,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     filterMode: -1
-    aniso: -1
+    aniso: 16
     mipBias: -1
     wrapMode: 1
   nPOTScale: 0
@@ -38,7 +48,7 @@ TextureImporter:
   rGBM: 0
   compressionQuality: 50
   allowsAlphaSplitting: 0
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -49,7 +59,67 @@ TextureImporter:
   textureType: 8
   buildTargetSettings: []
   spriteSheet:
-    sprites: []
+    sprites:
+    - name: Elizabeth Cannon_0
+      rect:
+        serializedVersion: 2
+        x: 111
+        y: 1595
+        width: 492
+        height: 464
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Elizabeth Cannon_1
+      rect:
+        serializedVersion: 2
+        x: 839
+        y: 1595
+        width: 492
+        height: 464
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Elizabeth Cannon_2
+      rect:
+        serializedVersion: 2
+        x: 111
+        y: 867
+        width: 492
+        height: 464
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Elizabeth Cannon_3
+      rect:
+        serializedVersion: 2
+        x: 923
+        y: 951
+        width: 324
+        height: 282
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Elizabeth Cannon_4
+      rect:
+        serializedVersion: 2
+        x: 195
+        y: 223
+        width: 324
+        height: 282
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Elizabeth Cannon_5
+      rect:
+        serializedVersion: 2
+        x: 741
+        y: 13
+        width: 702
+        height: 702
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
   spritePackingTag: 
   userData: 
   assetBundleName: 

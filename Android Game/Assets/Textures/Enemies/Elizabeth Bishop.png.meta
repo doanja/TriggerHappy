@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 80a48cdee023bf54e9af3e734c44e53e
-timeCreated: 1493882220
+timeCreated: 1494222339
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -9,6 +9,7 @@ TextureImporter:
     21300004: Elizabeth Bishop_2
     21300006: Elizabeth Bishop_3
     21300008: Elizabeth Bishop_4
+    21300010: Elizabeth Bishop_5
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -58,30 +59,30 @@ TextureImporter:
     - name: Elizabeth Bishop_0
       rect:
         serializedVersion: 2
-        x: 112
-        y: 1372
-        width: 392
-        height: 434
+        x: 70
+        y: 1358
+        width: 434
+        height: 448
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Elizabeth Bishop_1
       rect:
         serializedVersion: 2
-        x: 742
-        y: 1372
-        width: 392
-        height: 434
+        x: 700
+        y: 1358
+        width: 434
+        height: 448
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Elizabeth Bishop_2
       rect:
         serializedVersion: 2
-        x: 112
-        y: 742
-        width: 392
-        height: 434
+        x: 70
+        y: 728
+        width: 434
+        height: 448
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -89,9 +90,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 868
-        y: 840
+        y: 756
         width: 140
-        height: 210
+        height: 392
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -102,6 +103,16 @@ TextureImporter:
         y: 0
         width: 630
         height: 630
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Elizabeth Bishop_5
+      rect:
+        serializedVersion: 2
+        x: 868
+        y: 210
+        width: 140
+        height: 210
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}

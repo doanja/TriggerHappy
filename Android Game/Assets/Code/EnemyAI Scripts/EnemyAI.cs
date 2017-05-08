@@ -44,9 +44,9 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
     public GameObject GameObjectSpawnEffect;    // effect played when spawning the projectiles
 
     /* PathedProjectileSpawner */
-    public Transform Destination;           // the location where the projectile will travel to
-    public float ProjectileSpeed;           // the travel speed of the projectile towards its destination
-    public Animator anim;                   // animation
+    //public Transform Destination;           // the location where the projectile will travel to
+    //public float ProjectileSpeed;           // the travel speed of the projectile towards its destination
+    //public Animator anim;                   // animation
 
     /* SelfDestruct*/
     public GameObject BlowupEffect;     // the blowup effect
@@ -91,8 +91,6 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
         Jumper,                         // jumps and patrols an area
         Patrol,                         // moves back and forth between an area, changing direction upon collision with platforms
         PatrolShoot,                    // patrols an area and fires projectiles with raycast
-        PatrolTurn,                     // [X]
-        PathedProjectileSpawner,        // spawns a projectile that travels torward a set 'destination'
         SelfDestruct,                   // destroys itself upon collision with the player
         Stalker,                        // visible and moves only when the player is facing away
         EnemySpawner,                   // periodically spawns enemy based on a transform.position
@@ -100,7 +98,7 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
         Pooper,                         // patrols, and spawns SelfDestruct AIs
         Zombie,                         // does not die, revive self after time passes
         Ghost,                          // move torwards player if the player is in range
-        Summoner,                       // Summons the Dragon EnemyAI
+        Summoner,                       // summons the Dragon EnemyAI
         Ninja
         
     }
@@ -122,10 +120,7 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
         SpriteColor.color = Color.white;                        // sets the color to white by default
         CanFireProjectiles = true;                              // by default allows AI to shoot projectiles
         StoredSpeed = MovementSpeed;                            // stores original movement speed
-        transform.localScale = new Vector2(0.75f, 0.75f);         // fixes resizing issue with touch screen overlay
-
-        if (Enemy == EnemyType.PathedProjectileSpawner)         // sets the PathedProjectileSpawner cooldown
-            Cooldown = MaxProjectileCD;
+        transform.localScale = new Vector2(0.75f, 0.75f);       // fixes resizing issue with touch screen overlay
 
         if (Enemy == EnemyType.EnemySpawner)
         {
@@ -161,19 +156,15 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
             return;
         }
 
-        // Handles basic movement
-        if (Enemy != EnemyType.PathedProjectileSpawner)
-        {
-            // Sets the x-velocity of this GameObject
-            _controller.SetHorizontalForce(_direction.x * MovementSpeed);
+        // Sets the x-velocity of this GameObject
+        _controller.SetHorizontalForce(_direction.x * MovementSpeed);
 
-            // Checks to see if this GameObject is colliding with something in the same direction
-            if ((_direction.x < 0 && _controller.State.IsCollidingLeft) || (_direction.x > 0 && _controller.State.IsCollidingRight))
-                Reverse();
-        }
+        // Checks to see if this GameObject is colliding with something in the same direction
+        if ((_direction.x < 0 && _controller.State.IsCollidingLeft) || (_direction.x > 0 && _controller.State.IsCollidingRight))
+            Reverse();
 
         /* AI with Projectiles */
-        if (Enemy == EnemyType.PatrolShoot || Enemy == EnemyType.PathedProjectileSpawner || Enemy == EnemyType.Ninja)
+        if (Enemy == EnemyType.PatrolShoot || Enemy == EnemyType.Ninja)
         {
             // Handles when this AI cannot shoot
             if ((Cooldown -= Time.deltaTime) > 0)
@@ -186,13 +177,7 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
                 if (!raycast)
                     return;
             }
-            /*
-            if (Enemy == EnemyType.PathedProjectileSpawner)
-            {
-                FirePathedProjectile();
-                Cooldown = MaxProjectileCD;
-            }
-            */
+            
             if(CanFireProjectiles == true)
                 FireProjectile();
 
@@ -218,23 +203,8 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
         }
 
         // START OF PHYSICS2D OVERLAPCIRCLE ENEMIES
-        if (Enemy == EnemyType.PatrolTurn || Enemy == EnemyType.Guardian || Enemy == EnemyType.Pooper || Enemy == EnemyType.Summoner)
+        if (Enemy == EnemyType.Guardian || Enemy == EnemyType.Pooper || Enemy == EnemyType.Summoner)
         {
-            // PatrolTurn enemies will turn around if the Player is behind them [DOES NOT WORK]
-            if (Enemy == EnemyType.PatrolTurn)
-            {
-                /*
-                // Change direction
-                if (IsPlayerInRange && IsPlayerFacingAway)
-                {
-                    _direction = -_direction; // switches direction
-                    transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
-                }*/
-
-                // if player.transform.postion.x > transform.position || player.transform.position.x < x
-                // change direction [5/4/17: Call reverse?]
-            }
-
             // AI that uses overlap circle physics
             if (Enemy == EnemyType.Guardian || Enemy == EnemyType.Pooper || Enemy == EnemyType.Summoner)
             {
@@ -340,7 +310,7 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
     public void OnDrawGizmosSelected()
     {
         Gizmos.DrawSphere(transform.position, PlayerDetectionRadius);
-
+        /*
         if(Enemy == EnemyType.PathedProjectileSpawner)
         {
             if (Destination == null)
@@ -349,6 +319,7 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
             Gizmos.color = Color.red;
             Gizmos.DrawLine(transform.position, Destination.position);
         }
+        */
     }
 
     /*
@@ -443,20 +414,7 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
             PlaySoundEffect(ShootSound, transform.position);
         }
     }
-    /*
-    public void FirePathedProjectile()
-    {
-        for (int i = 0; i < ProjectileFireLocation.Length; i++)  // handles multiple projectile firing locations
-        {
-            // Instantiates the projectile, and initilializes the speed, and direction of the projectile
-            var projectile = (AllProjectiles)Instantiate(PathedProjectile, ProjectileFireLocation[i].position, ProjectileFireLocation[i].rotation);
-            projectile.Initialize(Destination, ProjectileSpeed);
 
-            // Plays ShootSound audio clip when the projectile is instantiated
-            PlaySoundEffect(ShootSound, transform.position);
-        }
-    }
-    */
     // Function called by Shield.cs to reflect a projectile
     public void ReflectProjectile()
     {
@@ -531,7 +489,7 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
             // Handles what happens when DeathSpawn AI dies
             if (Enemy == EnemyType.DeathSpawn)
             {
-                GameObject clone = Instantiate(EnemyPrefab, _currentPosition, transform.rotation) as GameObject;
+                Instantiate(EnemyPrefab, _currentPosition, transform.rotation);
                 Instantiate(SpawnEffect, transform.position, transform.rotation);
             }
 

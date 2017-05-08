@@ -12,13 +12,12 @@ public class AllProjectiles : Projectile, ITakeDamage {
     public int PointsToGiveToPlayer;    // the amount of points the Player Object receives
     public float TimeToLive;            // the amount of time this GameObject lives
     public AudioClip DestroySound;      // the sound played when this GameObject dies
+    private float _speed = 5.0f;               // the velocity of the projectile
 
     /* PathedProjectile */
-    private Transform _destination;     // the end point of the projectile
-    private float _speed;               // the velocity of the projectile
+    public Transform _destination;     // the end point of the projectile
 
     /* SinProjectile */
-    public float ProjectileTravelSpeed = 5.0f;
     public float Frequency = 6.0f;      // speed of sine movement
     public float Magnitude = 1.0f;      // size of sine movement
     private Vector3 Axis;
@@ -104,20 +103,26 @@ public class AllProjectiles : Projectile, ITakeDamage {
         // PathedProjectile
         if (Proj == ProjectileType.PathedProjectile)
         {
+            /*
             // Handles trajectory
             transform.position = Vector3.MoveTowards(transform.position, _destination.position, Time.deltaTime * _speed);
             var distanceSquared = (_destination.transform.position - transform.position).sqrMagnitude;
             if (distanceSquared > 0.1f * 0.01f)
                 return;
-
+            
             DestroyProjectile();
+            */
+
+            // Handles movement of this GameObject
+            transform.position = Vector3.MoveTowards(transform.position, _destination.transform.position, _speed * Time.deltaTime);
+            return;
         }
 
         // SinProjectiles
         if (Proj == ProjectileType.SinProjectile)
         {
             // Handles trajectory
-            Pos += transform.right * Time.deltaTime * ProjectileTravelSpeed;
+            Pos += transform.right * Time.deltaTime * _speed;
             transform.position = Pos + Axis * Mathf.Sin(Time.time * Frequency) * Magnitude;
         }
 
@@ -140,6 +145,12 @@ public class AllProjectiles : Projectile, ITakeDamage {
     public void OnDrawGizmosSelected()
     {
         Gizmos.DrawSphere(transform.position, DetectionRadius);
+
+        if (_destination == null)
+            return;
+
+        Gizmos.color = Color.red;
+        Gizmos.DrawLine(transform.position, _destination.position);
     }
 
     /*
@@ -220,5 +231,4 @@ public class AllProjectiles : Projectile, ITakeDamage {
         // Destroys this GameObject
         Destroy(gameObject);
     }
-
 }

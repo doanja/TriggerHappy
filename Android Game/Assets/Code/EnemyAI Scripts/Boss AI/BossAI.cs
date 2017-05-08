@@ -10,7 +10,6 @@ public class BossAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
 
     private CharacterController2D _controller;  // has an instance of the CharacterController2D
     private Vector2 _direction;                 // the x-direction of this GameObject
-    private Vector2 _startPosition;             // the initial spawn position of this GameObject
 
     public int MaxHealth = 100;                         // maximum health of the this GameObject
     public int CurrentHealth { get; private set; }      // this GameObject's current health    
@@ -62,8 +61,8 @@ public class BossAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
     void Start () {
         _controller = GetComponent<CharacterController2D>();    // instance of Charactercontroller2D
         _direction = new Vector2(-1, 0);                        // this GameObject will move the left upon initialization
-        _startPosition = transform.position;                    // starting position of this GameObject
         CurrentHealth = MaxHealth;                              // sets current health to maximum health
+        transform.localScale = new Vector2(0.75f, 0.75f);       // fixes resizing issue with touch screen overlay
 
         if (Enemy == EnemyType.Ogre)
         {
@@ -85,8 +84,6 @@ public class BossAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
         // Checks to see if this GameObject is colliding with something in the same direction
         if ((_direction.x < 0 && _controller.State.IsCollidingLeft) || (_direction.x > 0 && _controller.State.IsCollidingRight))
             Reverse();
-
-
 
         // Elizabeth Slime
         if (Enemy == EnemyType.Slime)
@@ -122,7 +119,7 @@ public class BossAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
                 // Barrier active
                 if (RageActive == true)
                 {
-                    // Waiting to kill the BArrier
+                    // Waiting to kill the Barrier
                     if ((CurrentActionCD1 -= Time.deltaTime) > 0)
                         return;
 
@@ -134,19 +131,18 @@ public class BossAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
             else
             {
                 // Handles when this AI cannot shoot
-                if ((MaxActionCD2 -= Time.deltaTime) > 0)
+                if ((CurrentActionCD2 -= Time.deltaTime) > 0)
                     return;
 
                 Barrier.SetActive(false);
                 HalfDamage = true;
-                JumpAndPoop();
+                Ogredrive();
                 CurrentActionCD2 = MaxActionCD2;
                 Swamp.SetActive(true);
-            }
-            
+            }   
         }
-        
     }
+
     // Time before Barrier Goes Down
     IEnumerator CountdownBarrierUp()
     {
@@ -203,7 +199,7 @@ public class BossAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
         }
     }
 
-    public void JumpAndPoop()
+    public void Ogredrive()
     {
         // Checks to see when the AI can jump
         if (_controller.CanJump)
@@ -214,8 +210,7 @@ public class BossAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
             Instantiate(Helpers[0], transform.position, transform.rotation);
             PlaySoundEffect(ShootSound, transform.position);
             Instantiate(GameObjectSpawnEffect, transform.position, transform.rotation);
-        }
-            
+        }  
     }
 
     // Handles Sounds
@@ -318,6 +313,7 @@ public class BossAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
         transform.localScale = new Vector3(1, 1, 1);    // resets sprite
         gameObject.SetActive(true);                     // shows this AI
         CurrentHealth = MaxHealth;                      // Resets CurrentHealth
+        transform.localScale = new Vector2(0.75f, 0.75f);       // fixes resizing issue with touch screen overlay
 
         if (Enemy == EnemyType.Ogre)
             Swamp.SetActive(false);

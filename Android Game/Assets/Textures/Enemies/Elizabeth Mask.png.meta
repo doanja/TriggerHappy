@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 89623e92f7081414abefa976ca3d7434
-timeCreated: 1472989324
+timeCreated: 1494309399
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -57,40 +57,40 @@ TextureImporter:
     - name: Elizabeth Mask_0
       rect:
         serializedVersion: 2
-        x: 14
-        y: 812
-        width: 532
-        height: 476
+        x: 84
+        y: 616
+        width: 392
+        height: 448
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Elizabeth Mask_1
       rect:
         serializedVersion: 2
-        x: 700
-        y: 812
-        width: 546
-        height: 476
+        x: 644
+        y: 616
+        width: 392
+        height: 448
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Elizabeth Mask_2
       rect:
         serializedVersion: 2
-        x: 28
-        y: 112
-        width: 518
-        height: 476
+        x: 84
+        y: 56
+        width: 392
+        height: 448
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Elizabeth Mask_3
       rect:
         serializedVersion: 2
-        x: 896
-        y: 280
-        width: 224
-        height: 252
+        x: 714
+        y: 112
+        width: 252
+        height: 336
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}

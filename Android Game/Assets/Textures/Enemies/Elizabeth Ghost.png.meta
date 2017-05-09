@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 381c722787e688a4eb93727f78a04384
-timeCreated: 1493611244
+timeCreated: 1494311356
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -56,30 +56,30 @@ TextureImporter:
     - name: Elizabeth Ghost_0
       rect:
         serializedVersion: 2
-        x: 84
-        y: 560
+        x: 112
+        y: 686
         width: 392
-        height: 546
+        height: 532
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Elizabeth Ghost_1
       rect:
         serializedVersion: 2
-        x: 644
-        y: 560
+        x: 742
+        y: 686
         width: 392
-        height: 546
+        height: 532
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Elizabeth Ghost_2
       rect:
         serializedVersion: 2
-        x: 84
-        y: 0
+        x: 112
+        y: 56
         width: 392
-        height: 546
+        height: 532
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}

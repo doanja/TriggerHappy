@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 820f7add1fc5b144cbf819e20035d21f
-timeCreated: 1494163046
+timeCreated: 1494395346
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -109,7 +109,7 @@ TextureImporter:
     - name: Elizabeth Bow_5
       rect:
         serializedVersion: 2
-        x: 770
+        x: 784
         y: 266
         width: 336
         height: 98

@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 52a5ebaa8629f21418efff1e1bd0d045
-timeCreated: 1473974538
+timeCreated: 1494396105
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -82,70 +82,50 @@ TextureImporter:
     - name: Elizabeth Pirate_2
       rect:
         serializedVersion: 2
-        x: 2687
-        y: 2742
-        width: 226
-        height: 115
+        x: 2378
+        y: 2393
+        width: 843
+        height: 828
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Elizabeth Pirate_3
       rect:
         serializedVersion: 2
-        x: 1609
-        y: 1581
-        width: 128
-        height: 254
+        x: 432
+        y: 1538
+        width: 255
+        height: 284
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Elizabeth Pirate_4
       rect:
         serializedVersion: 2
-        x: 1664
-        y: 1833
-        width: 17
-        height: 17
+        x: 1553
+        y: 1538
+        width: 254
+        height: 284
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Elizabeth Pirate_5
       rect:
         serializedVersion: 2
-        x: 488
-        y: 1581
-        width: 130
-        height: 198
+        x: 2687
+        y: 1566
+        width: 226
+        height: 228
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Elizabeth Pirate_6
       rect:
         serializedVersion: 2
-        x: 2659
-        y: 1637
-        width: 269
-        height: 100
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Elizabeth Pirate_7
-      rect:
-        serializedVersion: 2
-        x: 363
-        y: 558
-        width: 18
-        height: 17
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Elizabeth Pirate_8
-      rect:
-        serializedVersion: 2
-        x: 377
-        y: 516
-        width: 310
-        height: 102
+        x: 194
+        y: 181
+        width: 731
+        height: 758
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}

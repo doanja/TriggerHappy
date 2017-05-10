@@ -8,7 +8,6 @@
  */
 public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
 {
-
     /* Beginning of All Enemy Type Parameters */
     public float MovementSpeed;         // travel speed of this GameObject
     public GameObject DestroyedEffect;  // the destroyed effect
@@ -43,11 +42,6 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
     /* Guardian */
     public GameObject GameObjectSpawnEffect;    // effect played when spawning the projectiles
 
-    /* PathedProjectileSpawner */
-    //public Transform Destination;           // the location where the projectile will travel to
-    //public float ProjectileSpeed;           // the travel speed of the projectile towards its destination
-    //public Animator anim;                   // animation
-
     /* SelfDestruct*/
     public GameObject BlowupEffect;     // the blowup effect
     public AudioClip BlowupSound;       // sound played when this GameObject collides with the Player
@@ -62,7 +56,7 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
     public float SpawnTime = 3f;        // how long between each spawn
     public Transform[] SpawnPoints;     // an array of the spawn points this enemy can spawn from              
 
-    /* DeathSpawn */
+    /* Deathrattle */
     private Vector3 _currentPosition;   // current position of the AI
     public GameObject EnemyPrefab;      // the enemy prefab to spawn
     public GameObject SpawnEffect;      // the effect played when the enemy is spawned
@@ -70,36 +64,33 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
     /* Stalker */
     private float StoredSpeed;          // stores original movement
 
-    /* Zombie */
+    /* Undead */
     private float RevivalTime = 6;                      // time before this EnemyAI is active again
     public Sprite DeathSprite;                          // sprite shown when this EnemyAI is temporary disabled
-    public BoxCollider2D EnemyBoxCollider;              // this Zombie EnemyAI's box collider
-    public GiveDamageToPlayer EnemyGiveDamageToPlayer;  // this Zombie EnemyAI's damage given to the player
-    public Animator EnemyAnimator;                      // this Zombie EnemyAI's animator
-    private Sprite StoredSprite;                        // this Zombie EnemyAI's original sprite              
+    public BoxCollider2D EnemyBoxCollider;              // this Undead EnemyAI's box collider
+    public GiveDamageToPlayer EnemyGiveDamageToPlayer;  // this Undead EnemyAI's damage given to the player
+    public Animator EnemyAnimator;                      // this Undead EnemyAI's animator
+    private Sprite StoredSprite;                        // this Undead EnemyAI's original sprite              
 
     /* Summoner */
     public AudioClip SummonedSound;     // sound clip played when Summoner EnemyAI instantiates a GameObject
 
-    /* Pathed Projectile 
-    public AllProjectiles PathedProjectile; */
-
     public enum EnemyType               // enemy behavior based on type
     {
         Charger,                        // movement speed is increased upon raycast returning true
-        Guardian,                       // will fire projectiles when Physics2D.overlapcircle returns true
+        Guardian,                       // uses a sphere to detect the Player, can shoot projectiles
         Jumper,                         // jumps and patrols an area
-        Patrol,                         // moves back and forth between an area, changing direction upon collision with platforms
-        PatrolShoot,                    // patrols an area and fires projectiles with raycast
+        Patrol,                         // patrols an area, changing direction upon collision with platforms
+        PatrolShoot,                    // patrols an area and fires projectiles using raycast
         SelfDestruct,                   // destroys itself upon collision with the player
         Stalker,                        // visible and moves only when the player is facing away
-        EnemySpawner,                   // periodically spawns enemy based on a transform.position
-        DeathSpawn,                     // spawns an enemy upon death
-        Pooper,                         // patrols, and spawns SelfDestruct AIs
-        Zombie,                         // does not die, revive self after time passes
-        Ghost,                          // move torwards player if the player is in range
-        Summoner,                       // summons the Dragon EnemyAI
-        Ninja
+        Spawner,                        // periodically spawns enemy based on set position(s)
+        Deathrattle,                    // spawns an EnemyAI prefab upon death
+        Pooper,                         // patrols an area, and spawns SelfDestruct AIs
+        Undead,                         // revives self after RevivalTime = 0
+        Ghost,                          // move torwards the player if the player is in range
+        Summoner,                       // summons a prefab using sphere detection
+        Ninja                           // call teleports() when Player's projectiles collide with it
         
     }
     public EnemyType Enemy;             // instance of an EnemyType, used to determine AI behavior
@@ -122,14 +113,14 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
         StoredSpeed = MovementSpeed;                            // stores original movement speed
         transform.localScale = new Vector2(0.75f, 0.75f);       // fixes resizing issue with touch screen overlay
 
-        if (Enemy == EnemyType.EnemySpawner)
+        if (Enemy == EnemyType.Spawner)
         {
             // calls the Spawn function after a delay of the SpawnTime and then continue to call after the same amount of time.
             InvokeRepeating("Spawn", SpawnTime, SpawnTime);
         }
 
-        // Stores the Zombie EnemyAI's original sprite
-        if (Enemy == EnemyType.Zombie)
+        // Stores the Undead EnemyAI's original sprite
+        if (Enemy == EnemyType.Undead)
             StoredSprite = SpriteColor.sprite;
     }
 
@@ -282,12 +273,12 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
             transform.position = Vector3.MoveTowards(transform.position, Player.transform.position, MovementSpeed * Time.deltaTime);
         }
 
-        // DeathSpawn AI
-        if (Enemy == EnemyType.DeathSpawn)
+        // Deathrattle AI
+        if (Enemy == EnemyType.Deathrattle)
             _currentPosition = transform.position;  // constantsly updates current position used to spawn an enemy during death
 
-        // Zombie AI
-        if (Enemy == EnemyType.Zombie)
+        // Undead AI
+        if (Enemy == EnemyType.Undead)
         {
             // Check to see when projectiles can be fired
             if ((Cooldown -= Time.deltaTime) > 0)
@@ -306,20 +297,14 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
         }
     } // END OF UPDATE
 
-    // Function that indicates that displays range of the PlayerDetectionRadius
+    // Function displays the range of detection for the AI's Sphere/Raycast
     public void OnDrawGizmosSelected()
     {
+        Gizmos.color = Color.red;
         Gizmos.DrawSphere(transform.position, PlayerDetectionRadius);
-        /*
-        if(Enemy == EnemyType.PathedProjectileSpawner)
-        {
-            if (Destination == null)
-                return;
 
-            Gizmos.color = Color.red;
-            Gizmos.DrawLine(transform.position, Destination.position);
-        }
-        */
+        Gizmos.color = Color.blue;
+        Gizmos.DrawRay(transform.position, _direction);
     }
 
     /*
@@ -486,15 +471,15 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
         // If this GameObject's CurrentHealth reaches zero
         if (CurrentHealth <= 0)
         {
-            // Handles what happens when DeathSpawn AI dies
-            if (Enemy == EnemyType.DeathSpawn)
+            // Handles what happens when Deathrattle AI dies
+            if (Enemy == EnemyType.Deathrattle)
             {
                 Instantiate(EnemyPrefab, _currentPosition, transform.rotation);
                 Instantiate(SpawnEffect, transform.position, transform.rotation);
             }
 
-            // Handles what happens when Zombie AI dies
-            if (Enemy == EnemyType.Zombie)
+            // Handles what happens when Undead AI dies
+            if (Enemy == EnemyType.Undead)
             {
                 CurrentHealth = 0;
                 SpriteColor.sprite = DeathSprite;
@@ -505,7 +490,7 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
                 Cooldown = RevivalTime;             // counts down until thing can revive
             }
 
-            if (Enemy != EnemyType.Zombie)
+            if (Enemy != EnemyType.Undead)
             {
                 // Sound and Item drops
                 AudioSource.PlayClipAtPoint(EnemyDestroySounds[Random.Range(0, EnemyDestroySounds.Length)], transform.position);

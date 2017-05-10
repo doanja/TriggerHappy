@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 52a5ebaa8629f21418efff1e1bd0d045
-timeCreated: 1494396105
+timeCreated: 1494408828
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -62,48 +62,48 @@ TextureImporter:
     - name: Elizabeth Pirate_0
       rect:
         serializedVersion: 2
-        x: 181
-        y: 2309
-        width: 758
-        height: 983
+        x: 194
+        y: 2379
+        width: 759
+        height: 982
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Elizabeth Pirate_1
       rect:
         serializedVersion: 2
-        x: 1300
-        y: 2309
-        width: 760
-        height: 983
+        x: 1343
+        y: 2379
+        width: 758
+        height: 982
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Elizabeth Pirate_2
       rect:
         serializedVersion: 2
-        x: 2378
-        y: 2393
-        width: 843
-        height: 828
+        x: 2308
+        y: 2308
+        width: 1123
+        height: 1123
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Elizabeth Pirate_3
       rect:
         serializedVersion: 2
-        x: 432
-        y: 1538
-        width: 255
-        height: 284
+        x: 349
+        y: 1498
+        width: 451
+        height: 448
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Elizabeth Pirate_4
       rect:
         serializedVersion: 2
-        x: 1553
-        y: 1538
+        x: 1595
+        y: 1580
         width: 254
         height: 284
       alignment: 0
@@ -112,20 +112,30 @@ TextureImporter:
     - name: Elizabeth Pirate_5
       rect:
         serializedVersion: 2
-        x: 2687
-        y: 1566
-        width: 226
-        height: 228
+        x: 2742
+        y: 1580
+        width: 256
+        height: 284
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Elizabeth Pirate_6
       rect:
         serializedVersion: 2
-        x: 194
-        y: 181
-        width: 731
-        height: 758
+        x: 460
+        y: 460
+        width: 227
+        height: 227
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Elizabeth Pirate_7
+      rect:
+        serializedVersion: 2
+        x: 1356
+        y: 194
+        width: 732
+        height: 759
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}

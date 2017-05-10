@@ -25,10 +25,10 @@ public class BossAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
     // Projectiles
     public float MaxProjectileCD = 4;           // time needed to fire again
     public float CurrentProjectileCD;           // current time before being able to fire projectiles
-    public Projectile Projectile;               // this GameObject's projectile
+    public Projectile[] Projectile;             // this BossAI's projectile
     public Transform[] ProjectileFireLocation;  // the location of which the projectile is fired at
-    public AudioClip ShootSound;                // the sound when this GameObject shoots a projectile
-    public GameObject GameObjectSpawnEffect;
+    public AudioClip[] ShootSound;              // the sound when this GameObject shoots a projectile
+    public GameObject GameObjectSpawnEffect;    // 
 
     // RNG Variables
     private int CurrentRNGCount;            // random number variable
@@ -36,24 +36,28 @@ public class BossAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
     // Helper
     public GameObject[] Helpers;            // array of helpers that can be summoned
     public GameObject SpawnEffect;          // effect shown when the Helper is Spawned
+    public Transform[] SpawnPoints;         // locations where Helpers can be spawned
     public float MaxActionCD1;              // max countdown before an action can be preformed
     public float MaxActionCD2;              // max countdown before an action can be preformed
     public float CurrentActionCD1;          // used to countdown the time before an action can be taken by the AI
     public float CurrentActionCD2;          // used to countdown the time before an action can be taken by the AI
 
     // Slime
-    public Transform[] SpawnPoints;         // locations where Helpers can be spawned
-    public GameObject HealEffect;
+    public GameObject HealEffect;           // effect played when this BossAI heals itself
 
     // Ogre
     public bool RageActive;                 // true when Barrier is active
     public GameObject Barrier;              // EnemyAI that helps BossAI Ogre shoot projectiles
-    public GameObject Swamp;
+    public GameObject Swamp;                // summons water onto the level
+
+    // Pirate
+    public int ShotsFired = 0;
 
     public enum EnemyType
     {
         Slime,
-        Ogre
+        Ogre,
+        Pirate
     }
     public EnemyType Enemy;
 
@@ -141,25 +145,55 @@ public class BossAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
                 Swamp.SetActive(true);
             }   
         }
+
+        if (Enemy == EnemyType.Pirate)
+        {
+            // Handle Torpedoes
+            if (ShotsFired == 5)
+            {
+                // Handles when this AI cannot shoot
+                if ((CurrentProjectileCD -= Time.deltaTime) > 0)
+                    return;
+
+                FireProjectileTwo();
+                CurrentProjectileCD = MaxProjectileCD;
+                ShotsFired = 0;
+            }
+
+            // Handles Projectiles
+            if ((CurrentProjectileCD -= Time.deltaTime) > 0 && ShotsFired < 5)
+                return;
+            
+            FireProjectile();
+            ShotsFired++;  
+            CurrentProjectileCD = MaxProjectileCD;
+
+
+        }
+    }
+
+    IEnumerator DoNothing()
+    {
+        yield return new WaitForSeconds(MaxActionCD1); // wait 0.5 sec
+        ShotsFired++;
+        yield return 0;
     }
 
     // Time before Barrier Goes Down
     IEnumerator CountdownBarrierUp()
     {
-        yield return new WaitForSeconds(MaxActionCD1);  // kills barrier after x time
-        RageActive = false;                             // set check to false
-        Barrier.SetActive(false);                    // set the barrier to false
-        //Debug.Log("Barrier down");
+        yield return new WaitForSeconds(MaxActionCD1);  // kills barrier after MaxActionCD1
+        RageActive = false;
+        Barrier.SetActive(false);
         yield return 0;
     }
 
     // Sets Barrier to Active
     IEnumerator CountdownBarrierDown()
     {
-        yield return new WaitForSeconds(MaxActionCD2);
+        yield return new WaitForSeconds(MaxActionCD2);  // summons a barrier after MaxActionCD2
         RageActive = true;
         Barrier.SetActive(true);
-        //Debug.Log("Barrier up");
         yield return 0;
     }
 
@@ -194,7 +228,18 @@ public class BossAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
         for(int i = 0; i < ProjectileFireLocation.Length; i++)  // handles multiple projectile firing locations
         {
             // Instantiates the projectile, and initilializes the speed, and direction of the projectile
-            var projectile = (Projectile)Instantiate(Projectile, ProjectileFireLocation[i].position, ProjectileFireLocation[i].rotation);
+            var projectile = (Projectile)Instantiate(Projectile[0], ProjectileFireLocation[i].position, ProjectileFireLocation[i].rotation);
+            projectile.Initialize(gameObject, _direction, _controller.Velocity);
+        }
+    }
+
+    // Function called by AI to instantiate a projectile and fire it in its direction
+    public void FireProjectileTwo()
+    {
+        for (int i = 0; i < ProjectileFireLocation.Length; i++)  // handles multiple projectile firing locations
+        {
+            // Instantiates the projectile, and initilializes the speed, and direction of the projectile
+            var projectile = (Projectile)Instantiate(Projectile[1], ProjectileFireLocation[i].position, ProjectileFireLocation[i].rotation);
             projectile.Initialize(gameObject, _direction, _controller.Velocity);
         }
     }
@@ -208,7 +253,7 @@ public class BossAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
             
             // Spawns Poop
             Instantiate(Helpers[0], transform.position, transform.rotation);
-            PlaySoundEffect(ShootSound, transform.position);
+            PlaySoundEffect(ShootSound[0], transform.position);
             Instantiate(GameObjectSpawnEffect, transform.position, transform.rotation);
         }  
     }

@@ -15,7 +15,6 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
 
     private CharacterController2D _controller;  // has an instance of the CharacterController2D
     private Vector2 _direction;                 // the x-direction of this GameObject
-    private Vector2 _startPosition;             // the initial spawn position of this GameObject
 
     public int MaxHealth = 100;                         // maximum health of the this GameObject
     public int CurrentHealth { get; private set; }      // this GameObject's current health    
@@ -105,7 +104,6 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
     void Start () {
         _controller = GetComponent<CharacterController2D>();    // instance of Charactercontroller2D
         _direction = new Vector2(-1, 0);                        // this GameObject will move the left upon initialization
-        _startPosition = transform.position;                    // starting position of this GameObject
         CurrentHealth = MaxHealth;                              // sets current health to maximum health
         Player = FindObjectOfType<Player>();                    // finds instances of the player
         SpriteColor.color = Color.white;                        // sets the color to white by default
@@ -302,9 +300,6 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
     {
         Gizmos.color = Color.red;
         Gizmos.DrawSphere(transform.position, PlayerDetectionRadius);
-
-        Gizmos.color = Color.blue;
-        Gizmos.DrawRay(transform.position, _direction);
     }
 
     /*

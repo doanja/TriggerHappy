@@ -25,6 +25,9 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
     public bool CanFireProjectiles;             // used by AllProjectiles to disable AI from firing projectiles
     /* End of All Enemy Type Parameters */
 
+    // RNG Variables
+    private int CurrentRNGCount;                // used in random number generating
+
     /* Enemies with Projectiles */
     public float MaxProjectileCD = 1;           // time needed to be able to fire projectiles again
     public float Cooldown;                      // current time before being able to fire projectiles
@@ -57,19 +60,19 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
 
     /* Deathrattle */
     private Vector3 _currentPosition;   // current position of the AI
-    public GameObject EnemyPrefab;      // the enemy prefab to spawn
+    public GameObject[] EnemyPrefab;    // the enemy prefab to spawn
     public GameObject SpawnEffect;      // the effect played when the enemy is spawned
 
     /* Stalker */
     private float StoredSpeed;          // stores original movement
 
     /* Undead */
-    private float RevivalTime = 6;                      // time before this EnemyAI is active again
-    public Sprite DeathSprite;                          // sprite shown when this EnemyAI is temporary disabled
-    public BoxCollider2D EnemyBoxCollider;              // this Undead EnemyAI's box collider
-    public GiveDamageToPlayer EnemyGiveDamageToPlayer;  // this Undead EnemyAI's damage given to the player
-    public Animator EnemyAnimator;                      // this Undead EnemyAI's animator
-    private Sprite StoredSprite;                        // this Undead EnemyAI's original sprite              
+    private float RevivalTime = 6;                       // time before this EnemyAI is active again
+    public Sprite UndeadSprite;                          // sprite shown when this EnemyAI is temporary disabled
+    public BoxCollider2D UndeadBoxCollider;              // this Undead EnemyAI's box collider
+    public GiveDamageToPlayer UndeadGiveDamageToPlayer;  // this Undead EnemyAI's damage given to the player
+    public Animator UndeadAnimator;                      // this Undead EnemyAI's animator
+    private Sprite UndeadStoredSprite;                   // this Undead EnemyAI's original sprite              
 
     /* Summoner */
     public AudioClip SummonedSound;     // sound clip played when Summoner EnemyAI instantiates a GameObject
@@ -119,12 +122,16 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
 
         // Stores the Undead EnemyAI's original sprite
         if (Enemy == EnemyType.Undead)
-            StoredSprite = SpriteColor.sprite;
+            UndeadStoredSprite = SpriteColor.sprite;
     }
 
     // Update is called once per frame
     void Update()
     {
+        // Handles selection of random number within MaxRNGCount
+        int random = Random.Range(0, (EnemyPrefab.Length));
+        CurrentRNGCount = random; // updates the CurrentRNGCountRNG
+
         // Check to see if the player is facing away from the AI
         if ((Player.transform.position.x < transform.position.x && Player.transform.localScale.x < 0)
         || (Player.transform.position.x > transform.position.x && Player.transform.localScale.x > 0))
@@ -286,11 +293,11 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
             {
                 // Resets AIs fields
                 MovementSpeed = StoredSpeed;
-                SpriteColor.sprite = StoredSprite;
+                SpriteColor.sprite = UndeadStoredSprite;
                 CurrentHealth = MaxHealth;
-                EnemyBoxCollider.enabled = true;
-                EnemyGiveDamageToPlayer.enabled = true;
-                EnemyAnimator.enabled = true;
+                UndeadBoxCollider.enabled = true;
+                UndeadGiveDamageToPlayer.enabled = true;
+                UndeadAnimator.enabled = true;
             }
         }
     } // END OF UPDATE
@@ -469,7 +476,7 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
             // Handles what happens when Deathrattle AI dies
             if (Enemy == EnemyType.Deathrattle)
             {
-                Instantiate(EnemyPrefab, _currentPosition, transform.rotation);
+                Instantiate(EnemyPrefab[CurrentRNGCount], _currentPosition, transform.rotation);
                 Instantiate(SpawnEffect, transform.position, transform.rotation);
             }
 
@@ -477,11 +484,11 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
             if (Enemy == EnemyType.Undead)
             {
                 CurrentHealth = 0;
-                SpriteColor.sprite = DeathSprite;
+                SpriteColor.sprite = UndeadSprite;
                 MovementSpeed = 0;
-                EnemyBoxCollider.enabled = false;
-                EnemyGiveDamageToPlayer.enabled = false;
-                EnemyAnimator.enabled = false;
+                UndeadBoxCollider.enabled = false;
+                UndeadGiveDamageToPlayer.enabled = false;
+                UndeadAnimator.enabled = false;
                 Cooldown = RevivalTime;             // counts down until thing can revive
             }
 

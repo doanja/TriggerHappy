@@ -20,7 +20,8 @@ public class BossAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
     private Vector3 _currentPosition;           // current position of the AI
     public GameObject gate;
 
-    public bool HalfDamage;                     // damage taken by this enemy is halved when true
+    public bool HalfDamage;                     // damage taken by this BossAI is halved when true
+    public bool ImmuneToDamage;                 // damage taken by this BossAI is nulled when true
 
     // Projectiles
     public float MaxProjectileCD = 4;           // time needed to fire again
@@ -51,7 +52,7 @@ public class BossAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
     public GameObject Swamp;                // summons water onto the level
 
     // Pirate
-    public int ShotsFired = 0;
+    private int ShotsFired = 0;
 
     public enum EnemyType
     {
@@ -148,27 +149,28 @@ public class BossAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
 
         if (Enemy == EnemyType.Pirate)
         {
-            // Handle Torpedoes
-            if (ShotsFired == 5)
+            Debug.Log(CurrentHealth);
+
+            PiratingTime(); // shoots shit
+
+            if (CurrentHealth > 100)
             {
-                // Handles when this AI cannot shoot
-                if ((CurrentProjectileCD -= Time.deltaTime) > 0)
+                ImmuneToDamage = true;
+
+                // Waiting to summoning the Barrier
+                if ((CurrentActionCD2 -= Time.deltaTime) > 0)
                     return;
 
-                FireProjectileTwo();
-                CurrentProjectileCD = MaxProjectileCD;
-                ShotsFired = 0;
+                StartCoroutine(CountdownSummon());
+                CurrentActionCD2 = MaxActionCD2;   
             }
 
-            // Handles Projectiles
-            if ((CurrentProjectileCD -= Time.deltaTime) > 0 && ShotsFired < 5)
-                return;
-            
-            FireProjectile();
-            ShotsFired++;  
-            CurrentProjectileCD = MaxProjectileCD;
-
-
+            else if(CurrentHealth <= 100)
+            {
+                ImmuneToDamage = false;
+                MovementSpeed = 4;
+                CurrentProjectileCD = 0.5f;
+            }
         }
     }
 
@@ -216,8 +218,7 @@ public class BossAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
 
     // Function to summon an Enemy Prefab at BossAI's current position
     public void SummonHelper()
-    {
-        //Instantiate(Helpers[CurrentRNGCount], transform.position, transform.rotation);
+    {;
         Instantiate(Helpers[CurrentRNGCount], SpawnPoints[CurrentRNGCount].position, SpawnPoints[CurrentRNGCount].rotation);
         Instantiate(SpawnEffect, transform.position, transform.rotation);
     }
@@ -256,6 +257,30 @@ public class BossAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
             PlaySoundEffect(ShootSound[0], transform.position);
             Instantiate(GameObjectSpawnEffect, transform.position, transform.rotation);
         }  
+    }
+
+    // Handles projectiles for BossAI type Pirate
+    public void PiratingTime()
+    {
+        // Handle Torpedoes
+        if (ShotsFired == 5)
+        {
+            // Handles when this AI cannot shoot
+            if ((CurrentProjectileCD -= Time.deltaTime) > 0)
+                return;
+
+            FireProjectileTwo();
+            CurrentProjectileCD = MaxProjectileCD;
+            ShotsFired = 0;
+        }
+
+        // Handles Projectiles
+        if ((CurrentProjectileCD -= Time.deltaTime) > 0 && ShotsFired < 5)
+            return;
+
+        FireProjectile();
+        ShotsFired++;
+        CurrentProjectileCD = MaxProjectileCD;
     }
 
     // Handles Sounds
@@ -298,6 +323,11 @@ public class BossAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
         {
             if(HalfDamage == true)
                 projectile.Damage /= 2;
+
+            if (ImmuneToDamage == true)
+            {
+                projectile.Damage = 0;
+            }
         }
     }
 
@@ -362,5 +392,13 @@ public class BossAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
 
         if (Enemy == EnemyType.Ogre)
             Swamp.SetActive(false);
+
+        if (Enemy == EnemyType.Ogre)
+        {
+            MovementSpeed = 2;
+            MaxProjectileCD = 2;
+            ImmuneToDamage = true;
+            ShotsFired = 0;
+        }
     }
 }

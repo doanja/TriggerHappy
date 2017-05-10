@@ -103,16 +103,6 @@ public class AllProjectiles : Projectile, ITakeDamage {
         // PathedProjectile
         if (Proj == ProjectileType.PathedProjectile)
         {
-            /*
-            // Handles trajectory
-            transform.position = Vector3.MoveTowards(transform.position, _destination.position, Time.deltaTime * _speed);
-            var distanceSquared = (_destination.transform.position - transform.position).sqrMagnitude;
-            if (distanceSquared > 0.1f * 0.01f)
-                return;
-            
-            DestroyProjectile();
-            */
-
             // Handles movement of this GameObject
             transform.position = Vector3.MoveTowards(transform.position, _destination.transform.position, _speed * Time.deltaTime);
             return;

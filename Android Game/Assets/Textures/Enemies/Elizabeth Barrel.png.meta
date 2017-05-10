@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: eaa8fda9941943a42b6c698339bce799
-timeCreated: 1494309753
+timeCreated: 1494417972
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -8,6 +8,7 @@ TextureImporter:
     21300002: Elizabeth Barrel_1
     21300004: Elizabeth Barrel_2
     21300006: Elizabeth Barrel_3
+    21300008: Elizabeth Barrel_4
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -58,7 +59,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 84
-        y: 616
+        y: 1176
         width: 392
         height: 448
       alignment: 0
@@ -68,7 +69,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 644
-        y: 616
+        y: 1176
         width: 392
         height: 448
       alignment: 0
@@ -78,7 +79,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 84
-        y: 56
+        y: 616
         width: 392
         height: 448
       alignment: 0
@@ -88,6 +89,16 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 644
+        y: 588
+        width: 392
+        height: 518
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Elizabeth Barrel_4
+      rect:
+        serializedVersion: 2
+        x: 84
         y: 14
         width: 392
         height: 532

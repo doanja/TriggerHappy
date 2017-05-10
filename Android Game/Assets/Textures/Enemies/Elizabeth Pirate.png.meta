@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 52a5ebaa8629f21418efff1e1bd0d045
-timeCreated: 1494408828
+timeCreated: 1494416944
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -13,6 +13,10 @@ TextureImporter:
     21300012: Elizabeth Pirate_6
     21300014: Elizabeth Pirate_7
     21300016: Elizabeth Pirate_8
+    21300018: Elizabeth Pirate_9
+    21300020: Elizabeth Pirate_10
+    21300022: Elizabeth Pirate_11
+    21300024: Elizabeth Pirate_12
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -63,19 +67,19 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 194
-        y: 2379
-        width: 759
-        height: 982
+        y: 3526
+        width: 760
+        height: 984
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Elizabeth Pirate_1
       rect:
         serializedVersion: 2
-        x: 1343
-        y: 2379
-        width: 758
-        height: 982
+        x: 1342
+        y: 3526
+        width: 760
+        height: 984
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -83,27 +87,27 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 2308
-        y: 2308
-        width: 1123
-        height: 1123
+        y: 3456
+        width: 1124
+        height: 1124
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Elizabeth Pirate_3
       rect:
         serializedVersion: 2
-        x: 349
-        y: 1498
-        width: 451
-        height: 448
+        x: 3456
+        y: 3456
+        width: 1124
+        height: 1124
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Elizabeth Pirate_4
       rect:
         serializedVersion: 2
-        x: 1595
-        y: 1580
+        x: 447
+        y: 2728
         width: 254
         height: 284
       alignment: 0
@@ -112,9 +116,9 @@ TextureImporter:
     - name: Elizabeth Pirate_5
       rect:
         serializedVersion: 2
-        x: 2742
-        y: 1580
-        width: 256
+        x: 1595
+        y: 2728
+        width: 254
         height: 284
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -122,20 +126,70 @@ TextureImporter:
     - name: Elizabeth Pirate_6
       rect:
         serializedVersion: 2
-        x: 460
-        y: 460
-        width: 227
-        height: 227
+        x: 2672
+        y: 2631
+        width: 381
+        height: 478
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Elizabeth Pirate_7
       rect:
         serializedVersion: 2
-        x: 1356
-        y: 194
-        width: 732
-        height: 759
+        x: 3820
+        y: 2631
+        width: 381
+        height: 478
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Elizabeth Pirate_8
+      rect:
+        serializedVersion: 2
+        x: 376
+        y: 1483
+        width: 381
+        height: 478
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Elizabeth Pirate_9
+      rect:
+        serializedVersion: 2
+        x: 1609
+        y: 1609
+        width: 226
+        height: 226
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Elizabeth Pirate_10
+      rect:
+        serializedVersion: 2
+        x: 2503
+        y: 1342
+        width: 734
+        height: 760
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Elizabeth Pirate_11
+      rect:
+        serializedVersion: 2
+        x: 3820
+        y: 1468
+        width: 396
+        height: 522
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Elizabeth Pirate_12
+      rect:
+        serializedVersion: 2
+        x: 12
+        y: 12
+        width: 1124
+        height: 1124
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}

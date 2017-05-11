@@ -90,7 +90,7 @@ public class BossAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
         if ((_direction.x < 0 && _controller.State.IsCollidingLeft) || (_direction.x > 0 && _controller.State.IsCollidingRight))
             Reverse();
 
-        // Elizabeth Slime
+        // BossAI Slime
         if (Enemy == EnemyType.Slime)
         {
             // Checks cooldown count
@@ -104,7 +104,7 @@ public class BossAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
             CurrentActionCD2 = MaxActionCD2;    // resets the cooldown
         }
         
-        // Elizabeth Ogre
+        // BossAI Ogre
         if (Enemy == EnemyType.Ogre)
         {
             // Phase 1
@@ -147,12 +147,12 @@ public class BossAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
             }   
         }
 
+        // BossAI Pirate
         if (Enemy == EnemyType.Pirate)
         {
-            Debug.Log(CurrentHealth);
+            PiratingTime();
 
-            PiratingTime(); // shoots shit
-
+            // Phase 1
             if (CurrentHealth > 100)
             {
                 ImmuneToDamage = true;
@@ -165,6 +165,7 @@ public class BossAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
                 CurrentActionCD2 = MaxActionCD2;   
             }
 
+            // Phase 2
             else if(CurrentHealth <= 100)
             {
                 ImmuneToDamage = false;
@@ -235,7 +236,7 @@ public class BossAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
     }
 
     // Function called by AI to instantiate a projectile and fire it in its direction
-    public void FireProjectileTwo()
+    public void FireSecondaryProjectile()
     {
         for (int i = 0; i < ProjectileFireLocation.Length; i++)  // handles multiple projectile firing locations
         {
@@ -245,6 +246,7 @@ public class BossAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
         }
     }
 
+    // Handles BossAI Ogre's Phase 2
     public void Ogredrive()
     {
         // Checks to see when the AI can jump
@@ -269,7 +271,8 @@ public class BossAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
             if ((CurrentProjectileCD -= Time.deltaTime) > 0)
                 return;
 
-            FireProjectileTwo();
+            FireSecondaryProjectile();
+            PlayGameObjectSpawnEffect(GameObjectSpawnEffect, ProjectileFireLocation[0]);
             CurrentProjectileCD = MaxProjectileCD;
             ShotsFired = 0;
         }
@@ -279,6 +282,7 @@ public class BossAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
             return;
 
         FireProjectile();
+        PlayGameObjectSpawnEffect(GameObjectSpawnEffect, ProjectileFireLocation[0]);
         ShotsFired++;
         CurrentProjectileCD = MaxProjectileCD;
     }
@@ -384,16 +388,16 @@ public class BossAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
     */
     public void OnPlayerRespawnInThisCheckpoint(Checkpoint checkpoint, Player player)
     {
-        _direction = new Vector2(-1, 0);                // the direction set to left
-        transform.localScale = new Vector3(1, 1, 1);    // resets sprite
-        gameObject.SetActive(true);                     // shows this AI
-        CurrentHealth = MaxHealth;                      // Resets CurrentHealth
-        transform.localScale = new Vector2(0.75f, 0.75f);       // fixes resizing issue with touch screen overlay
+        _direction = new Vector2(-1, 0);                    // the direction set to left
+        transform.localScale = new Vector3(1, 1, 1);        // resets sprite
+        gameObject.SetActive(true);                         // shows this AI
+        CurrentHealth = MaxHealth;                          // Resets CurrentHealth
+        transform.localScale = new Vector2(0.75f, 0.75f);   // fixes resizing issue with touch screen overlay
 
         if (Enemy == EnemyType.Ogre)
-            Swamp.SetActive(false);
+            Swamp.SetActive(false);                         // hides BossAI Ogre's Swamp
 
-        if (Enemy == EnemyType.Ogre)
+        if (Enemy == EnemyType.Pirate)                      // resets BossAI Pirate's stats
         {
             MovementSpeed = 2;
             MaxProjectileCD = 2;

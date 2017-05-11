@@ -68,6 +68,7 @@
      <Compile Include="Assets\Code\Other\AutoDestroyParticleSystem.cs" />
      <Compile Include="Assets\Code\Other\BackgroundParallax.cs" />
      <Compile Include="Assets\Code\Other\CameraController.cs" />
+     <Compile Include="Assets\Code\Other\IceController2D.cs" />
      <Compile Include="Assets\Code\Other\LadderController2D.cs" />
      <Compile Include="Assets\Code\Other\TimeToLive.cs" />
      <Compile Include="Assets\Code\Platforms, Pickups\ControllerPhysicsVolume2D.cs" />

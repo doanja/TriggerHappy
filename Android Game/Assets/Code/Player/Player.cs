@@ -41,6 +41,9 @@ public class Player : MonoBehaviour, ITakeDamage
     public bool onLadder;                           // determines if the Player Object is overlapping with a ladder
     private float GravityStore;                     // variable used to store the Player Object's default gravity
 
+    // Ice
+    public bool onIce;
+
     // Animation
     public Animator Animator;                       // animation
 
@@ -96,10 +99,12 @@ public class Player : MonoBehaviour, ITakeDamage
 
         // Handles horizontal velocity + interpolates/scales the horizontal movement of the Player      
         _controller.SetHorizontalForce(Mathf.Lerp(_controller.Velocity.x, _normalizedHorizontalSpeed * MaxSpeed, Time.deltaTime * movementFactor));
+
         if (onLadder)
-        {
             _controller.SetVerticalForce(Mathf.Lerp(_controller.Velocity.y, _normalizedVerticalSpeed * MaxSpeed, Time.deltaTime * movementFactor));
-        }
+
+        if (onIce)
+            _controller.SetHorizontalForce(Mathf.Lerp(_controller.Velocity.x, _normalizedHorizontalSpeed * MaxSpeed * 2, Time.deltaTime * movementFactor));
 
         // Animation
         Animator.SetBool("IsGrounded", _controller.State.IsGrounded);

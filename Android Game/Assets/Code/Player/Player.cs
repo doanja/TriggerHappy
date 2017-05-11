@@ -104,7 +104,7 @@ public class Player : MonoBehaviour, ITakeDamage
             _controller.SetVerticalForce(Mathf.Lerp(_controller.Velocity.y, _normalizedVerticalSpeed * MaxSpeed, Time.deltaTime * movementFactor));
 
         if (onIce)
-            _controller.SetHorizontalForce(Mathf.Lerp(_controller.Velocity.x, _normalizedHorizontalSpeed * MaxSpeed * 2, Time.deltaTime * movementFactor));
+            _controller.SetHorizontalForce(_normalizedHorizontalSpeed * MaxSpeed * 2);
 
         // Animation
         Animator.SetBool("IsGrounded", _controller.State.IsGrounded);

@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 8d9036dd748c5a949af32d01ec5cf725
-timeCreated: 1494479214
+timeCreated: 1494511960
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -14,6 +14,10 @@ TextureImporter:
     21300014: Ice Platforms_7
     21300016: Ice Platforms_8
     21300018: Ice Platforms_9
+    21300020: Ice Platforms_10
+    21300022: Ice Platforms_11
+    21300024: Ice Platforms_12
+    21300026: Ice Platforms_13
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -93,8 +97,8 @@ TextureImporter:
     - name: Ice Platforms_3
       rect:
         serializedVersion: 2
-        x: 83
-        y: 1469
+        x: 1973
+        y: 2099
         width: 464
         height: 212
       alignment: 0
@@ -103,14 +107,24 @@ TextureImporter:
     - name: Ice Platforms_4
       rect:
         serializedVersion: 2
-        x: 713
+        x: 83
         y: 1469
         width: 464
-        height: 226
+        height: 212
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Ice Platforms_5
+      rect:
+        serializedVersion: 2
+        x: 713
+        y: 1469
+        width: 464
+        height: 212
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Ice Platforms_6
       rect:
         serializedVersion: 2
         x: 1343
@@ -120,21 +134,11 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Ice Platforms_6
-      rect:
-        serializedVersion: 2
-        x: 83
-        y: 895
-        width: 464
-        height: 115
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
     - name: Ice Platforms_7
       rect:
         serializedVersion: 2
-        x: 713
-        y: 895
+        x: 1973
+        y: 1525
         width: 464
         height: 115
       alignment: 0
@@ -143,17 +147,57 @@ TextureImporter:
     - name: Ice Platforms_8
       rect:
         serializedVersion: 2
-        x: 1343
+        x: 83
         y: 895
         width: 464
-        height: 240
+        height: 115
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Ice Platforms_9
       rect:
         serializedVersion: 2
+        x: 713
+        y: 895
+        width: 464
+        height: 240
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Ice Platforms_10
+      rect:
+        serializedVersion: 2
+        x: 1343
+        y: 727
+        width: 464
+        height: 450
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Ice Platforms_11
+      rect:
+        serializedVersion: 2
+        x: 1973
+        y: 839
+        width: 464
+        height: 212
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Ice Platforms_12
+      rect:
+        serializedVersion: 2
         x: 83
+        y: 265
+        width: 464
+        height: 115
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Ice Platforms_13
+      rect:
+        serializedVersion: 2
+        x: 713
         y: 97
         width: 464
         height: 450

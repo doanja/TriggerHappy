@@ -64,6 +64,7 @@
      <Compile Include="Assets\Code\Level Managers\IPlayerRespawnListener.cs" />
      <Compile Include="Assets\Code\Level Managers\LevelManager.cs" />
      <Compile Include="Assets\Code\Level Managers\NextLevel.cs" />
+     <Compile Include="Assets\Code\Lightbulb.cs" />
      <Compile Include="Assets\Code\Other\AutoDestroyParticleSystem.cs" />
      <Compile Include="Assets\Code\Other\BackgroundParallax.cs" />
      <Compile Include="Assets\Code\Other\CameraController.cs" />
@@ -93,7 +94,6 @@
      <Compile Include="Assets\Code\Touch UI\PauseMenu.cs" />
      <Compile Include="Assets\Code\Touch UI\TouchControls.cs" />
      <Compile Include="Assets\Code\Touch UI\TouchManager.cs" />
-     <Compile Include="Assets\Lightbulb.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>

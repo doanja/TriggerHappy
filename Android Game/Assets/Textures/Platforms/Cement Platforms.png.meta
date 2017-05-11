@@ -1,9 +1,15 @@
 fileFormatVersion: 2
 guid: 61c6fca6453e65040bb3640ac0354a6f
-timeCreated: 1493880192
+timeCreated: 1494478333
 licenseType: Free
 TextureImporter:
-  fileIDToRecycleName: {}
+  fileIDToRecycleName:
+    21300000: Cement Platforms_0
+    21300002: Cement Platforms_1
+    21300004: Cement Platforms_2
+    21300006: Cement Platforms_3
+    21300008: Cement Platforms_4
+    21300010: Cement Platforms_5
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -30,7 +36,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     filterMode: -1
-    aniso: -1
+    aniso: 16
     mipBias: -1
     wrapMode: 1
   nPOTScale: 0
@@ -38,7 +44,7 @@ TextureImporter:
   rGBM: 0
   compressionQuality: 50
   allowsAlphaSplitting: 0
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -49,7 +55,67 @@ TextureImporter:
   textureType: 8
   buildTargetSettings: []
   spriteSheet:
-    sprites: []
+    sprites:
+    - name: Cement Platforms_0
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: 1358
+        width: 462
+        height: 448
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Cement Platforms_1
+      rect:
+        serializedVersion: 2
+        x: 714
+        y: 1470
+        width: 462
+        height: 224
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Cement Platforms_2
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: 896
+        width: 462
+        height: 112
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Cement Platforms_3
+      rect:
+        serializedVersion: 2
+        x: 714
+        y: 658
+        width: 462
+        height: 574
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Cement Platforms_4
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: 140
+        width: 462
+        height: 350
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Cement Platforms_5
+      rect:
+        serializedVersion: 2
+        x: 714
+        y: 196
+        width: 462
+        height: 238
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
   spritePackingTag: 
   userData: 
   assetBundleName: 

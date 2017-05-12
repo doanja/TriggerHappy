@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 28ffbbd5d7769944d8a0006c09a6e1bc
-timeCreated: 1493784835
+timeCreated: 1494569511
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -68,29 +68,29 @@ TextureImporter:
     - name: Elizabeth Soldier_0
       rect:
         serializedVersion: 2
-        x: 13
-        y: 2225
+        x: 26
+        y: 2323
         width: 535
-        height: 464
+        height: 465
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Elizabeth Soldier_1
       rect:
         serializedVersion: 2
-        x: 727
-        y: 2225
-        width: 521
-        height: 464
+        x: 769
+        y: 2323
+        width: 520
+        height: 465
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Elizabeth Soldier_2
       rect:
         serializedVersion: 2
-        x: 1427
-        y: 2225
-        width: 521
+        x: 1497
+        y: 2323
+        width: 520
         height: 450
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -98,49 +98,49 @@ TextureImporter:
     - name: Elizabeth Soldier_3
       rect:
         serializedVersion: 2
-        x: 2351
-        y: 2393
+        x: 2449
+        y: 2490
         width: 198
-        height: 114
+        height: 116
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Elizabeth Soldier_4
       rect:
         serializedVersion: 2
-        x: 237
-        y: 1651
-        width: 226
-        height: 212
+        x: 13
+        y: 1469
+        width: 702
+        height: 702
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Elizabeth Soldier_5
       rect:
         serializedVersion: 2
-        x: 852
-        y: 1525
-        width: 396
-        height: 464
+        x: 895
+        y: 1595
+        width: 394
+        height: 465
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Elizabeth Soldier_6
       rect:
         serializedVersion: 2
-        x: 1552
-        y: 1525
-        width: 396
-        height: 464
+        x: 1623
+        y: 1595
+        width: 394
+        height: 465
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Elizabeth Soldier_7
       rect:
         serializedVersion: 2
-        x: 2252
-        y: 1525
-        width: 396
+        x: 2351
+        y: 1595
+        width: 394
         height: 450
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -148,39 +148,39 @@ TextureImporter:
     - name: Elizabeth Soldier_8
       rect:
         serializedVersion: 2
-        x: 321
-        y: 922
-        width: 45
-        height: 269
+        x: 335
+        y: 965
+        width: 44
+        height: 268
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Elizabeth Soldier_9
       rect:
         serializedVersion: 2
-        x: 1021
-        y: 922
-        width: 45
-        height: 269
+        x: 1063
+        y: 965
+        width: 44
+        height: 268
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Elizabeth Soldier_10
       rect:
         serializedVersion: 2
-        x: 1552
-        y: 825
-        width: 396
-        height: 464
+        x: 1623
+        y: 867
+        width: 394
+        height: 465
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Elizabeth Soldier_11
       rect:
         serializedVersion: 2
-        x: 2252
-        y: 825
-        width: 396
+        x: 2351
+        y: 867
+        width: 394
         height: 450
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -188,28 +188,28 @@ TextureImporter:
     - name: Elizabeth Soldier_12
       rect:
         serializedVersion: 2
-        x: 152
-        y: 125
-        width: 396
-        height: 464
+        x: 167
+        y: 139
+        width: 394
+        height: 465
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Elizabeth Soldier_13
       rect:
         serializedVersion: 2
-        x: 922
-        y: 222
-        width: 256
-        height: 269
+        x: 965
+        y: 237
+        width: 254
+        height: 268
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Elizabeth Soldier_14
       rect:
         serializedVersion: 2
-        x: 1609
-        y: 209
+        x: 1679
+        y: 223
         width: 282
         height: 282
       alignment: 0

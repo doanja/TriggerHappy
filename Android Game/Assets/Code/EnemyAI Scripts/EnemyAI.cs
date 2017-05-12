@@ -357,8 +357,8 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
             
         if (Enemy == EnemyType.SelfDestruct || Enemy == EnemyType.Ghost)
         {
-            if (other.GetComponent<Player>() == null)
-                return;
+            //if (other.GetComponent<Player>() == null)
+              //  return;
 
             if (Enemy == EnemyType.SelfDestruct)
             {

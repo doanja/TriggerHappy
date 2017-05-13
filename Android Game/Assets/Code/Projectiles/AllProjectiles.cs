@@ -178,9 +178,9 @@ public class AllProjectiles : Projectile, ITakeDamage {
     protected override void OnCollideTakeDamage(Collider2D other, ITakeDamage takeDamage)
     {
         // Handles what happens when the enemy is frozen
-        if (other.CompareTag("Enemies") && CanFreeze == true)
+        if (other.GetComponent<EnemyAI>() != null && CanFreeze == true)
         {
-            Enemy.MovementSpeed /= 2;
+            Enemy.MovementSpeed = 1;
             Enemy.SpriteColor.color = Color.cyan;
         }
 

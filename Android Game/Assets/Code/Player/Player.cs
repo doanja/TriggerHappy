@@ -44,6 +44,9 @@ public class Player : MonoBehaviour, ITakeDamage
     // Ice
     public bool onIce;
 
+    // Water
+    public bool onWater;
+
     // Animation
     public Animator Animator;                       // animation
 
@@ -91,7 +94,7 @@ public class Player : MonoBehaviour, ITakeDamage
     public void Update()
     {
         // Handles PlayerStatus after Confusion ends
-        if(Status == PlayerStatus.Normal)
+        if (Status == PlayerStatus.Normal)
         {
             if (_isFacingRight)
                 transform.localScale = new Vector2(0.5f, 0.5f);
@@ -113,8 +116,28 @@ public class Player : MonoBehaviour, ITakeDamage
         if (onLadder)
             _controller.SetVerticalForce(Mathf.Lerp(_controller.Velocity.y, _normalizedVerticalSpeed * MaxSpeed, Time.deltaTime * movementFactor));
 
+            
         if (onIce)
             _controller.SetHorizontalForce(_normalizedHorizontalSpeed * MaxSpeed * 2);
+
+        if (onWater)
+        {
+            _controller.DefaultParameters.Gravity = -10;
+            _controller.DefaultParameters.JumpRestrictions = ControllerParameters2D.JumpBehavior.CanJumpAnywhere;
+            _controller.DefaultParameters.JumpFrequency = 0.1f;
+            _controller.DefaultParameters.JumpMagnitude = 5;
+        }
+
+        if (!onWater)
+        {
+            _controller.DefaultParameters.Gravity = -25;
+            _controller.DefaultParameters.JumpRestrictions = ControllerParameters2D.JumpBehavior.CanJumpOnGround;
+            _controller.DefaultParameters.JumpFrequency = 0.25f;
+            _controller.DefaultParameters.JumpMagnitude = 12;
+        }
+
+        if(!onWater && onLadder)
+            _controller.DefaultParameters.Gravity = 0;
 
         // Animation
         Animator.SetBool("IsGrounded", _controller.State.IsGrounded);
@@ -178,6 +201,8 @@ public class Player : MonoBehaviour, ITakeDamage
         _controller.HandleCollisions = true;        // sets collisions to true again
         Health = MaxHealth;                         // sets current health to the Player object's max health
         onLadder = false;
+        onIce = false;
+        onWater = false;
         Status = PlayerStatus.Normal;               // sets player status to normal
         transform.position = spawnPoint.position;   // respawns the player at the spawnPoint
 

@@ -219,7 +219,7 @@ public class BossAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
 
     // Function to summon an Enemy Prefab at BossAI's current position
     public void SummonHelper()
-    {;
+    {
         Instantiate(Helpers[CurrentRNGCount], SpawnPoints[CurrentRNGCount].position, SpawnPoints[CurrentRNGCount].rotation);
         Instantiate(SpawnEffect, transform.position, transform.rotation);
     }

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 /*
  * This class is the collection of all enemy AIs. Besides movement and projectile firing,
@@ -76,6 +77,10 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
 
     /* Summoner */
     public AudioClip SummonedSound;     // sound clip played when Summoner EnemyAI instantiates a GameObject
+
+    /* Elizabeth Mate Buoy */
+    public float MaxActionCD1;              // max countdown before an action can be preformed
+    public float CurrentActionCD1;          // used to countdown the time before an action can be taken by the AI
 
     public enum EnemyType               // enemy behavior based on type
     {
@@ -255,9 +260,11 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
         // Jump AI
         if (Enemy == EnemyType.Jumper)
         {
-            // Checks to see when the AI can jump
-            if (_controller.CanJump)
-                _controller.Jump();
+            if ((CurrentActionCD1 -= Time.deltaTime) > 0)
+                return;
+
+            StartCoroutine(CountdownJump());   // starts countdown before being able to jump
+            CurrentActionCD1 = MaxActionCD1;   // resets the cooldown
         }
 
         // Charger AI
@@ -377,6 +384,20 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
 
         // Create an instance of the enemy prefab at the randomly selected spawn point's position and rotation.
         Instantiate(SpawnedEnemy, SpawnPoints[spawnPointIndex].position, SpawnPoints[spawnPointIndex].rotation);
+    }
+
+    // Function to countdown before the BossAI can make a call to SummonHelper()
+    IEnumerator CountdownJump()
+    {
+        yield return new WaitForSeconds(MaxActionCD1);
+        TimedJump();
+        yield return 0;
+    }
+
+    // Function to summon an Enemy Prefab at BossAI's current position
+    public void TimedJump()
+    {
+        _controller.Jump();
     }
 
     // Function called by AI to instantiate a projectile and fire it in its direction

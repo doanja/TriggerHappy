@@ -80,6 +80,7 @@
      <Compile Include="Assets\Code\Other\IceController2D.cs" />
      <Compile Include="Assets\Code\Other\LadderController2D.cs" />
      <Compile Include="Assets\Code\Other\TimeToLive.cs" />
+     <Compile Include="Assets\Code\Other\WaterController2D.cs" />
      <Compile Include="Assets\Code\Platforms, Pickups\ControllerPhysicsVolume2D.cs" />
      <Compile Include="Assets\Code\Platforms, Pickups\CrumblingPlatform.cs" />
      <Compile Include="Assets\Code\Platforms, Pickups\FollowPath.cs" />
@@ -104,11 +105,17 @@
      <Compile Include="Assets\Code\Touch UI\PauseMenu.cs" />
      <Compile Include="Assets\Code\Touch UI\TouchControls.cs" />
      <Compile Include="Assets\Code\Touch UI\TouchManager.cs" />
+ <Reference Include="UnityEngine.Advertisements">
+ <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/Advertisements/UnityEngine.Advertisements.dll</HintPath>
+ </Reference>
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.Networking">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.Analytics">
+ <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/UnityAnalytics/UnityEngine.Analytics.dll</HintPath>
  </Reference>
  <Reference Include="Mono.Cecil">
  <HintPath>C:/Program Files/Unity/Editor/Data/Managed/Mono.Cecil.dll</HintPath>

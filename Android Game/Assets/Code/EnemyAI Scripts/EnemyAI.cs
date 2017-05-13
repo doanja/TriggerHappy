@@ -331,7 +331,7 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
         else if (CanConfuse == true)
         {
             Player.Status = Player.PlayerStatus.Confused;
-            Player.Flip();
+            Player.transform.localScale = new Vector2(-0.5f, -0.5f);
             Player.StartCoroutine(Player.CountdownDebuff());  // starts countdown before returning to normal status
             Player.CurrentDebuffCD = Player.MaxDebuffCD;      // resets the cooldown
             Player.SpriteColor.color = Color.red;
@@ -340,7 +340,6 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
         else if (CanPoison == true)
         {
             Player.Status = Player.PlayerStatus.Poisoned;
-            Player.TakeDamage(10, gameObject);
             Player.StartCoroutine(Player.CountdownDebuff());  // starts countdown before returning to normal status
             Player.CurrentDebuffCD = Player.MaxDebuffCD;      // resets the cooldown
             Player.SpriteColor.color = Color.green;
@@ -352,22 +351,14 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
             Player.MaxSpeed = 0;
             Player.StartCoroutine(Player.CountdownDebuff());  // starts countdown before returning to normal status
             Player.CurrentDebuffCD = Player.MaxDebuffCD;      // resets the cooldown
-            Player.SpriteColor.color = Color.yellow;
+            Player.SpriteColor.color = Color.grey;
         }
             
         if (Enemy == EnemyType.SelfDestruct || Enemy == EnemyType.Ghost)
         {
-            //if (other.GetComponent<Player>() == null)
-              //  return;
-
             if (Enemy == EnemyType.SelfDestruct)
-            {
                 PlaySoundEffect(SummonedSound, transform.position);
-                PlaySoundEffect(BlowupSound, transform.position);
-                Instantiate(BlowupEffect, transform.position, transform.rotation);
-                gameObject.SetActive(false);
-            }
-                
+
             PlaySoundEffect(BlowupSound, transform.position);
             Instantiate(BlowupEffect, transform.position, transform.rotation);
             gameObject.SetActive(false);

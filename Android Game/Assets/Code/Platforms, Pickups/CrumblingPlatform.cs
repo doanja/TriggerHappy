@@ -55,8 +55,8 @@ public class CrumblingPlatform : MonoBehaviour, IPlayerRespawnListener
     */
     public void OnPlayerRespawnInThisCheckpoint(Checkpoint checkpoint, Player player)
     {        
-        gameObject.SetActive(true);         // shows this GameObject       
-        _rigidbody2D.isKinematic = true;    // turns of Unity Physics
+        gameObject.SetActive(true);             // shows this GameObject       
+        _rigidbody2D.isKinematic = true;        // applies physics
+        transform.position = _startPosition;    // return platform to previous position
     }
-
 }

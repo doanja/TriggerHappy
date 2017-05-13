@@ -17,7 +17,7 @@ public class Player : MonoBehaviour, ITakeDamage
 {
 
     private bool _isFacingRight;                    // checks if the Player Object's sprite is facing right
-    public CharacterController2D _controller;      // instance of the CharacterController2D
+    public CharacterController2D _controller;       // instance of the CharacterController2D
     private float _normalizedHorizontalSpeed;       // x-direction speed: -1 = left, 1 = right
     private float _normalizedVerticalSpeed;         // y-direction speed: -1 = down, 1 = up
 
@@ -83,12 +83,22 @@ public class Player : MonoBehaviour, ITakeDamage
         MaxSpeedStore = MaxSpeed;                               // stores the Player's starting MaxSpeed
         Status = PlayerStatus.Normal;                           // Player will start with Normal Status
         SpriteColor.color = Color.white;                        // sets the color to white by default
+        MaxDebuffCD = 3f;
         lifeSystem = FindObjectOfType<LifeManager>();
     }
 
     // Update is called once per frame
     public void Update()
     {
+        // Handles PlayerStatus after Confusion ends
+        if(Status == PlayerStatus.Normal)
+        {
+            if (_isFacingRight)
+                transform.localScale = new Vector2(0.5f, 0.5f);
+            else
+                transform.localScale = new Vector2(-0.5f, 0.5f);
+        }
+
         Weapon.Cooldown -= Time.deltaTime; // When this reaches 0, they player can shoot again
         
         if (!IsDead)
@@ -181,6 +191,9 @@ public class Player : MonoBehaviour, ITakeDamage
     */
     public void TakeDamage(int damage, GameObject instigator)
     {
+        if (Status == PlayerStatus.Poisoned)
+            damage = damage * 2;
+
         // Floating text
         FloatingText.Show(string.Format("-{0}", damage), "PlayerTakeDamageText", new FromWorldPointTextPositioner(Camera.main, transform.position, 2f, 60f));
 
@@ -364,7 +377,6 @@ public class Player : MonoBehaviour, ITakeDamage
         if (_controller.CanJump)
         {
             _controller.Jump();
-            // Sound
             AudioSource.PlayClipAtPoint(JumpSounds[refCounterRNG], transform.position);
         }
     }

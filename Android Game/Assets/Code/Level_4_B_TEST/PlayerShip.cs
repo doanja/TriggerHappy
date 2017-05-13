@@ -4,7 +4,7 @@ using System.Collections;
 public class PlayerShip : MonoBehaviour {
 
     public float MovementSpeed;
-    public PlayerBullet[] PlayerProjectile;             // change to allprojectiles
+    public PlayerBullet PlayerProjectile;             // change to allprojectiles
     public GameObject[] ProjectileFireLocation;
 
 	// Use this for initialization
@@ -21,7 +21,7 @@ public class PlayerShip : MonoBehaviour {
            
             for(int i = 0; i < ProjectileFireLocation.Length; i++)
             {
-                PlayerBullet projectile = Instantiate(PlayerProjectile[Random.Range(0, PlayerProjectile.Length)]);
+                PlayerBullet projectile = Instantiate(PlayerProjectile);
                 projectile.transform.position = ProjectileFireLocation[i].transform.position; // set bllet initial position
             }
             

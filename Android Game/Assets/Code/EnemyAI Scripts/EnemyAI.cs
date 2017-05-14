@@ -10,12 +10,15 @@ using UnityEngine;
 public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
 {
     /* Beginning of All Enemy Type Parameters */
-    public float MovementSpeed;         // travel speed of this GameObject
-    public GameObject DestroyedEffect;  // the destroyed effect
-    public int PointsToGivePlayer;      // points awarded to the player upon killing this GameObject
+    public float MovementSpeed;                 // travel speed of this GameObject
+    public GameObject DestroyedEffect;          // the destroyed effect
+    public int PointsToGivePlayer;              // points awarded to the player upon killing this GameObject
 
     private CharacterController2D _controller;  // has an instance of the CharacterController2D
     private Vector2 _direction;                 // the x-direction of this GameObject
+    private float StoredSpeed;                  // stores original movement
+    private Vector3 _currentPosition;           // current position of the AI
+    private float MaxSpeedStore;                // stores the Player's MaxSpeed
 
     public int MaxHealth = 100;                         // maximum health of the this GameObject
     public int CurrentHealth { get; private set; }      // this GameObject's current health    
@@ -25,9 +28,6 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
     public SpriteRenderer SpriteColor;          // reference to the AI's sprite color
     public bool CanFireProjectiles;             // used by AllProjectiles to disable AI from firing projectiles
     /* End of All Enemy Type Parameters */
-
-    // RNG Variables
-    private int CurrentRNGCount;                // used in random number generating
 
     /* Enemies with Projectiles */
     public float MaxProjectileCD = 1;           // time needed to be able to fire projectiles again
@@ -60,12 +60,8 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
     public Transform[] SpawnPoints;     // an array of the spawn points this enemy can spawn from              
 
     /* Deathrattle */
-    private Vector3 _currentPosition;   // current position of the AI
     public GameObject[] EnemyPrefab;    // the enemy prefab to spawn
-    public GameObject SpawnEffect;      // the effect played when the enemy is spawned
-
-    /* Stalker */
-    private float StoredSpeed;          // stores original movement
+    public GameObject SpawnEffect;      // the effect played when the enemy is spawned   
 
     /* Undead */
     private float RevivalTime = 6;                       // time before this EnemyAI is active again
@@ -79,8 +75,8 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
     public AudioClip SummonedSound;     // sound clip played when Summoner EnemyAI instantiates a GameObject
 
     /* Elizabeth Mate Buoy */
-    public float MaxActionCD1;              // max countdown before an action can be preformed
-    public float CurrentActionCD1;          // used to countdown the time before an action can be taken by the AI
+    private float MaxJumpCD = 0.85f;      // max countdown before a jump can be preformed
+    private float CurrentJumpCD;          // used to countdown the time before a jump can be preformed
 
     public enum EnemyType               // enemy behavior based on type
     {
@@ -98,16 +94,28 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
         Ghost,                          // move torwards the player if the player is in range
         Summoner,                       // summons a prefab using sphere detection
         Ninja                           // call teleports() when Player's projectiles collide with it
-        
     }
     public EnemyType Enemy;             // instance of an EnemyType, used to determine AI behavior
 
-    // Status Handlers
+    // Status Handlers for the Player
     public bool CanFreeze;              // slows player's MaxSpeed
     public bool CanConfuse;             // reverses player's direction
-    public bool CanPoison;              // damages the player over time [WIP]
+    public bool CanPoison;              // damages the player over time
     public bool CanParalyze;            // immobilizes the player
-    
+
+    // Status Handlers
+    public enum EnemyStatus
+    {
+        Normal,
+        Frozen,
+        Confused,
+        Poisoned,
+        Paraylyzed
+    }
+    public EnemyStatus Status;                     // the PlayerStatus
+    public float MaxDebuffCD;                 // max time before debuffs wear off
+    public float CurrentDebuffCD;                   // current countdown before debuff wears off
+
     // Use this for initialization
     void Start () {
         _controller = GetComponent<CharacterController2D>();    // instance of Charactercontroller2D
@@ -118,6 +126,10 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
         CanFireProjectiles = true;                              // by default allows AI to shoot projectiles
         StoredSpeed = MovementSpeed;                            // stores original movement speed
         transform.localScale = new Vector2(0.75f, 0.75f);       // fixes resizing issue with touch screen overlay
+        MaxSpeedStore = MovementSpeed;                          // stores the Enemy's starting MaxSpeed
+        Status = EnemyStatus.Normal;                            // Player will start with Normal Status
+        SpriteColor.color = Color.white;                        // sets the color to white by default
+        MaxDebuffCD = 2f;
 
         if (Enemy == EnemyType.Spawner)
         {
@@ -133,10 +145,6 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
     // Update is called once per frame
     void Update()
     {
-        // Handles selection of random number within MaxRNGCount
-        int random = Random.Range(0, (EnemyPrefab.Length));
-        CurrentRNGCount = random; // updates the CurrentRNGCountRNG
-
         // Check to see if the player is facing away from the AI
         if ((Player.transform.position.x < transform.position.x && Player.transform.localScale.x < 0)
         || (Player.transform.position.x > transform.position.x && Player.transform.localScale.x > 0))
@@ -260,11 +268,11 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
         // Jump AI
         if (Enemy == EnemyType.Jumper)
         {
-            if ((CurrentActionCD1 -= Time.deltaTime) > 0)
+            if ((CurrentJumpCD -= Time.deltaTime) > 0)
                 return;
 
-            StartCoroutine(CountdownJump());   // starts countdown before being able to jump
-            CurrentActionCD1 = MaxActionCD1;   // resets the cooldown
+            StartCoroutine(CountdownJump());    // starts countdown before being able to jump
+            CurrentJumpCD = MaxJumpCD;          // resets the cooldown
         }
 
         // Charger AI
@@ -389,7 +397,7 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
     // Function to countdown before the BossAI can make a call to SummonHelper()
     IEnumerator CountdownJump()
     {
-        yield return new WaitForSeconds(MaxActionCD1);
+        yield return new WaitForSeconds(MaxJumpCD);
         TimedJump();
         yield return 0;
     }
@@ -422,6 +430,7 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
         FireProjectile();
     }
 
+    // Function called by EnemyAI Ninja
     public void Teleport()
     {
         // positions self above the Player's current position
@@ -451,6 +460,16 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
             Instantiate(Effect, EffectLocation.transform.position, EffectLocation.transform.rotation);   
     }
 
+    public IEnumerator CountdownDebuff()
+    {
+        yield return new WaitForSeconds(MaxDebuffCD);
+        MovementSpeed = MaxSpeedStore;
+        SpriteColor.color = Color.white;
+        Status = EnemyStatus.Normal;
+
+        yield return 0;
+    }
+
     /*
     * @param damage, the damage this AI receives
     * @param instigator, the GameObject inflicting damage on this AI
@@ -458,6 +477,9 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
     */
     public void TakeDamage(int damage, GameObject instigator)
     {
+        if (Status == EnemyStatus.Poisoned)
+            damage = damage * 2;
+
         if (PointsToGivePlayer != 0)
         {
             var projectile = instigator.GetComponent<Projectile>();
@@ -488,7 +510,7 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
             // Handles what happens when Deathrattle AI dies
             if (Enemy == EnemyType.Deathrattle)
             {
-                Instantiate(EnemyPrefab[CurrentRNGCount], _currentPosition, transform.rotation);
+                Instantiate(EnemyPrefab[Random.Range(0, EnemyPrefab.Length)], _currentPosition, transform.rotation);
                 Instantiate(SpawnEffect, transform.position, transform.rotation);
             }
 

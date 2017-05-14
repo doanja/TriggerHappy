@@ -35,8 +35,8 @@ public class AllProjectiles : Projectile, ITakeDamage {
     /* Projectile Secondary Effects */
     public bool CanFreeze;              // slows enemy movement speed
     public bool CanConfuse;             // reverse enemy direction
+    public bool CanPoison;              // takes twice as much damage
     public bool CanParalyze;            // disable enemy from firing projectiles
-    public bool CanDisable;             // prevents enemy from moving and firing projectiles
 
     private EnemyAI Enemy;              // instance of the EnemyAI
 
@@ -180,26 +180,40 @@ public class AllProjectiles : Projectile, ITakeDamage {
         // Handles what happens when the enemy is frozen
         if (other.GetComponent<EnemyAI>() != null && CanFreeze == true)
         {
-            Enemy.MovementSpeed = 1;
+            if (Enemy.MovementSpeed <= 0)
+                return;
+
+            Enemy.Status = EnemyAI.EnemyStatus.Frozen;
+            Enemy.StartCoroutine(Enemy.CountdownDebuff());
+            Enemy.CurrentDebuffCD = Enemy.MaxDebuffCD;
+            Enemy.MovementSpeed = 0.5f;
             Enemy.SpriteColor.color = Color.cyan;
         }
 
         // Handles what happens when the enemy is confused
-        if(other.CompareTag("Enemies") && CanConfuse == true)
+        if(other.GetComponent<EnemyAI>() != null && CanConfuse == true)
         {
+            Enemy.Status = EnemyAI.EnemyStatus.Confused;
+            Enemy.StartCoroutine(Enemy.CountdownDebuff());
+            Enemy.CurrentDebuffCD = Enemy.MaxDebuffCD;
             Enemy.Reverse();
         }
 
-        // Handles what happens when the enemy is paralyzed
-        if (other.CompareTag("Enemies") && CanParalyze == true)
+        // Handles what happens when the enemy is disabled
+        if (other.GetComponent<EnemyAI>() != null && CanPoison == true)
         {
+            Enemy.Status = EnemyAI.EnemyStatus.Poisoned;
+            Enemy.StartCoroutine(Enemy.CountdownDebuff());
+            Enemy.CurrentDebuffCD = Enemy.MaxDebuffCD;
             Enemy.CanFireProjectiles = false;
         }
 
-        // Handles what happens when the enemy is disabled
-        if (other.CompareTag("Enemies") && CanDisable == true)
+        // Handles what happens when the enemy is paralyzed
+        if (other.GetComponent<EnemyAI>() != null && CanParalyze == true)
         {
-            Enemy.MovementSpeed = 0;
+            Enemy.Status = EnemyAI.EnemyStatus.Paraylyzed;
+            Enemy.StartCoroutine(Enemy.CountdownDebuff());
+            Enemy.CurrentDebuffCD = Enemy.MaxDebuffCD;
             Enemy.CanFireProjectiles = false;
         }
 

@@ -15,18 +15,21 @@ using UnityEngine;
 */
 public class Player : MonoBehaviour, ITakeDamage
 {
-
     private bool _isFacingRight;                    // checks if the Player Object's sprite is facing right
     public CharacterController2D _controller;       // instance of the CharacterController2D
     private float _normalizedHorizontalSpeed;       // x-direction speed: -1 = left, 1 = right
     private float _normalizedVerticalSpeed;         // y-direction speed: -1 = down, 1 = up
+    private float MaxSpeedStore;                    // stores the Player's MaxSpeed
 
     public float MaxSpeed = 8;                      // max speed of the Player Object
     public float SpeedAccelerationOnGround = 10f;   // how quickly the Player Object goes from moving to not moving on ground
     public float SpeedAccelerationInAir = 5f;       // how quickly the Player Object goes from moving to not moving on air
     public int MaxHealth = 100;                     // maximum health of the Player Object
     public GameObject OuchEffect;                   // effect played when the Player Object is receiving damage
-    
+    public SpriteRenderer SpriteColor;              // reference to the AI's sprite color
+    public PlayerWeapon Weapon;                     // the Player's current weapon
+    public Animator Animator;                       // animation
+
     // Sound
     public AudioClip PlayerHealthSound, PlayerDeathSound;
     public AudioClip[] JumpSounds;
@@ -37,29 +40,15 @@ public class Player : MonoBehaviour, ITakeDamage
     public bool IsDead { get; private set; }        // determines if the user can control the Player Object
     private LifeManager lifeSystem;                 // instance of the LifeManager
 
-    // Ladder
+    // Ladder | Ice | Water
     public bool onLadder;                           // determines if the Player Object is overlapping with a ladder
     private float GravityStore;                     // variable used to store the Player Object's default gravity
-
-    // Ice
     public bool onIce;
-
-    // Water
     public bool onWater;
-
-    // Animation
-    public Animator Animator;                       // animation
 
     // Touch Control Movement
     public int hInput = 0;                          // handles horizontal touch input
     public int vInput = 0;                          // handles vertical touch input
-
-    // Weapon
-    public PlayerWeapon Weapon;                     // the Player's current weapon
-
-    // RNG Reference Variables
-    private int refCounterRNG;
-    private int refHitRNG;
 
     // Status Handlers
     public enum PlayerStatus
@@ -73,8 +62,6 @@ public class Player : MonoBehaviour, ITakeDamage
     public PlayerStatus Status;                     // the PlayerStatus
     public float MaxDebuffCD;                       // max time before debuffs wear off
     public float CurrentDebuffCD;                   // current countdown before debuff wears off
-    private float MaxSpeedStore;                    // stores the Player's MaxSpeed
-    public SpriteRenderer SpriteColor;              // reference to the AI's sprite color
 
     // Use this for initialization
     public void Awake()
@@ -148,14 +135,6 @@ public class Player : MonoBehaviour, ITakeDamage
         // Touch Controls
         //MoveHorizontal(hInput);
         //MoveVertical(vInput);
-
-        // Handles selection of random AudioClip selected from JumpSounds array
-        int counterRNG = Random.Range(0, (JumpSounds.Length));
-        refCounterRNG = counterRNG; // updates the refCounterRNG variable
-
-        // Handles selection of random AudioClip selected from PlayerHitSounds array
-        int hitRNG = Random.Range(0, (PlayerHitSounds.Length));
-        refHitRNG = hitRNG; // updates the refHitRNG variable
     }
 
     /*
@@ -223,7 +202,7 @@ public class Player : MonoBehaviour, ITakeDamage
         FloatingText.Show(string.Format("-{0}", damage), "PlayerTakeDamageText", new FromWorldPointTextPositioner(Camera.main, transform.position, 2f, 60f));
 
         // Sound
-        AudioSource.PlayClipAtPoint(PlayerHitSounds[refHitRNG], transform.position);
+        AudioSource.PlayClipAtPoint(PlayerHitSounds[Random.Range(0, PlayerHitSounds.Length)], transform.position);
 
         // Decrement's the player's health
         Instantiate(OuchEffect, transform.position, transform.rotation);
@@ -321,7 +300,7 @@ public class Player : MonoBehaviour, ITakeDamage
             _controller.Jump();
             
             // Sound
-            AudioSource.PlayClipAtPoint(JumpSounds[refCounterRNG], transform.position);
+            AudioSource.PlayClipAtPoint(JumpSounds[Random.Range(0, JumpSounds.Length)], transform.position);
         }
         
         // Handles shooting
@@ -402,7 +381,7 @@ public class Player : MonoBehaviour, ITakeDamage
         if (_controller.CanJump)
         {
             _controller.Jump();
-            AudioSource.PlayClipAtPoint(JumpSounds[refCounterRNG], transform.position);
+            AudioSource.PlayClipAtPoint(JumpSounds[Random.Range(0, JumpSounds.Length)], transform.position);
         }
     }
 
@@ -435,7 +414,7 @@ public class Player : MonoBehaviour, ITakeDamage
         yield return new WaitForSeconds(MaxDebuffCD);
         MaxSpeed = MaxSpeedStore;
         SpriteColor.color = Color.white;
-        Status = Player.PlayerStatus.Normal;
+        Status = PlayerStatus.Normal;
 
         yield return 0;
     }

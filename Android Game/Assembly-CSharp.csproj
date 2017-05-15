@@ -46,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Code\EnemyAI Scripts\Boss AI\BossAI.cs" />
+     <Compile Include="Assets\Code\EnemyAI Scripts\Boss AI\BossArmorBar.cs" />
      <Compile Include="Assets\Code\EnemyAI Scripts\Boss AI\BossHealthBar.cs" />
      <Compile Include="Assets\Code\EnemyAI Scripts\EnemyAI.cs" />
      <Compile Include="Assets\Code\EnemyAI Scripts\Shield.cs" />

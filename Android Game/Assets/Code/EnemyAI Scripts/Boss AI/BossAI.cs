@@ -15,6 +15,10 @@ public class BossAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
     public int CurrentHealth { get; private set; }      // this GameObject's current health    
     public GameObject HealthBar;                        // health bar to display this AI's current health
 
+    public int MaxArmor = 0;                            // maximum armor of this GameObject
+    public int CurrentArmor { get; private set; }       // this GameObject's current armor
+    public GameObject ArmorBar;                         // armor bar to display this AI's current armor
+
     public AudioClip[] EnemyDestroySounds;      // sound played when this GameObject is destroyed
     public SpriteRenderer SpriteColor;          // reference to the AI's sprite color
     private Vector3 _currentPosition;           // current position of the AI
@@ -29,10 +33,7 @@ public class BossAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
     public Projectile[] Projectile;             // this BossAI's projectile
     public Transform[] ProjectileFireLocation;  // the location of which the projectile is fired at
     public AudioClip[] ShootSound;              // the sound when this GameObject shoots a projectile
-    public GameObject GameObjectSpawnEffect;    // 
-
-    // RNG Variables
-    private int CurrentRNGCount;            // random number variable
+    public GameObject[] GameObjectSpawnEffect;  // effects played when BossAI does something 
 
     // Helper
     public GameObject[] Helpers;            // array of helpers that can be summoned
@@ -58,7 +59,8 @@ public class BossAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
     {
         Slime,
         Ogre,
-        Pirate
+        Pirate,
+        Vader
     }
     public EnemyType Enemy;
 
@@ -74,14 +76,15 @@ public class BossAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
             Barrier.SetActive(false);
             Swamp.SetActive(false);
         }
+
+        if (Enemy == EnemyType.Vader || Enemy == EnemyType.Slime)
+        {
+            CurrentArmor = 100;
+        }
     }
 	
 	// Update is called once per frame
 	void Update () {
-
-        // Handles selection of random number within MaxRNGCount
-        int random = Random.Range(0, (Helpers.Length));
-        CurrentRNGCount = random; // updates the CurrentRNGCountRNG
 
         // Handles basic movement
         _controller.SetHorizontalForce(_direction.x * MovementSpeed);
@@ -204,8 +207,8 @@ public class BossAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
     IEnumerator CountdownRegen()
     {
         yield return new WaitForSeconds(MaxActionCD1);
-        CurrentHealth = MaxHealth;
-        Instantiate(HealEffect, transform.position, transform.rotation);
+        CurrentArmor = MaxArmor;
+        Instantiate(GameObjectSpawnEffect[1], transform.position, transform.rotation);
         yield return 0;
     }
 
@@ -220,7 +223,7 @@ public class BossAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
     // Function to summon an Enemy Prefab at BossAI's current position
     public void SummonHelper()
     {
-        Instantiate(Helpers[CurrentRNGCount], SpawnPoints[CurrentRNGCount].position, SpawnPoints[CurrentRNGCount].rotation);
+        Instantiate(Helpers[Random.Range(0, Helpers.Length)], SpawnPoints[Random.Range(0, SpawnPoints.Length)].position, SpawnPoints[Random.Range(0, SpawnPoints.Length)].rotation);
         Instantiate(SpawnEffect, transform.position, transform.rotation);
     }
 
@@ -257,7 +260,7 @@ public class BossAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
             // Spawns Poop
             Instantiate(Helpers[0], transform.position, transform.rotation);
             PlaySoundEffect(ShootSound[0], transform.position);
-            Instantiate(GameObjectSpawnEffect, transform.position, transform.rotation);
+            Instantiate(GameObjectSpawnEffect[0], transform.position, transform.rotation);
         }  
     }
 
@@ -272,7 +275,7 @@ public class BossAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
                 return;
 
             FireSecondaryProjectile();
-            PlayGameObjectSpawnEffect(GameObjectSpawnEffect, ProjectileFireLocation[0]);
+            PlayGameObjectSpawnEffect(GameObjectSpawnEffect[0], ProjectileFireLocation[0]);
             CurrentProjectileCD = MaxProjectileCD;
             ShotsFired = 0;
         }
@@ -282,7 +285,7 @@ public class BossAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
             return;
 
         FireProjectile();
-        PlayGameObjectSpawnEffect(GameObjectSpawnEffect, ProjectileFireLocation[0]);
+        PlayGameObjectSpawnEffect(GameObjectSpawnEffect[0], ProjectileFireLocation[0]);
         ShotsFired++;
         CurrentProjectileCD = MaxProjectileCD;
     }
@@ -355,9 +358,18 @@ public class BossAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
             }
         }
 
-        // Effect played upon the death of this GameObject
-        Instantiate(DestroyedEffect, transform.position, transform.rotation);
-        CurrentHealth -= damage;                               // decrement this GameObject's CurrentHealth
+        // Health does not get decreased while BossAI has armor
+        if (CurrentArmor > 0) {
+            Instantiate(GameObjectSpawnEffect[0], transform.position, transform.rotation);
+            CurrentArmor -= damage;
+        }
+
+        else
+        {
+            // Effect played upon the death of this GameObject
+            Instantiate(DestroyedEffect, transform.position, transform.rotation);
+            CurrentHealth -= damage;                               // decrement this GameObject's CurrentHealth
+        }
 
         // If this GameObject's CurrentHealth reaches zero
         if (CurrentHealth <= 0)
@@ -366,7 +378,7 @@ public class BossAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
             if (Enemy == EnemyType.Slime)
             {
                 for (int i = 0; i < SpawnPoints.Length; i++)
-                    Instantiate(Helpers[CurrentRNGCount], SpawnPoints[i].position, SpawnPoints[i].rotation);
+                    Instantiate(Helpers[Random.Range(0, SpawnPoints.Length)], SpawnPoints[Random.Range(0,i)].position, SpawnPoints[Random.Range(0, i)].rotation);
             }
 
             gate.SetActive(true);                       // makes end level portal visible
@@ -391,7 +403,8 @@ public class BossAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
         _direction = new Vector2(-1, 0);                    // the direction set to left
         transform.localScale = new Vector3(1, 1, 1);        // resets sprite
         gameObject.SetActive(true);                         // shows this AI
-        CurrentHealth = MaxHealth;                          // Resets CurrentHealth
+        CurrentHealth = MaxHealth;                          // resets CurrentHealth
+        CurrentArmor = MaxArmor;                            // resets CurrentArmor
         transform.localScale = new Vector2(0.75f, 0.75f);   // fixes resizing issue with touch screen overlay
 
         if (Enemy == EnemyType.Ogre)

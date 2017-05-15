@@ -93,7 +93,8 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
         Undead,                         // revives self after RevivalTime = 0
         Ghost,                          // move torwards the player if the player is in range
         Summoner,                       // summons a prefab using sphere detection
-        Ninja                           // call teleports() when Player's projectiles collide with it
+        Ninja,                          // call teleports() when Player's projectiles collide with it
+        Ship
     }
     public EnemyType Enemy;             // instance of an EnemyType, used to determine AI behavior
 
@@ -144,6 +145,13 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
     // Update is called once per frame
     void Update()
     {
+        if (Enemy == EnemyType.Ship)
+        {
+            // Handles Movement
+            //transform.position = Vector2.Lerp(transform.position, Player.transform.position, MovementSpeed * Time.deltaTime);
+            transform.position = new Vector2(Player.transform.position.x + 4, Player.transform.position.y + 15);
+        }
+
         // Check to see if the player is facing away from the AI
         if ((Player.transform.position.x < transform.position.x && Player.transform.localScale.x < 0)
         || (Player.transform.position.x > transform.position.x && Player.transform.localScale.x > 0))
@@ -172,7 +180,7 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
             Reverse();
 
         /* AI with Projectiles */
-        if (Enemy == EnemyType.PatrolShoot || Enemy == EnemyType.Ninja)
+        if (Enemy == EnemyType.PatrolShoot || Enemy == EnemyType.Ninja || Enemy == EnemyType.Ship)
         {
             // Handles when this AI cannot shoot
             if ((Cooldown -= Time.deltaTime) > 0)
@@ -181,13 +189,23 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
             if (Enemy == EnemyType.PatrolShoot || Enemy == EnemyType.Ninja)
             {
                 // Casts rays to detect player
-                var raycast = Physics2D.Raycast(transform.position, _direction, 15, 1 << LayerMask.NameToLayer("Player"));
+                var raycast = Physics2D.Raycast(transform.position, _direction, 10, 1 << LayerMask.NameToLayer("Player"));
                 if (!raycast)
                     return;
+
+                if (CanFireProjectiles == true)
+                    FireProjectile();
             }
             
-            if(CanFireProjectiles == true)
-                FireProjectile();
+            else if (Enemy == EnemyType.Ship)
+            {
+                // Casts rays down to detect player
+                //var raycast = Physics2D.Raycast(transform.position, Vector2.down, 15, 1 << LayerMask.NameToLayer("Player"));
+                //if (!raycast)
+                  //  return;
+
+                Instantiate(SpawnedEnemy, transform.position, transform.rotation);
+            }
 
             // Resets cooldown
             Cooldown = MaxProjectileCD;
@@ -459,6 +477,7 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
     {
         yield return new WaitForSeconds(DebuffCD);
         MovementSpeed = MaxSpeedStore;
+        CanFireProjectiles = true;
         SpriteColor.color = Color.white;
         Status = EnemyStatus.Normal;
 

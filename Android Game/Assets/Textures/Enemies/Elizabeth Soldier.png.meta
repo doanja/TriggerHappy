@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 28ffbbd5d7769944d8a0006c09a6e1bc
-timeCreated: 1494569511
+timeCreated: 1494835139
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -19,6 +19,11 @@ TextureImporter:
     21300024: Elizabeth Soldier_12
     21300026: Elizabeth Soldier_13
     21300028: Elizabeth Soldier_14
+    21300030: Elizabeth Soldier_15
+    21300032: Elizabeth Soldier_16
+    21300034: Elizabeth Soldier_17
+    21300036: Elizabeth Soldier_18
+    21300038: Elizabeth Soldier_19
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -69,9 +74,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 26
-        y: 2323
+        y: 3051
         width: 535
-        height: 465
+        height: 464
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -79,19 +84,19 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 769
-        y: 2323
-        width: 520
-        height: 465
+        y: 3051
+        width: 521
+        height: 464
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Elizabeth Soldier_2
       rect:
         serializedVersion: 2
-        x: 1497
-        y: 2323
-        width: 520
-        height: 450
+        x: 1496
+        y: 3051
+        width: 521
+        height: 451
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -99,9 +104,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 2449
-        y: 2490
-        width: 198
-        height: 116
+        y: 3218
+        width: 199
+        height: 115
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -109,9 +114,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 13
-        y: 1469
-        width: 702
-        height: 702
+        y: 2196
+        width: 703
+        height: 704
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -119,19 +124,19 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 895
-        y: 1595
-        width: 394
-        height: 465
+        y: 2322
+        width: 395
+        height: 466
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Elizabeth Soldier_6
       rect:
         serializedVersion: 2
-        x: 1623
-        y: 1595
-        width: 394
-        height: 465
+        x: 1622
+        y: 2322
+        width: 395
+        height: 466
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -139,9 +144,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 2351
-        y: 1595
-        width: 394
-        height: 450
+        y: 2322
+        width: 395
+        height: 452
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -149,8 +154,8 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 335
-        y: 965
-        width: 44
+        y: 1693
+        width: 45
         height: 268
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -158,9 +163,9 @@ TextureImporter:
     - name: Elizabeth Soldier_9
       rect:
         serializedVersion: 2
-        x: 1063
-        y: 965
-        width: 44
+        x: 1062
+        y: 1693
+        width: 45
         height: 268
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -168,10 +173,10 @@ TextureImporter:
     - name: Elizabeth Soldier_10
       rect:
         serializedVersion: 2
-        x: 1623
-        y: 867
-        width: 394
-        height: 465
+        x: 1622
+        y: 1595
+        width: 395
+        height: 464
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -179,8 +184,8 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 2351
-        y: 867
-        width: 394
+        y: 1595
+        width: 395
         height: 450
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -188,30 +193,80 @@ TextureImporter:
     - name: Elizabeth Soldier_12
       rect:
         serializedVersion: 2
-        x: 167
-        y: 139
-        width: 394
-        height: 465
+        x: 166
+        y: 866
+        width: 395
+        height: 466
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Elizabeth Soldier_13
       rect:
         serializedVersion: 2
-        x: 965
-        y: 237
-        width: 254
-        height: 268
+        x: 838
+        y: 866
+        width: 452
+        height: 466
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Elizabeth Soldier_14
       rect:
         serializedVersion: 2
-        x: 1679
+        x: 1567
+        y: 866
+        width: 450
+        height: 452
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Elizabeth Soldier_15
+      rect:
+        serializedVersion: 2
+        x: 2294
+        y: 866
+        width: 452
+        height: 466
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Elizabeth Soldier_16
+      rect:
+        serializedVersion: 2
+        x: 223
+        y: 237
+        width: 254
+        height: 283
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Elizabeth Soldier_17
+      rect:
+        serializedVersion: 2
+        x: 950
+        y: 237
+        width: 256
+        height: 283
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Elizabeth Soldier_18
+      rect:
+        serializedVersion: 2
+        x: 1693
+        y: 237
+        width: 255
+        height: 269
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Elizabeth Soldier_19
+      rect:
+        serializedVersion: 2
+        x: 2406
         y: 223
-        width: 282
-        height: 282
+        width: 283
+        height: 283
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}

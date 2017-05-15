@@ -112,9 +112,8 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
         Poisoned,
         Paraylyzed
     }
-    public EnemyStatus Status;                     // the PlayerStatus
-    public float MaxDebuffCD;                 // max time before debuffs wear off
-    public float CurrentDebuffCD;                   // current countdown before debuff wears off
+    public EnemyStatus Status;          // the EnemyStatus
+    public float DebuffCD;           // max time before debuffs wear off
 
     // Use this for initialization
     void Start () {
@@ -129,7 +128,7 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
         MaxSpeedStore = MovementSpeed;                          // stores the Enemy's starting MaxSpeed
         Status = EnemyStatus.Normal;                            // Player will start with Normal Status
         SpriteColor.color = Color.white;                        // sets the color to white by default
-        MaxDebuffCD = 2f;
+        DebuffCD = 2f;
 
         if (Enemy == EnemyType.Spawner)
         {
@@ -339,8 +338,7 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
             Player.Status = Player.PlayerStatus.Frozen;
             Player.MaxSpeed = 3;
             Player.StartCoroutine(Player.CountdownDebuff());  // starts countdown before returning to normal status
-            Player.CurrentDebuffCD = Player.MaxDebuffCD;      // resets the cooldown
-            Player.SpriteColor.color = Color.blue;
+            Player.SpriteColor.color = Color.cyan;
         }
 
         else if (CanConfuse == true)
@@ -348,7 +346,6 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
             Player.Status = Player.PlayerStatus.Confused;
             Player.transform.localScale = new Vector2(-0.5f, -0.5f);
             Player.StartCoroutine(Player.CountdownDebuff());  // starts countdown before returning to normal status
-            Player.CurrentDebuffCD = Player.MaxDebuffCD;      // resets the cooldown
             Player.SpriteColor.color = Color.red;
         }
 
@@ -356,7 +353,6 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
         {
             Player.Status = Player.PlayerStatus.Poisoned;
             Player.StartCoroutine(Player.CountdownDebuff());  // starts countdown before returning to normal status
-            Player.CurrentDebuffCD = Player.MaxDebuffCD;      // resets the cooldown
             Player.SpriteColor.color = Color.green;
         }
             
@@ -365,8 +361,7 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
             Player.Status = Player.PlayerStatus.Paraylyzed;
             Player.MaxSpeed = 0;
             Player.StartCoroutine(Player.CountdownDebuff());  // starts countdown before returning to normal status
-            Player.CurrentDebuffCD = Player.MaxDebuffCD;      // resets the cooldown
-            Player.SpriteColor.color = Color.grey;
+            Player.SpriteColor.color = Color.yellow;
         }
             
         if (Enemy == EnemyType.SelfDestruct || Enemy == EnemyType.Ghost)
@@ -462,7 +457,7 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
 
     public IEnumerator CountdownDebuff()
     {
-        yield return new WaitForSeconds(MaxDebuffCD);
+        yield return new WaitForSeconds(DebuffCD);
         MovementSpeed = MaxSpeedStore;
         SpriteColor.color = Color.white;
         Status = EnemyStatus.Normal;

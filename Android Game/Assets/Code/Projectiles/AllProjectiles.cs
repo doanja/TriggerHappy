@@ -185,7 +185,6 @@ public class AllProjectiles : Projectile, ITakeDamage {
 
             Enemy.Status = EnemyAI.EnemyStatus.Frozen;
             Enemy.StartCoroutine(Enemy.CountdownDebuff());
-            Enemy.CurrentDebuffCD = Enemy.MaxDebuffCD;
             Enemy.MovementSpeed = 0.5f;
             Enemy.SpriteColor.color = Color.cyan;
         }
@@ -194,8 +193,8 @@ public class AllProjectiles : Projectile, ITakeDamage {
         if(other.GetComponent<EnemyAI>() != null && CanConfuse == true)
         {
             Enemy.Status = EnemyAI.EnemyStatus.Confused;
+            Enemy.SpriteColor.color = Color.red;
             Enemy.StartCoroutine(Enemy.CountdownDebuff());
-            Enemy.CurrentDebuffCD = Enemy.MaxDebuffCD;
             Enemy.Reverse();
         }
 
@@ -203,8 +202,8 @@ public class AllProjectiles : Projectile, ITakeDamage {
         if (other.GetComponent<EnemyAI>() != null && CanPoison == true)
         {
             Enemy.Status = EnemyAI.EnemyStatus.Poisoned;
+            Enemy.SpriteColor.color = Color.green;
             Enemy.StartCoroutine(Enemy.CountdownDebuff());
-            Enemy.CurrentDebuffCD = Enemy.MaxDebuffCD;
             Enemy.CanFireProjectiles = false;
         }
 
@@ -212,9 +211,10 @@ public class AllProjectiles : Projectile, ITakeDamage {
         if (other.GetComponent<EnemyAI>() != null && CanParalyze == true)
         {
             Enemy.Status = EnemyAI.EnemyStatus.Paraylyzed;
+            Enemy.SpriteColor.color = Color.yellow;
             Enemy.StartCoroutine(Enemy.CountdownDebuff());
-            Enemy.CurrentDebuffCD = Enemy.MaxDebuffCD;
             Enemy.CanFireProjectiles = false;
+            Enemy.MovementSpeed = 0;
         }
 
         takeDamage.TakeDamage(Damage, gameObject);

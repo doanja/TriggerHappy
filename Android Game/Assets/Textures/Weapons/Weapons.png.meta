@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 1d0e7146409e03340abed3caa25ae76b
-timeCreated: 1494333055
+timeCreated: 1494831387
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -24,6 +24,8 @@ TextureImporter:
     21300034: Weapons_17
     21300036: Weapons_18
     21300038: Weapons_19
+    21300040: Weapons_20
+    21300042: Weapons_21
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -73,29 +75,29 @@ TextureImporter:
     - name: Weapons_0
       rect:
         serializedVersion: 2
-        x: 349
-        y: 4885
-        width: 410
-        height: 312
+        x: 363
+        y: 5010
+        width: 409
+        height: 311
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Weapons_1
       rect:
         serializedVersion: 2
-        x: 1243
-        y: 4617
-        width: 859
-        height: 845
+        x: 1285
+        y: 4744
+        width: 858
+        height: 843
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Weapons_2
       rect:
         serializedVersion: 2
-        x: 2575
-        y: 4871
-        width: 451
+        x: 2644
+        y: 4996
+        width: 452
         height: 339
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -103,69 +105,69 @@ TextureImporter:
     - name: Weapons_3
       rect:
         serializedVersion: 2
-        x: 3483
-        y: 4617
-        width: 859
-        height: 845
+        x: 3583
+        y: 4744
+        width: 858
+        height: 843
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Weapons_4
       rect:
         serializedVersion: 2
-        x: 321
-        y: 3709
+        x: 4926
+        y: 4954
         width: 479
-        height: 424
+        height: 423
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Weapons_5
       rect:
         serializedVersion: 2
-        x: 1243
-        y: 3499
-        width: 859
-        height: 842
+        x: 139
+        y: 3597
+        width: 857
+        height: 844
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Weapons_6
       rect:
         serializedVersion: 2
-        x: 2449
-        y: 3791
-        width: 689
-        height: 257
+        x: 1369
+        y: 3889
+        width: 690
+        height: 258
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Weapons_7
       rect:
         serializedVersion: 2
-        x: 3806
-        y: 3849
-        width: 227
-        height: 142
+        x: 2756
+        y: 3945
+        width: 228
+        height: 146
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Weapons_8
       rect:
         serializedVersion: 2
-        x: 278
-        y: 2588
-        width: 563
-        height: 424
+        x: 3737
+        y: 3805
+        width: 564
+        height: 426
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Weapons_9
       rect:
         serializedVersion: 2
-        x: 1579
-        y: 2741
-        width: 200
+        x: 5066
+        y: 3959
+        width: 199
         height: 118
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -173,29 +175,29 @@ TextureImporter:
     - name: Weapons_10
       rect:
         serializedVersion: 2
-        x: 2392
-        y: 2659
+        x: 167
+        y: 2728
         width: 801
-        height: 282
+        height: 284
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Weapons_11
       rect:
         serializedVersion: 2
-        x: 3568
-        y: 2615
-        width: 703
-        height: 383
+        x: 1369
+        y: 2686
+        width: 704
+        height: 382
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Weapons_12
       rect:
         serializedVersion: 2
-        x: 209
-        y: 1552
-        width: 689
+        x: 2518
+        y: 2742
+        width: 690
         height: 270
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -203,9 +205,9 @@ TextureImporter:
     - name: Weapons_13
       rect:
         serializedVersion: 2
-        x: 1525
-        y: 1538
-        width: 298
+        x: 3861
+        y: 2728
+        width: 300
         height: 298
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -213,8 +215,8 @@ TextureImporter:
     - name: Weapons_14
       rect:
         serializedVersion: 2
-        x: 2280
-        y: 1524
+        x: 4646
+        y: 2714
         width: 1025
         height: 326
       alignment: 0
@@ -223,50 +225,70 @@ TextureImporter:
     - name: Weapons_15
       rect:
         serializedVersion: 2
-        x: 3737
-        y: 1497
+        x: 391
+        y: 1537
         width: 353
-        height: 366
+        height: 370
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Weapons_16
       rect:
         serializedVersion: 2
-        x: 291
-        y: 488
-        width: 523
-        height: 159
+        x: 1355
+        y: 1579
+        width: 718
+        height: 300
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Weapons_17
       rect:
         serializedVersion: 2
-        x: 1579
-        y: 502
-        width: 200
-        height: 115
+        x: 2771
+        y: 1663
+        width: 198
+        height: 118
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Weapons_18
       rect:
         serializedVersion: 2
-        x: 2531
-        y: 488
-        width: 523
-        height: 159
+        x: 3653
+        y: 1579
+        width: 718
+        height: 300
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Weapons_19
       rect:
         serializedVersion: 2
-        x: 3819
-        y: 502
-        width: 200
-        height: 115
+        x: 5066
+        y: 1663
+        width: 199
+        height: 118
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Weapons_20
+      rect:
+        serializedVersion: 2
+        x: 279
+        y: 405
+        width: 591
+        height: 339
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Weapons_21
+      rect:
+        serializedVersion: 2
+        x: 1159
+        y: 13
+        width: 1124
+        height: 1124
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}

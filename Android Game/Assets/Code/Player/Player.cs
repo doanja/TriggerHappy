@@ -60,8 +60,7 @@ public class Player : MonoBehaviour, ITakeDamage
         Paraylyzed
     }
     public PlayerStatus Status;                     // the PlayerStatus
-    public float MaxDebuffCD;                       // max time before debuffs wear off
-    public float CurrentDebuffCD;                   // current countdown before debuff wears off
+    public float DebuffCD;                       // max time before debuffs wear off
 
     // Use this for initialization
     public void Awake()
@@ -73,7 +72,7 @@ public class Player : MonoBehaviour, ITakeDamage
         MaxSpeedStore = MaxSpeed;                               // stores the Player's starting MaxSpeed
         Status = PlayerStatus.Normal;                           // Player will start with Normal Status
         SpriteColor.color = Color.white;                        // sets the color to white by default
-        MaxDebuffCD = 3f;
+        DebuffCD = 3f;
         lifeSystem = FindObjectOfType<LifeManager>();
     }
 
@@ -84,9 +83,9 @@ public class Player : MonoBehaviour, ITakeDamage
         if (Status == PlayerStatus.Normal)
         {
             if (_isFacingRight)
-                transform.localScale = new Vector2(0.5f, 0.5f);
+                transform.localScale = new Vector2(0.75f, 0.75f);
             else
-                transform.localScale = new Vector2(-0.5f, 0.5f);
+                transform.localScale = new Vector2(-0.75f, 0.75f);
         }
 
         Weapon.Cooldown -= Time.deltaTime; // When this reaches 0, they player can shoot again
@@ -411,7 +410,7 @@ public class Player : MonoBehaviour, ITakeDamage
 
     public IEnumerator CountdownDebuff()
     {
-        yield return new WaitForSeconds(MaxDebuffCD);
+        yield return new WaitForSeconds(DebuffCD);
         MaxSpeed = MaxSpeedStore;
         SpriteColor.color = Color.white;
         Status = PlayerStatus.Normal;

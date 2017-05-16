@@ -27,6 +27,7 @@ public class Player : MonoBehaviour, ITakeDamage
     public int MaxHealth = 100;                     // maximum health of the Player Object
     public GameObject OuchEffect;                   // effect played when the Player Object is receiving damage
     public SpriteRenderer SpriteColor;              // reference to the AI's sprite color
+    public bool CanFireProjectiles;                 // determines if the Player is able to fire projectiles
     public PlayerWeapon Weapon;                     // the Player's current weapon
     public Animator Animator;                       // animation
 
@@ -72,6 +73,7 @@ public class Player : MonoBehaviour, ITakeDamage
         MaxSpeedStore = MaxSpeed;                               // stores the Player's starting MaxSpeed
         Status = PlayerStatus.Normal;                           // Player will start with Normal Status
         SpriteColor.color = Color.white;                        // sets the color to white by default
+        CanFireProjectiles = true;                              // by default allows the Player to shoot projectiles
         DebuffCD = 3f;
         lifeSystem = FindObjectOfType<LifeManager>();
     }
@@ -304,8 +306,10 @@ public class Player : MonoBehaviour, ITakeDamage
         
         // Handles shooting
         if (Input.GetMouseButton(0))
-            FireProjectile();     
-        
+        {
+            if (CanFireProjectiles == true)
+                FireProjectile();
+        }
     }
 
     /*
@@ -387,7 +391,8 @@ public class Player : MonoBehaviour, ITakeDamage
     // Function invoked by TouchControls.cs to fire a projectile
     public void TouchShoot()
     {
-        FireProjectile();
+        if (CanFireProjectiles == true)
+            FireProjectile();
     }
 
     public void MoveRight()
@@ -414,6 +419,7 @@ public class Player : MonoBehaviour, ITakeDamage
         MaxSpeed = MaxSpeedStore;
         SpriteColor.color = Color.white;
         Status = PlayerStatus.Normal;
+        CanFireProjectiles = true;
 
         yield return 0;
     }

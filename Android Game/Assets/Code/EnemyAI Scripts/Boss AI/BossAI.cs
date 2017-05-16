@@ -10,6 +10,7 @@ public class BossAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
 
     private CharacterController2D _controller;  // has an instance of the CharacterController2D
     private Vector2 _direction;                 // the x-direction of this GameObject
+    private Player Player;                      // instance of the player class
 
     public int MaxHealth = 100;                         // maximum health of the this GameObject
     public int CurrentHealth { get; private set; }      // this GameObject's current health    
@@ -53,7 +54,7 @@ public class BossAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
     public GameObject Swamp;                // summons water onto the level
 
     // Pirate
-    private int ShotsFired = 0;
+    public int ShotsFired = 0;
 
     public enum EnemyType
     {
@@ -68,6 +69,7 @@ public class BossAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
     void Start () {
         _controller = GetComponent<CharacterController2D>();    // instance of Charactercontroller2D
         _direction = new Vector2(-1, 0);                        // this GameObject will move the left upon initialization
+        Player = FindObjectOfType<Player>();                    // finds instances of the player
         CurrentHealth = MaxHealth;                              // sets current health to maximum health
         transform.localScale = new Vector2(0.75f, 0.75f);       // fixes resizing issue with touch screen overlay
 
@@ -160,7 +162,7 @@ public class BossAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
             {
                 ImmuneToDamage = true;
 
-                // Waiting to summoning the Barrier
+                // Waiting to Summon Barrels
                 if ((CurrentActionCD2 -= Time.deltaTime) > 0)
                     return;
 
@@ -176,12 +178,62 @@ public class BossAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
                 CurrentProjectileCD = 0.5f;
             }
         }
+
+        if (Enemy == EnemyType.Vader)
+        {
+            HalfDamage = true;
+
+            // Phase 1
+            if (CurrentHealth > 100)
+            {
+                // Summons the bubble after shooting 5 sabers
+                if (ShotsFired == 5)
+                {
+                    // Handles when this AI cannot shoot
+                    if ((CurrentProjectileCD -= Time.deltaTime) > 0)
+                        return;
+
+                    SummonHelper();
+                    CurrentProjectileCD = MaxProjectileCD;
+                    ShotsFired = 0;
+                }
+
+            
+                // Handles Saber Projectiles
+                if ((CurrentProjectileCD -= Time.deltaTime) > 0 && ShotsFired < 5)
+                    return;
+
+                FireProjectile();
+                PlayGameObjectSpawnEffect(GameObjectSpawnEffect[0], ProjectileFireLocation[0]);
+                ShotsFired++;
+                CurrentProjectileCD = MaxProjectileCD;
+            }
+            
+            // Phase 2
+            if (CurrentHealth <= 100)
+            {
+                if ((CurrentActionCD1 -= Time.deltaTime) > 0)
+                    return;
+
+                StartCoroutine(CountdownRegen());   // starts countdown before regenerating health
+                StartCoroutine(AwakenForceField()); // starts countdown before summoning the force field
+                CurrentActionCD1 = MaxActionCD1;
+            }
+        }
+
+
     }
 
-    IEnumerator DoNothing()
+    public void Teleport()
     {
-        yield return new WaitForSeconds(MaxActionCD1); // wait 0.5 sec
-        ShotsFired++;
+        transform.position = new Vector2(Player.transform.position.x, 10);
+    }
+
+    IEnumerator AwakenForceField()
+    {
+        yield return new WaitForSeconds(MaxActionCD1);
+        Instantiate(Projectile[1], transform.position, transform.rotation);
+        PlaySoundEffect(ShootSound[2], transform.position);
         yield return 0;
     }
 
@@ -223,6 +275,9 @@ public class BossAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
     // Function to summon an Enemy Prefab at BossAI's current position
     public void SummonHelper()
     {
+        if (Enemy == EnemyType.Vader)
+            PlaySoundEffect(ShootSound[1], transform.position);
+
         Instantiate(Helpers[Random.Range(0, Helpers.Length)], SpawnPoints[Random.Range(0, SpawnPoints.Length)].position, SpawnPoints[Random.Range(0, SpawnPoints.Length)].rotation);
         Instantiate(SpawnEffect, transform.position, transform.rotation);
     }
@@ -236,6 +291,8 @@ public class BossAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
             var projectile = (Projectile)Instantiate(Projectile[0], ProjectileFireLocation[i].position, ProjectileFireLocation[i].rotation);
             projectile.Initialize(gameObject, _direction, _controller.Velocity);
         }
+
+        PlaySoundEffect(ShootSound[0], transform.position);
     }
 
     // Function called by AI to instantiate a projectile and fire it in its direction
@@ -326,15 +383,13 @@ public class BossAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
         var projectile = other.GetComponent<Projectile>();
 
         // Checks to see if the owner of the projectile is the player
-        if (projectile != null && projectile.Owner.GetComponent<Player>() != null)
+        if (projectile != null || projectile.Owner.GetComponent<Player>() != null)
         {
             if(HalfDamage == true)
                 projectile.Damage /= 2;
 
             if (ImmuneToDamage == true)
-            {
                 projectile.Damage = 0;
-            }
         }
     }
 
@@ -357,11 +412,21 @@ public class BossAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
                 FloatingText.Show(string.Format("+{0}!", PointsToGivePlayer), "PointStarText", new FromWorldPointTextPositioner(Camera.main, transform.position, 1.5f, 50));
             }
         }
+        
+        if (Enemy == EnemyType.Vader && CurrentHealth < 75 && CurrentArmor == 0)
+        {
+            FireProjectile();
+            Reverse();
+            Teleport();
+        }
+        
 
         // Health does not get decreased while BossAI has armor
         if (CurrentArmor > 0) {
-            Instantiate(GameObjectSpawnEffect[0], transform.position, transform.rotation);
             CurrentArmor -= damage;
+
+            if (CurrentArmor < 0)
+                CurrentArmor = 0;
         }
 
         else
@@ -381,14 +446,23 @@ public class BossAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
                     Instantiate(Helpers[Random.Range(0, SpawnPoints.Length)], SpawnPoints[Random.Range(0,i)].position, SpawnPoints[Random.Range(0, i)].rotation);
             }
 
+            if (Enemy == EnemyType.Vader)
+                Helpers[1].SetActive(false);
+
             gate.SetActive(true);                       // makes end level portal visible
             HealthBar.SetActive(false);                 // hides the health bar
+            ArmorBar.SetActive(false);                  // hides the armor bar
+
+
+            if (Enemy == EnemyType.Vader)
+                AudioSource.PlayClipAtPoint(EnemyDestroySounds[0], transform.position);
 
             // Sound and Item drops
             AudioSource.PlayClipAtPoint(EnemyDestroySounds[Random.Range(0, EnemyDestroySounds.Length)], transform.position);
 
             // Death of this AI
             CurrentHealth = 0;
+            CurrentArmor = 0;
             gameObject.SetActive(false);
         }
     }

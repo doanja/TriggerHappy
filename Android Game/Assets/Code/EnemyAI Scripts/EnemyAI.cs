@@ -78,6 +78,8 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
     private float MaxJumpCD = 0.85f;      // max countdown before a jump can be preformed
     private float CurrentJumpCD;          // used to countdown the time before a jump can be preformed
 
+    public bool ChangeSize = true;
+
     public enum EnemyType               // enemy behavior based on type
     {
         Charger,                        // movement speed is increased upon raycast returning true
@@ -94,7 +96,8 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
         Ghost,                          // move torwards the player if the player is in range
         Summoner,                       // summons a prefab using sphere detection
         Ninja,                          // call teleports() when Player's projectiles collide with it
-        Ship
+        Ship,                           // Level_4_B floating enemy
+        ShootDown
     }
     public EnemyType Enemy;             // instance of an EnemyType, used to determine AI behavior
 
@@ -125,11 +128,13 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
         SpriteColor.color = Color.white;                        // sets the color to white by default
         CanFireProjectiles = true;                              // by default allows AI to shoot projectiles
         StoredSpeed = MovementSpeed;                            // stores original movement speed
-        transform.localScale = new Vector2(0.75f, 0.75f);       // fixes resizing issue with touch screen overlay
         MaxSpeedStore = MovementSpeed;                          // stores the Enemy's starting MaxSpeed
         Status = EnemyStatus.Normal;                            // Player will start with Normal Status
         SpriteColor.color = Color.white;                        // sets the color to white by default
         DebuffCD = 2f;
+
+        if (ChangeSize == true)
+            transform.localScale = new Vector2(0.75f, 0.75f);       // fixes resizing issue with touch screen overlay
 
         if (Enemy == EnemyType.Spawner)
         {
@@ -147,8 +152,6 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
     {
         if (Enemy == EnemyType.Ship)
         {
-            // Handles Movement
-            //transform.position = Vector2.Lerp(transform.position, Player.transform.position, MovementSpeed * Time.deltaTime);
             transform.position = new Vector2(Player.transform.position.x + 4, Player.transform.position.y + 15);
         }
 
@@ -180,7 +183,7 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
             Reverse();
 
         /* AI with Projectiles */
-        if (Enemy == EnemyType.PatrolShoot || Enemy == EnemyType.Ninja || Enemy == EnemyType.Ship)
+        if (Enemy == EnemyType.PatrolShoot || Enemy == EnemyType.Ninja || Enemy == EnemyType.Ship || Enemy == EnemyType.ShootDown)
         {
             // Handles when this AI cannot shoot
             if ((Cooldown -= Time.deltaTime) > 0)
@@ -199,10 +202,15 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
             
             else if (Enemy == EnemyType.Ship)
             {
+                Instantiate(SpawnedEnemy, transform.position, transform.rotation);
+            }
+
+            else if (Enemy == EnemyType.ShootDown)
+            {
                 // Casts rays down to detect player
-                //var raycast = Physics2D.Raycast(transform.position, Vector2.down, 15, 1 << LayerMask.NameToLayer("Player"));
-                //if (!raycast)
-                  //  return;
+                var raycast = Physics2D.Raycast(transform.position, Vector2.down, 15, 1 << LayerMask.NameToLayer("Player"));
+                if (!raycast)
+                  return;
 
                 Instantiate(SpawnedEnemy, transform.position, transform.rotation);
             }
@@ -251,7 +259,8 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
 
                     if (Enemy == EnemyType.Guardian)
                     {
-                        FireProjectile();
+                        if (CanFireProjectiles == true)
+                            FireProjectile();
 
                         // Handles effect for multiple projectile firing locations
                         for (int i = 0; i < ProjectileFireLocation.Length; i++)
@@ -354,7 +363,7 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
         else if (CanFreeze == true)
         {
             Player.Status = Player.PlayerStatus.Frozen;
-            Player.MaxSpeed = 3;
+            Player.MaxSpeed = 0;
             Player.StartCoroutine(Player.CountdownDebuff());  // starts countdown before returning to normal status
             Player.SpriteColor.color = Color.cyan;
         }
@@ -377,8 +386,8 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
         else if (CanParalyze == true)
         {
             Player.Status = Player.PlayerStatus.Paraylyzed;
-            Player.MaxSpeed = 0;
             Player.StartCoroutine(Player.CountdownDebuff());  // starts countdown before returning to normal status
+            Player.CanFireProjectiles = false;
             Player.SpriteColor.color = Color.yellow;
         }
             
@@ -407,7 +416,7 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
         Instantiate(SpawnedEnemy, SpawnPoints[spawnPointIndex].position, SpawnPoints[spawnPointIndex].rotation);
     }
 
-    // Function to countdown before the BossAI can make a call to SummonHelper()
+    // Function to countdown before the BossAI can make a call to CountdownJump()
     IEnumerator CountdownJump()
     {
         yield return new WaitForSeconds(MaxJumpCD);
@@ -515,7 +524,8 @@ public class EnemyAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
         {
             Teleport();
             Reverse();
-            FireProjectile();
+            if (CanFireProjectiles == true)
+                FireProjectile();
         }
 
         // If this GameObject's CurrentHealth reaches zero

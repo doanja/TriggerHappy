@@ -12,7 +12,9 @@ public class AllProjectiles : Projectile, ITakeDamage {
     public int PointsToGiveToPlayer;    // the amount of points the Player Object receives
     public float TimeToLive;            // the amount of time this GameObject lives
     public AudioClip DestroySound;      // the sound played when this GameObject dies
-    private float _speed = 5.0f;               // the velocity of the projectile
+    private float _speed = 5.0f;        // the velocity of the projectile
+    private EnemyAI Enemy;              // instance of the EnemyAI
+    private BossAI Boss;                // instance of the BossAI
 
     /* PathedProjectile */
     public Transform _destination;     // the end point of the projectile
@@ -33,12 +35,12 @@ public class AllProjectiles : Projectile, ITakeDamage {
     public float DetectionRadius;       // the distance between the target and this projectile
 
     /* Projectile Secondary Effects */
-    public bool CanFreeze;              // slows enemy movement speed
+    public bool CanFreeze;              // prevents movement
     public bool CanConfuse;             // reverse enemy direction
     public bool CanPoison;              // takes twice as much damage
     public bool CanParalyze;            // disable enemy from firing projectiles
 
-    private EnemyAI Enemy;              // instance of the EnemyAI
+    public bool isFollowing;            // used for Elizabeth Vader's Force Field
 
     public enum ProjectileType          // projectile behavior based on type
     {
@@ -65,12 +67,17 @@ public class AllProjectiles : Projectile, ITakeDamage {
             Axis = transform.up;
         }
 
-        Enemy = FindObjectOfType<EnemyAI>();    // find instance of the EnemyAI
+        Boss = FindObjectOfType<BossAI>();      // finds instance of the BossAI
+        Enemy = FindObjectOfType<EnemyAI>();    // finds instance of the EnemyAI
         Player = FindObjectOfType<Player>();    // finds instances of the player
     }
 	
 	// Update is called once per frame
 	void Update () {
+
+        // Handles Elizabeth Vader's Foce Field
+        if (isFollowing == true)
+            transform.position = Boss.transform.position;
 
         // Handles how long the projectory stays active
         if ((TimeToLive -= Time.deltaTime) <= 0)
@@ -180,12 +187,9 @@ public class AllProjectiles : Projectile, ITakeDamage {
         // Handles what happens when the enemy is frozen
         if (other.GetComponent<EnemyAI>() != null && CanFreeze == true)
         {
-            if (Enemy.MovementSpeed <= 0)
-                return;
-
             Enemy.Status = EnemyAI.EnemyStatus.Frozen;
             Enemy.StartCoroutine(Enemy.CountdownDebuff());
-            Enemy.MovementSpeed = 0.5f;
+            Enemy.MovementSpeed = 0f;
             Enemy.SpriteColor.color = Color.cyan;
         }
 
@@ -193,28 +197,26 @@ public class AllProjectiles : Projectile, ITakeDamage {
         if(other.GetComponent<EnemyAI>() != null && CanConfuse == true)
         {
             Enemy.Status = EnemyAI.EnemyStatus.Confused;
-            Enemy.SpriteColor.color = Color.red;
             Enemy.StartCoroutine(Enemy.CountdownDebuff());
             Enemy.Reverse();
+            Enemy.SpriteColor.color = Color.red;
         }
 
         // Handles what happens when the enemy is disabled
         if (other.GetComponent<EnemyAI>() != null && CanPoison == true)
         {
             Enemy.Status = EnemyAI.EnemyStatus.Poisoned;
-            Enemy.SpriteColor.color = Color.green;
             Enemy.StartCoroutine(Enemy.CountdownDebuff());
-            Enemy.CanFireProjectiles = false;
+            Enemy.SpriteColor.color = Color.green;
         }
 
         // Handles what happens when the enemy is paralyzed
         if (other.GetComponent<EnemyAI>() != null && CanParalyze == true)
         {
             Enemy.Status = EnemyAI.EnemyStatus.Paraylyzed;
-            Enemy.SpriteColor.color = Color.yellow;
             Enemy.StartCoroutine(Enemy.CountdownDebuff());
             Enemy.CanFireProjectiles = false;
-            Enemy.MovementSpeed = 0;
+            Enemy.SpriteColor.color = Color.yellow;
         }
 
         takeDamage.TakeDamage(Damage, gameObject);

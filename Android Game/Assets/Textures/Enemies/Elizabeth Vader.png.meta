@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: e70922eec1df47e4ca00770ff737498f
-timeCreated: 1494857372
+timeCreated: 1494916003
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -9,6 +9,8 @@ TextureImporter:
     21300004: Elizabeth Vader_2
     21300006: Elizabeth Vader_3
     21300008: Elizabeth Vader_4
+    21300010: Elizabeth Vader_5
+    21300012: Elizabeth Vader_6
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -58,50 +60,70 @@ TextureImporter:
     - name: Elizabeth Vader_0
       rect:
         serializedVersion: 2
-        x: 70
-        y: 1176
-        width: 406
-        height: 462
+        x: 376
+        y: 2714
+        width: 409
+        height: 465
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Elizabeth Vader_1
       rect:
         serializedVersion: 2
-        x: 630
-        y: 1176
-        width: 406
-        height: 476
+        x: 1553
+        y: 2714
+        width: 408
+        height: 479
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Elizabeth Vader_2
       rect:
         serializedVersion: 2
-        x: 56
-        y: 602
-        width: 420
-        height: 476
+        x: 2714
+        y: 2700
+        width: 424
+        height: 479
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Elizabeth Vader_3
       rect:
         serializedVersion: 2
-        x: 686
-        y: 714
-        width: 294
-        height: 252
+        x: 433
+        y: 1637
+        width: 297
+        height: 254
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Elizabeth Vader_4
       rect:
         serializedVersion: 2
-        x: 238
-        y: 154
-        width: 70
-        height: 266
+        x: 1720
+        y: 1637
+        width: 74
+        height: 269
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Elizabeth Vader_5
+      rect:
+        serializedVersion: 2
+        x: 2378
+        y: 1203
+        width: 1123
+        height: 1122
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Elizabeth Vader_6
+      rect:
+        serializedVersion: 2
+        x: 13
+        y: 13
+        width: 1151
+        height: 1151
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}

@@ -49,7 +49,9 @@
      <Compile Include="Assets\Code\EnemyAI Scripts\Boss AI\BossArmorBar.cs" />
      <Compile Include="Assets\Code\EnemyAI Scripts\Boss AI\BossHealthBar.cs" />
      <Compile Include="Assets\Code\EnemyAI Scripts\EnemyAI.cs" />
+     <Compile Include="Assets\Code\EnemyAI Scripts\Lightbulb.cs" />
      <Compile Include="Assets\Code\EnemyAI Scripts\Shield.cs" />
+     <Compile Include="Assets\Code\EnemyAI Scripts\VaderBubble.cs" />
      <Compile Include="Assets\Code\Health\GiveHealth.cs" />
      <Compile Include="Assets\Code\Health\HealthBar.cs" />
      <Compile Include="Assets\Code\Health\ITakeDamage.cs" />
@@ -74,7 +76,6 @@
      <Compile Include="Assets\Code\Level_4_B_TEST\PlayerShip.cs" />
      <Compile Include="Assets\Code\Level_4_B_TEST\ShipProjectiles.cs" />
      <Compile Include="Assets\Code\Level_4_B_TEST\StarGenerator.cs" />
-     <Compile Include="Assets\Code\Lightbulb.cs" />
      <Compile Include="Assets\Code\Other\AutoDestroyParticleSystem.cs" />
      <Compile Include="Assets\Code\Other\BackgroundParallax.cs" />
      <Compile Include="Assets\Code\Other\CameraController.cs" />

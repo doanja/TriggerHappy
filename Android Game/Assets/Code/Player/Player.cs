@@ -93,7 +93,14 @@ public class Player : MonoBehaviour, ITakeDamage
         Weapon.Cooldown -= Time.deltaTime; // When this reaches 0, they player can shoot again
         
         if (!IsDead)
-            HandleInput(); // Handles what the player press (left, right, jump, shoot)
+        {
+            // Windows Controls
+            //HandleInput();
+            
+            // Touch Controls
+            MoveHorizontal(hInput);
+            MoveVertical(vInput);
+        }
             
         // Changes movement factor depending on if the Player object is falling in midair, or when it is grounded
         var movementFactor = _controller.State.IsGrounded ? SpeedAccelerationOnGround : SpeedAccelerationInAir;
@@ -104,9 +111,11 @@ public class Player : MonoBehaviour, ITakeDamage
         if (onLadder)
             _controller.SetVerticalForce(Mathf.Lerp(_controller.Velocity.y, _normalizedVerticalSpeed * MaxSpeed, Time.deltaTime * movementFactor));
 
-            
+        /*    
+        // COMMENT OUT FOR MOBILE
         if (onIce)
             _controller.SetHorizontalForce(_normalizedHorizontalSpeed * MaxSpeed * 2);
+        */
 
         if (onWater)
         {
@@ -132,10 +141,6 @@ public class Player : MonoBehaviour, ITakeDamage
         Animator.SetBool("IsDead", IsDead);
         //Animator.SetFloat("Speed", Mathf.Abs(_controller.Velocity.x) / MaxSpeed);
         Animator.SetFloat("Speed", Mathf.Abs(hInput));
-
-        // Touch Controls
-        //MoveHorizontal(hInput);
-        //MoveVertical(vInput);
     }
 
     /*
@@ -354,7 +359,12 @@ public class Player : MonoBehaviour, ITakeDamage
     // Function invoked by TouchControls.cs to allow horizontal movement of the player
     public void MoveHorizontal(int direction)
     {
-        _controller.SetHorizontalForce(direction * 7.5f);       
+        if (onIce)
+            _controller.SetHorizontalForce(direction * MaxSpeed * 4f);
+        
+        else
+            _controller.SetHorizontalForce(direction * MaxSpeed);
+
         if (direction == 1)
         {
             if (!_isFacingRight)

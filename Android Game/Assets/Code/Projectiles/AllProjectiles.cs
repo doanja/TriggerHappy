@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 /*
  * This class is a collection of all Projectiles classes that handles the
@@ -66,7 +67,6 @@ public class AllProjectiles : Projectile, ITakeDamage {
             Pos = transform.position;
             Axis = transform.up;
         }
-
         Boss = FindObjectOfType<BossAI>();      // finds instance of the BossAI
         Enemy = FindObjectOfType<EnemyAI>();    // finds instance of the EnemyAI
         Player = FindObjectOfType<Player>();    // finds instances of the player
@@ -188,13 +188,13 @@ public class AllProjectiles : Projectile, ITakeDamage {
         if (other.GetComponent<EnemyAI>() != null && CanFreeze == true)
         {
             Enemy.Status = EnemyAI.EnemyStatus.Frozen;
-            Enemy.StartCoroutine(Enemy.CountdownDebuff());
             Enemy.MovementSpeed = 0f;
             Enemy.SpriteColor.color = Color.cyan;
+            Enemy.StartCoroutine(Enemy.CountdownDebuff());
         }
 
         // Handles what happens when the enemy is confused
-        if(other.GetComponent<EnemyAI>() != null && CanConfuse == true)
+        if (other.GetComponent<EnemyAI>() != null && CanConfuse == true)
         {
             Enemy.Status = EnemyAI.EnemyStatus.Confused;
             Enemy.StartCoroutine(Enemy.CountdownDebuff());
@@ -218,7 +218,7 @@ public class AllProjectiles : Projectile, ITakeDamage {
             Enemy.CanFireProjectiles = false;
             Enemy.SpriteColor.color = Color.yellow;
         }
-
+        
         takeDamage.TakeDamage(Damage, gameObject);
         DestroyProjectile(); // destroys the projectile
     }

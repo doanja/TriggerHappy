@@ -370,30 +370,6 @@ public class BossAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
     }
 
     /*
-    * @param other, the other GameObject colliding with this GameObject
-    * Function that handles what happens on collision.
-    */
-    public void OnTriggerEnter2D(Collider2D other)
-    {
-        // Does nothing if other is not a projectile
-        if (other.GetComponent<Projectile>() == null)
-            return;
-
-        // If other is an instance of a AllProjectiles
-        var projectile = other.GetComponent<Projectile>();
-
-        // Checks to see if the owner of the projectile is the player
-        if (projectile != null || projectile.Owner.GetComponent<Player>() != null)
-        {
-            if(HalfDamage == true)
-                projectile.Damage /= 2;
-
-            if (ImmuneToDamage == true)
-                projectile.Damage = 0;
-        }
-    }
-
-    /*
     * @param damage, the damage this AI receives
     * @param instigator, the GameObject inflicting damage on this AI
     * Handles how this AI receives damage from the Player
@@ -412,14 +388,21 @@ public class BossAI : MonoBehaviour, ITakeDamage, IPlayerRespawnListener
                 FloatingText.Show(string.Format("+{0}!", PointsToGivePlayer), "PointStarText", new FromWorldPointTextPositioner(Camera.main, transform.position, 1.5f, 50));
             }
         }
-        
+
+        // Takes Half Damage
+        if (HalfDamage == true)
+            damage /= 2;
+
+        // Takes No Damage
+        if (ImmuneToDamage == true)
+            damage = 0;
+
         if (Enemy == EnemyType.Vader && CurrentHealth < 75 && CurrentArmor == 0)
         {
             FireProjectile();
             Reverse();
             Teleport();
         }
-        
 
         // Health does not get decreased while BossAI has armor
         if (CurrentArmor > 0) {

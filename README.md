@@ -1,15 +1,19 @@
 # Trigger Happy
 
-A remake and upgraded version of the single player 2D side-scrolling shooter, Trigger Happy. Originally a Capstone project for PLU in 2016. This game was a collaboration between https://github.com/doanja and https://github.com/JeremiahParkhurst/.
+A remake and upgraded version of the single player 2D side-scrolling shooter, Trigger Happy. Run, shoot, and collect a variety of items and guns. New enemies and bosses for each 3-part stage. Improved artwork, music, maps, and enemies.
 
-The game currently has 4 three part stages. Each stage has a boss at the end. Overcome, enemies, and obstacles. Utilize multiple weapons, and consume a variety of foods to keep the Player healthy.
-
-This game was developed using Unity and written in C#.
+## Built With
+- C#
+- Unity3D
 
 ### Demo
 
-- Demo the game by download it from the Google Play Store https://play.google.com/store/apps/details?id=com.PLU.TriggerHappy&hl=en_US
+- Demo the game by download it from the Google Play Store [here](https://play.google.com/store/apps/details?id=com.PLU.TriggerHappy&hl=en_US).
 
-# License
+## Authors
+- **John Doan** - [doanja](https://github.com/doanja)
+- **Jeremiah Parkhurst** - [JeremiahParkhurst](https://github.com/JeremiahParkhurst/)
 
-This work is Unlicensed (http://unlicense.org).
+## License
+
+This project is licensed under the MIT License - see the [LICENSE.md](https://github.com/doanja/TriggerHappy/blob/master/LICENSE) file for details
